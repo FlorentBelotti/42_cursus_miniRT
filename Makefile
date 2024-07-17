@@ -6,7 +6,7 @@
 #    By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/17 14:17:45 by fbelotti          #+#    #+#              #
-#    Updated: 2024/07/17 14:20:50 by fbelotti         ###   ########.fr        #
+#    Updated: 2024/07/17 14:31:41 by fbelotti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ CC = gcc
 RM = rm -f
 
 CFLAGS = -Wall -Wextra -Werror -g
-INCLUDES = -I./Includes -I./Includes/libft -I./Includes/minilibx-linux -I/opt/homebrew/Cellar/readline/8.2.10/include
+INCLUDES = -I./Includes -I./Includes/42_cursus_libft -I./Includes/minilibx-linux -I/opt/homebrew/Cellar/readline/8.2.10/include
 MLXFLAGS = -L./Includes/minilibx-linux -lmlx -L/usr/X11R6/lib -lX11 -lXext
-LDFLAGS = -L./Includes/libft -lft -L/opt/homebrew/Cellar/readline/8.2.10/lib -lreadline -lhistory
+LDFLAGS = -L./Includes/42_cursus_libft -lft -L/opt/homebrew/Cellar/readline/8.2.10/lib -lreadline -lhistory
 
 SRCDIR = Src
 OBJDIR = obj
@@ -54,7 +54,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -MMD -c $< -o $@
 
 libft:
-	@$(MAKE) -C ./Includes/libft > /dev/null
+	@$(MAKE) -C ./Includes/42_cursus_libft > /dev/null
 
 mlx:
 	@$(MAKE) -C ./Includes/minilibx-linux > /dev/null
