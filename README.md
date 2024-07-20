@@ -8,3 +8,8 @@
     <header>
         <h1>42_cursus_miniRT</h1>
     </header>
+
+Check parsing to do :
+
+file is .rt
+error type doesnt detect the error

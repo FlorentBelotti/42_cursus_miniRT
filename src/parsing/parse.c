@@ -226,36 +226,61 @@ int parse_line(char *line, t_data *data)
         return 0;
     }
 
-    if (ft_strcmp(split[0], "A") == 0 && parse_ambient(split, data))
+    if (ft_strcmp(split[0], "A") == 0)
     {
+        if (parse_ambient(split, data))
+        {
+            free_split(split);
+            return 1;
+        }
+    }
+    else if (ft_strcmp(split[0], "C") == 0)
+    {
+        if (parse_camera(split, data))
+        {
+            free_split(split);
+            return 1;
+        }
+    }
+    else if (ft_strcmp(split[0], "L") == 0)
+    {
+        if (parse_light(split, data))
+        {
+            free_split(split);
+            return 1;
+        }
+    }
+    else if (ft_strcmp(split[0], "sp") == 0)
+    {
+        if (parse_object(split, data, SPHERE))
+        {
+            free_split(split);
+            return 1;
+        }
+    }
+    else if (ft_strcmp(split[0], "pl") == 0)
+    {
+        if (parse_object(split, data, PLANE))
+        {
+            free_split(split);
+            return 1;
+        }
+    }
+    else if (ft_strcmp(split[0], "cy") == 0)
+    {
+        if (parse_object(split, data, CYLINDER))
+        {
+            free_split(split);
+            return 1;
+        }
+    }
+    else
+    {
+        ft_printf("Error: Unknown object type '%s'\n", split[0]);
         free_split(split);
         return 1;
     }
-    if (ft_strcmp(split[0], "C") == 0 && parse_camera(split, data))
-    {
-        free_split(split);
-        return 1;
-    }
-    if (ft_strcmp(split[0], "L") == 0 && parse_light(split, data))
-    {
-        free_split(split);
-        return 1;
-    }
-    if (ft_strcmp(split[0], "sp") == 0 && parse_object(split, data, SPHERE))
-    {
-        free_split(split);
-        return 1;
-    }
-    if (ft_strcmp(split[0], "pl") == 0 && parse_object(split, data, PLANE))
-    {
-        free_split(split);
-        return 1;
-    }
-    if (ft_strcmp(split[0], "cy") == 0 && parse_object(split, data, CYLINDER))
-    {
-        free_split(split);
-        return 1;
-    }
+
     free_split(split);
     return 0;
 }
