@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+         #
+#    By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/17 14:17:45 by fbelotti          #+#    #+#              #
-#    Updated: 2024/07/17 14:31:41 by fbelotti         ###   ########.fr        #
+#    Updated: 2024/07/20 18:20:52 by jedurand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,11 @@ RM = rm -f
 
 CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = -I./Includes -I./Includes/42_cursus_libft -I./Includes/minilibx-linux -I/opt/homebrew/Cellar/readline/8.2.10/include
-MLXFLAGS = -L./Includes/minilibx-linux -lmlx -L/usr/X11R6/lib -lX11 -lXext
+MLXDIR = ./Includes/minilibx-linux
+MLXFLAGS = -L$(MLXDIR) -lmlx -L/usr/X11R6/lib -lX11 -lXext
 LDFLAGS = -L./Includes/42_cursus_libft -lft -L/opt/homebrew/Cellar/readline/8.2.10/lib -lreadline -lhistory
 
-SRCDIR = Src
+SRCDIR = src
 OBJDIR = obj
 
 SRC = $(shell find $(SRCDIR) -name \*.c -type f -print)
@@ -44,7 +45,8 @@ intro:
 
 $(NAME): $(OBJ)
 	@echo "\nminiRT: Creating library..."
-	@$(MAKE) -C ./Includes/libft > /dev/null
+	@$(MAKE) -C ./Includes/42_cursus_libft > /dev/null
+	@$(MAKE) -C $(MLXDIR) > /dev/null
 	@$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) $(MLXFLAGS) -lm -o $@
 	@echo "miniRT: Executable $@ created."
 
@@ -57,19 +59,19 @@ libft:
 	@$(MAKE) -C ./Includes/42_cursus_libft > /dev/null
 
 mlx:
-	@$(MAKE) -C ./Includes/minilibx-linux > /dev/null
+	@$(MAKE) -C $(MLXDIR) > /dev/null
 
 -include $(DEPS)
 
 clean:
 	@$(RM) $(OBJ)
-	@$(MAKE) -C ./Includes/libft clean > /dev/null
-	@$(MAKE) -C ./Includes/minilibx-linux clean > /dev/null
+	@$(MAKE) -C ./Includes/42_cursus_libft clean > /dev/null
+	@$(MAKE) -C $(MLXDIR) clean > /dev/null
 	@echo "miniRT: Cleaned."
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE) -C ./Includes/libft fclean > /dev/null
+	@$(MAKE) -C ./Includes/42_cursus_libft fclean > /dev/null
 	@echo "miniRT: Fully cleaned."
 
 re: fclean all
