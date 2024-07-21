@@ -14,6 +14,7 @@ Check parsing to do :
 file is .rt
 add lacking info check
 empty map check
+check random valeur quand type est bon
 
 key events
 
