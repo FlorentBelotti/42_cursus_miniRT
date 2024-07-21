@@ -27,6 +27,7 @@ int parse_scene(const char *filename, t_data *data)
     return 0;
 }
 
+
 int parse_ambient(char **split, t_data *data)
 {
     if (data->ambient.ratio != -1)

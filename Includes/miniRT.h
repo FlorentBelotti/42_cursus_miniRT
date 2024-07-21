@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/20 21:11:54 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/07/21 21:07:15 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdbool.h>
 # include "minilibx-linux/mlx.h"
 # include "42_cursus_libft/Includes/libft.h"
+
+# include <string.h>
 
 // Dimensions de la fenêtre
 # define WINDOW_WIDTH 800
