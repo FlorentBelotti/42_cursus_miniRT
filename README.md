@@ -9,14 +9,11 @@
         <h1>42_cursus_miniRT</h1>
     </header>
 
-Check parsing to do :
+TO DO
 
-file is .rt
-add lacking info check
-empty map check
-check random valeur quand type est bon
-
-key events
+free en cas dexit dans le main
+mettre a la norme
+cmake pour automatiser les test
 
 int ft_strcmp(char *s1, char *s2)
 {
