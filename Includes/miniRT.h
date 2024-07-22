@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/21 21:31:20 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:56:21 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdbool.h>
 # include "minilibx-linux/mlx.h"
 # include "42_cursus_libft/Includes/libft.h"
-
 # include <string.h>
 
 // Dimensions de la fenêtre
@@ -103,6 +102,22 @@ typedef struct s_light
     t_color color;
 } t_light;
 
+typedef struct s_keys
+{
+    int w;
+    int a;
+    int s;
+    int d;
+    int q;
+    int e;
+    int t;
+    int y;
+    int g;
+    int h;
+    int b;
+    int n;
+} t_keys;
+
 typedef struct s_data
 {
     void *mlx;
@@ -112,6 +127,7 @@ typedef struct s_data
     t_light light;
     t_object *objects;
     int object_count;
+    t_keys keys;
 } t_data;
 
 // Prototypes de fonctions
@@ -130,11 +146,19 @@ void free_objects(t_object *objects);
 void free_split(char **split);
 double ft_atof(const char *str);
 
-// Fonction de débogage
-void debug_print_scene(const t_data *data);
+// Validation functions
+int validate_filename(const char *filename);
+int validate_scene_elements(t_data *data);
 
 // Event handling functions
 int handle_keypress(int keycode, t_data *data);
+int handle_keyrelease(int keycode, t_data *data);
 int handle_mouse(int button, int x, int y, t_data *data);
+void update_object_position(t_object *obj, t_keys *keys);
+int loop_hook(t_data *data);
+void reset_keys(t_keys *keys);
+
+// Fonction de débogage
+void debug_print_scene(t_data *data);
 
 #endif

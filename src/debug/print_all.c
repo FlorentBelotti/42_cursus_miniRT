@@ -48,7 +48,7 @@ void debug_print_object(const t_object *obj)
     printf("Is Selected: %s\n", obj->is_selected ? "True" : "False");
 }
 
-void debug_print_scene(const t_data *data)
+void debug_print_scene(t_data *data)
 {
     printf("Ambient Light:\n");
     printf("Ratio: %.2f\n", data->ambient.ratio);
