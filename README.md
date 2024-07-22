@@ -11,9 +11,10 @@
 
 TO DO
 
+need to test key event
 free en cas dexit dans le main
 mettre a la norme
-cmake pour automatiser les test
+cmake pour automatiser les test de map
 
 int ft_strcmp(char *s1, char *s2)
 {

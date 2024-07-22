@@ -48,6 +48,7 @@ int main(int argc, char **argv)
         return (1);
     }
 
+	//DELETE THE DEBUG
 	debug_print_scene(&data);
 
     // Add event handlers

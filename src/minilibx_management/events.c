@@ -130,6 +130,8 @@ int loop_hook(t_data *data)
         if (obj->is_selected)
         {
             update_object_position(obj, &data->keys);
+			//DELETE THE DEBUG
+			debug_print_scene(data);
         }
         obj = obj->next;
     }
