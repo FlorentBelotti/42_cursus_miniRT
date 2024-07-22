@@ -1,7 +1,51 @@
 #include "miniRT.h"
 
+int validate_filename(const char *filename)
+{
+    const char *extension = ".rt";
+    size_t len = ft_strlen(filename);
+    size_t ext_len = ft_strlen(extension);
+
+    if (len < ext_len || ft_strcmp((char *)(filename + len - ext_len), (char *)extension) != 0)
+        return (ft_printf("Error: Invalid file extension. Expected .rt\n"), 1);
+    return 0;
+}
+
+int validate_color(t_color color)
+{
+    if (color.r < 0 || color.r > 255 || color.g < 0 || color.g > 255 || color.b < 0 || color.b > 255)
+    {
+        ft_printf("Error: Color values must be in the range [0, 255]\n");
+        return 1;
+    }
+    return 0;
+}
+
+int validate_scene_elements(t_data *data)
+{
+    if (data->ambient.ratio == -1)
+    {
+        ft_printf("Error: Ambient light not defined\n");
+        return 1;
+    }
+    if (data->camera.fov == -1)
+    {
+        ft_printf("Error: Camera not defined\n");
+        return 1;
+    }
+    if (data->light.brightness == -1)
+    {
+        ft_printf("Error: Light not defined\n");
+        return 1;
+    }
+    return 0;
+}
+
 int parse_scene(const char *filename, t_data *data)
 {
+    if (validate_filename(filename) != 0)
+        return 1;
+
     char *filepath = construct_scene_path(filename);
     int fd = open(filepath, O_RDONLY);
     free(filepath);
@@ -24,9 +68,12 @@ int parse_scene(const char *filename, t_data *data)
         free(line);
     }
     close(fd);
+
+    if (data->ambient.ratio == -1 || data->camera.fov == -1 || data->light.brightness == -1)
+        return (ft_printf("Error: Missing mandatory scene elements\n"), 1);
+
     return 0;
 }
-
 
 int parse_ambient(char **split, t_data *data)
 {
@@ -45,6 +92,10 @@ int parse_ambient(char **split, t_data *data)
     data->ambient.ratio = ft_atof(split[1]);
     data->ambient.color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
     free_split(color_split);
+
+    if (validate_color(data->ambient.color))
+        return 1;
+
     return 0;
 }
 
@@ -95,6 +146,10 @@ int parse_light(char **split, t_data *data)
 
     free_split(pos_split);
     free_split(color_split);
+
+    if (validate_color(data->light.color))
+        return 1;
+
     return 0;
 }
 
@@ -142,6 +197,9 @@ int parse_sphere(char **split, t_object *obj, t_data *data)
     free_split(pos_split);
     free_split(color_split);
 
+    if (validate_color(obj->color))
+        return 1;
+
     obj->type = SPHERE;
     obj->is_selected = false;
     obj->next = data->objects;
@@ -173,6 +231,9 @@ int parse_plane(char **split, t_object *obj, t_data *data)
     free_split(pos_split);
     free_split(normal_split);
     free_split(color_split);
+
+    if (validate_color(obj->color))
+        return 1;
 
     obj->type = PLANE;
     obj->is_selected = false;
@@ -207,6 +268,9 @@ int parse_cylinder(char **split, t_object *obj, t_data *data)
     free_split(pos_split);
     free_split(axis_split);
     free_split(color_split);
+
+    if (validate_color(obj->color))
+        return 1;
 
     obj->type = CYLINDER;
     obj->is_selected = false;

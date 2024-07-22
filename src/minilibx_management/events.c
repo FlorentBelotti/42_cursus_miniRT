@@ -34,30 +34,30 @@ int handle_keypress(int keycode, t_data *data)
             else if (keycode == KEY_E)
                 obj->pos.y -= 1.0;
             // Add rotation logic for T, Y, G, H, B, N keys
-            else if (keycode == KEY_T)
-                ; // Rotate object around X axis clockwise
-            else if (keycode == KEY_Y)
-                ; // Rotate object around X axis counterclockwise
-            else if (keycode == KEY_G)
-                ; // Rotate object around Y axis clockwise
-            else if (keycode == KEY_H)
-                ; // Rotate object around Y axis counterclockwise
-            else if (keycode == KEY_B)
-                ; // Rotate object around Z axis clockwise
-            else if (keycode == KEY_N)
-                ; // Rotate object around Z axis counterclockwise
+            // else if (keycode == KEY_T)
+            //     ; // Rotate object around X axis clockwise
+            // else if (keycode == KEY_Y)
+            //     ; // Rotate object around X axis counterclockwise
+            // else if (keycode == KEY_G)
+            //     ; // Rotate object around Y axis clockwise
+            // else if (keycode == KEY_H)
+            //     ; // Rotate object around Y axis counterclockwise
+            // else if (keycode == KEY_B)
+            //     ; // Rotate object around Z axis clockwise
+            // else if (keycode == KEY_N)
+            //     ; // Rotate object around Z axis counterclockwise
         }
         obj = obj->next;
     }
     return 0;
 }
 
-int handle_mouse(int button, int x, int y, t_data *data)
-{
-    if (button == 1) // Left click
-    {
-        // Logic to detect object selection based on x, y coordinates
-        // If object is selected, set obj->is_selected to true
-    }
-    return 0;
-}
+// int handle_mouse(int button, int x, int y, t_data *data)
+// {
+//     if (button == 1) // Left click
+//     {
+//         // Logic to detect object selection based on x, y coordinates
+//         // If object is selected, set obj->is_selected to true
+//     }
+//     return 0;
+// }

@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/21 21:31:20 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:29:09 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,11 +130,15 @@ void free_objects(t_object *objects);
 void free_split(char **split);
 double ft_atof(const char *str);
 
-// Fonction de débogage
-void debug_print_scene(const t_data *data);
+// Validation functions
+int validate_filename(const char *filename);
+int validate_scene_elements(t_data *data);
 
 // Event handling functions
 int handle_keypress(int keycode, t_data *data);
 int handle_mouse(int button, int x, int y, t_data *data);
+
+// Fonction de débogage
+void debug_print_scene(const t_data *data);
 
 #endif
