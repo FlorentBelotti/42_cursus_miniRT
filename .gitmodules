@@ -1,3 +1,6 @@
 [submodule "Includes/42_cursus_libft"]
 	path = Includes/42_cursus_libft
 	url = https://github.com/FlorentBelotti/42_cursus_libft.git
+[submodule "Includes/minilibx-linux"]
+	path = Includes/minilibx-linux
+	url = https://github.com/42Paris/minilibx-linux.git

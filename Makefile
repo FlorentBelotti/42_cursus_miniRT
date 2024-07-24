@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+         #
+#    By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/17 14:17:45 by fbelotti          #+#    #+#              #
-#    Updated: 2024/07/20 18:20:52 by jedurand         ###   ########.fr        #
+#    Updated: 2024/07/24 14:08:40 by fbelotti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,11 +67,13 @@ clean:
 	@$(RM) $(OBJ)
 	@$(MAKE) -C ./Includes/42_cursus_libft clean > /dev/null
 	@$(MAKE) -C $(MLXDIR) clean > /dev/null
+	@rm -rf $(OBJDIR)
 	@echo "miniRT: Cleaned."
 
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C ./Includes/42_cursus_libft fclean > /dev/null
+	@rm -rf $(OBJDIR)
 	@echo "miniRT: Fully cleaned."
 
 re: fclean all
