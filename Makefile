@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+         #
+#    By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/17 14:17:45 by fbelotti          #+#    #+#              #
-#    Updated: 2024/07/20 18:20:52 by jedurand         ###   ########.fr        #
+#    Updated: 2024/07/24 14:25:58 by fbelotti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ MLXDIR = ./Includes/minilibx-linux
 MLXFLAGS = -L$(MLXDIR) -lmlx -L/usr/X11R6/lib -lX11 -lXext
 LDFLAGS = -L./Includes/42_cursus_libft -lft -L/opt/homebrew/Cellar/readline/8.2.10/lib -lreadline -lhistory
 
-SRCDIR = src
-OBJDIR = obj
+SRCDIR = Src
+OBJDIR = Obj
 
 SRC = $(shell find $(SRCDIR) -name \*.c -type f -print)
 OBJ = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC))
@@ -67,11 +67,13 @@ clean:
 	@$(RM) $(OBJ)
 	@$(MAKE) -C ./Includes/42_cursus_libft clean > /dev/null
 	@$(MAKE) -C $(MLXDIR) clean > /dev/null
+	@rm -rf $(OBJDIR)
 	@echo "miniRT: Cleaned."
 
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C ./Includes/42_cursus_libft fclean > /dev/null
+	@rm -rf $(OBJDIR)
 	@echo "miniRT: Fully cleaned."
 
 re: fclean all
