@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/22 19:56:21 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/07/25 23:54:14 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_data
     t_light light;
     t_object *objects;
     int object_count;
+    int farthest_object;
     t_keys keys;
 } t_data;
 

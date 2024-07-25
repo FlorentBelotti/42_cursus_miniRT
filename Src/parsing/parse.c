@@ -41,6 +41,8 @@ int validate_scene_elements(t_data *data)
     return 0;
 }
 
+#include "miniRT.h"
+
 int parse_scene(const char *filename, t_data *data)
 {
     if (validate_filename(filename) != 0)
@@ -71,6 +73,15 @@ int parse_scene(const char *filename, t_data *data)
 
     if (data->ambient.ratio == -1 || data->camera.fov == -1 || data->light.brightness == -1)
         return (ft_printf("Error: Missing mandatory scene elements\n"), 1);
+
+    // Find the farthest object
+    t_object *obj = data->objects;
+    while (obj)
+    {
+        if (obj->pos.z > data->farthest_object)
+            data->farthest_object = obj->pos.z;
+        obj = obj->next;
+    }
 
     return 0;
 }
