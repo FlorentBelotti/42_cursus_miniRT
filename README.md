@@ -12,9 +12,12 @@
 TO DO
 
 need to test key event
+make sure only one obj can be selected at a time
 free en cas dexit dans le main
 mettre a la norme
 cmake pour automatiser les test de map
+
+lllklll
 
 int ft_strcmp(char *s1, char *s2)
 {
