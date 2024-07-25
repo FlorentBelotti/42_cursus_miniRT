@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/22 19:56:21 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/07/25 23:53:47 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,11 @@ typedef struct s_keys
     int n;
 } t_keys;
 
+typedef struct s_ray
+{
+	t_vector direction;
+} t_ray;
+
 typedef struct s_data
 {
     void *mlx;
@@ -128,6 +133,8 @@ typedef struct s_data
     t_object *objects;
     int object_count;
     t_keys keys;
+	t_ray	*rays;
+	int		total_rays;
 } t_data;
 
 // Prototypes de fonctions
@@ -160,5 +167,8 @@ void reset_keys(t_keys *keys);
 
 // Fonction de débogage
 void debug_print_scene(t_data *data);
+
+//Raytracing
+int	raytracing(t_data *data);
 
 #endif
