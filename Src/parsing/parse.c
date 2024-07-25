@@ -363,7 +363,7 @@ int parse_line(char *line, t_data *data)
 
 char *construct_scene_path(const char *filename)
 {
-    const char *scene_dir = "scene/";
+    const char *scene_dir = "Scene/";
     size_t len = ft_strlen(scene_dir) + ft_strlen(filename) + 1;
     char *filepath = malloc(len);
     if (filepath)

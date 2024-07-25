@@ -59,6 +59,7 @@ int main(int argc, char **argv)
     mlx_loop_hook(data.mlx, loop_hook, &data);
 
     // Main loop
+	raytracing(&data);
     mlx_loop(data.mlx);
 
     // Free resources
