@@ -76,6 +76,7 @@ int parse_scene(const char *filename, t_data *data)
 
     // Find the farthest object
     t_object *obj = data->objects;
+	data->farthest_object = 0;
     while (obj)
     {
         if (obj->pos.z > data->farthest_object)

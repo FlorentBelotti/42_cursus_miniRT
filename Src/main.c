@@ -49,7 +49,7 @@ int main(int argc, char **argv)
     }
 
 	//DELETE THE DEBUG
-	debug_print_scene(&data);
+	//debug_print_scene(&data);
 
     // Add event handlers
     mlx_hook(data.window, 2, 1L<<0, handle_keypress, &data);

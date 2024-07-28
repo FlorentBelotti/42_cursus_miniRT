@@ -6,17 +6,17 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:17:54 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/25 23:50:13 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/28 18:52:48 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-static void	free_rays(t_data *data)
+/* static void	free_rays(t_data *data)
 {
 	free(data->rays);
 	data->rays = NULL;
-}
+}*/
 
 static int	create_rays(t_data *data)
 {
@@ -34,7 +34,7 @@ static void	get_ray_direction(t_data *data, int x, int y)
 
 	ray_dir.x = (x - (WINDOW_WIDTH / 2)) - data->camera.pos.x;
 	ray_dir.y = (y - (WINDOW_HEIGHT / 2)) - data->camera.pos.y;
-	ray_dir.z =	1000;
+	ray_dir.z = (data->farthest_object + 1) - data->camera.pos.z;
 	/*length = sqrt(ray_dir.x * ray_dir.x + ray_dir.y * ray_dir.y + ray_dir.z * ray_dir.z);
 	ray_dir.x /= length;
 	ray_dir.y /= length;
@@ -60,6 +60,7 @@ int	raytracing(t_data *data)
 	int	y;
 
 	y = 0;
+	//printf("fartest point : %d\n", data->farthest_object);
 	if (create_rays(data) == 1)
 		return (1);
 	while (y < WINDOW_HEIGHT)
@@ -68,9 +69,26 @@ int	raytracing(t_data *data)
 		while (x < WINDOW_WIDTH)
 		{
 			get_ray_direction(data, x, y);
+
+			// DEBUG TO SUPPRESS
+
+			t_object *current_object = data->objects;
+			while (current_object)
+			{
+				if (current_object->type == SPHERE)
+				{
+					if (sphere_intersection(data, &current_object->specific.sphere, &data->rays[y * WINDOW_WIDTH + x].direction))
+						printf("FOUND intersection at pixel (%d, %d)\n", x, y);
+				}
+				current_object = current_object->next;
+			}
+
+			//DEBUG END
+
 			x++;
 		}
 		y++;
 	}
+	//print_rays(data);
 	return (0);
 }

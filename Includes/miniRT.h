@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/26 00:02:52 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/07/28 18:44:47 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <string.h>
+# include <math.h>
 # include "minilibx-linux/mlx.h"
 # include "42_cursus_libft/Includes/libft.h"
-# include <string.h>
 
 // Dimensions de la fenêtre
 # define WINDOW_WIDTH 800
@@ -123,6 +124,13 @@ typedef struct s_ray
 	t_vector direction;
 } t_ray;
 
+typedef struct s_inter
+{
+	double	coef_a;
+	double	coef_b;
+	double	coef_c;
+} t_inter;
+
 typedef struct s_data
 {
     void *mlx;
@@ -135,7 +143,8 @@ typedef struct s_data
     int farthest_object;
     t_keys keys;
 	t_ray	*rays;
-	int		total_rays;
+	t_inter	*inter;
+	double		total_rays;
 } t_data;
 
 // Prototypes de fonctions
@@ -171,5 +180,8 @@ void debug_print_scene(t_data *data);
 
 //Raytracing
 int	raytracing(t_data *data);
+
+//Intersection calculation
+int	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir);
 
 #endif
