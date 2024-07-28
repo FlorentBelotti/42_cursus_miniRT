@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:49:05 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/28 22:42:32 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/29 00:07:18 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void init_mlx_image(t_data *data)
 		return;
 	}
 	data->img->img_addr = mlx_get_data_addr(data->img->img_ptr,
-											&(data)->img->bits_per_pixel, &(data)->img->line_len,
-											&(data)->img->endian);
+			&(data)->img->bits_per_pixel, &(data)->img->line_len,
+					&(data)->img->endian);
 }

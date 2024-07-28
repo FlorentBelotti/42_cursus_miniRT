@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/29 00:01:24 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/29 00:06:31 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void	reset_keys(t_keys *keys);
 
 // Fonction de débogage
 void	debug_print_scene(t_data *data);
+void	print_rays(t_data *data);
 
 //Raytracing
 int		raytracing(t_data *data);
@@ -203,6 +204,5 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y);
 
 //draw_utils
 double	square(double x);
-void	print_rays(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/28 23:48:29 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/29 00:08:29 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* Calcul le vecteur oc, la difference entre l'origine du rayon et le centre de
 la sphere. */
 
-t_vector	*get_oc_vector(t_vector *ray_origin, t_vector *object_center)
+static t_vector	*get_oc_vector(t_vector *ray_origin, t_vector *object_center)
 {
 	t_vector *vector_oc;
 
@@ -39,14 +39,14 @@ de la sphere.
 - Pour 'c' : le produit scalaire du vecteur oc sur lui-meme, soit la distance au
 carre entre le centre de la sphere et l'origine du rayon. */
 
-double	get_scalar_product(t_vector *a, t_vector *b)
+static double	get_scalar_product(t_vector *a, t_vector *b)
 {
 	return (a->x * b->x + a->y * b->y + a->z * b->z);
 }
 
 /* Calcul le discriminant */
 
-double	get_delta(t_inter *inter)
+static double	get_delta(t_inter *inter)
 {
 	return (square(inter->coef_b) - 4 * inter->coef_a * inter->coef_c);
 }
