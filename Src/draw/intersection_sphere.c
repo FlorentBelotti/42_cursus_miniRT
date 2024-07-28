@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inter_sphere.c                                     :+:      :+:    :+:   */
+/*   intersection_sphere.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/28 18:43:24 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/28 23:48:29 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,6 @@ double	get_scalar_product(t_vector *a, t_vector *b)
 	return (a->x * b->x + a->y * b->y + a->z * b->z);
 }
 
-double	square(double x)
-{
-	return (x * x);
-}
-
 /* Calcul le discriminant */
 
 double	get_delta(t_inter *inter)
@@ -80,11 +75,8 @@ int	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir)
 	{
 		r1 = (-data->inter->coef_b - sqrt(delta)) / (2 * data->inter->coef_a);
 		r2 = (-data->inter->coef_b + sqrt(delta)) / (2 * data->inter->coef_a);
-		if (r1 < 0)
-		{
-			if (r2 < 0)
-				return (0);
-		}
-		return (1);
+		if (r1 > 0 || r2 > 0)
+				return (1);
+		return (0);
 	}
 }
