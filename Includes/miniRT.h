@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/29 00:06:31 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/29 02:59:43 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,14 @@ typedef struct s_ray
 
 typedef struct s_inter
 {
-	double	coef_a;
-	double	coef_b;
-	double	coef_c;
+	double		coef_a;
+	double		coef_b;
+	double		coef_c;
+	double		radius;
+	double		delta;
+	double		r1;
+	double		r2;
+	t_vector	*oc;
 } t_inter;
 
 typedef struct s_img
@@ -194,6 +199,8 @@ int		raytracing(t_data *data);
 
 //Intersection calculation
 int		sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir);
+int	cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir);
+int plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir);
 
 //Render
 void	render(t_data *data);
@@ -203,6 +210,9 @@ void	init_mlx_image(t_data *data);
 void	ft_mlx_pixel_put(t_img *img, int x, int y);
 
 //draw_utils
-double	square(double x);
+double		square(double x);
+t_vector	*get_oc_vector(t_vector *ray_origin, t_vector *object_center);
+double		get_scalar_product(t_vector *a, t_vector *b);
+double		get_delta(t_inter *inter);
 
 #endif

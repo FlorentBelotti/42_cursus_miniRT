@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:49:05 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/29 00:07:18 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/29 03:00:41 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void ft_mlx_pixel_put(t_img *img, int x, int y)
 {
-    char *dst;
-    unsigned int red = 0xFFFF0000; // ARGB pour le rouge plein
-
-    if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
-        return;
-    dst = img->img_addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
-    *(unsigned int *)dst = red;
+	char *dst;
+	unsigned int red = 0xFFFF0000; // ARGB pour le rouge plein
+	if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
+		return;
+	dst = img->img_addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
+	*(unsigned int *)dst = red;
 }
 
 void init_mlx_image(t_data *data)
