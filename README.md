@@ -8,7 +8,7 @@
     <header>
         <h1>42_cursus_miniRT</h1>
     </header>
-    <h1>TO DO JB</h2>
+    <h1>TO DO JB</h1>
     <ul>
         <li>Need to test key event</li>
         <li>Make sure only one object can be selected at a time</li>
@@ -28,7 +28,11 @@
         return (*(unsigned char *)s1 - *(unsigned char *)s2);
     }
     </pre>
-    <h1>Ray-Sphere Intersection in 3D</h1>
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><a href="#ray-sphere-intersection-in-3d">Ray-Sphere Intersection in 3D</a></li>
+    </ul>
+    <h1 id="ray-sphere-intersection-in-3d">Ray-Sphere Intersection in 3D</h1>
     <p>This document explains how to determine the intersection of a ray with a sphere in 3D space, using both mathematical concepts and code implementation.</p>
     <h2>1. Sphere Equation in 3D</h2>
     <p>A sphere in 3D space is defined by the equation:</p>
