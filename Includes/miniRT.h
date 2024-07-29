@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/30 00:55:51 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/30 01:09:36 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include "42_cursus_libft/Includes/libft.h"
 
 // Dimensions de la fenêtre
-# define WINDOW_WIDTH 6
-# define WINDOW_HEIGHT 6
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 600
 
 // Identifiants des objets
 typedef enum e_object_type

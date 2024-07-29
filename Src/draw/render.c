@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/30 01:01:39 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/30 01:15:44 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	render(t_data *data)
 	double		distance;
 	int			x;
 	int			y;
+	int			loop;
 
 	y = 0;
 	data->inter = malloc(sizeof(t_inter));
@@ -45,6 +46,7 @@ void	render(t_data *data)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
+			loop = 0;
 			current_object = data->objects;
 			closest_object = NULL;
 			distance_min = -1;
@@ -53,11 +55,9 @@ void	render(t_data *data)
 				distance = check_ray_intersection(current_object, data, x, y);
 				if (distance > 0 && (distance < distance_min || distance_min == -1))
 				{
-					//printf("MAJ\n");
 					distance_min = distance;
 					closest_object = current_object;
 				}
-				//printf("(%d, %d) distance : %f | distance_min : %f\n", x, y, distance, distance_min);
 				current_object = current_object->next;
 			}
 			if (closest_object)
