@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:17:54 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/30 00:43:20 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/30 01:19:17 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void	get_ray_direction(t_data *data, int x, int y)
 	t_vector	ray_dir;
 	double		length;
 
-	ray_dir.x = (x - (WINDOW_WIDTH / 2)) - data->camera.pos.x;
-	ray_dir.y = (y - (WINDOW_HEIGHT / 2))  - data->camera.pos.y;
-	ray_dir.z = WINDOW_WIDTH / (2 * tan(data->camera.fov / 2))  - data->camera.pos.z;
+	ray_dir.x = (x - (WINDOW_WIDTH / 2));
+	ray_dir.y = (y - (WINDOW_HEIGHT / 2));
+	ray_dir.z = WINDOW_WIDTH / (2 * tan(data->camera.fov / 2));
 	length = sqrt(ray_dir.x * ray_dir.x + ray_dir.y * ray_dir.y + ray_dir.z * ray_dir.z);
 	ray_dir.x /= length;
 	ray_dir.y /= length;
