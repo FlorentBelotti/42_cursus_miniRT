@@ -6,13 +6,13 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/29 02:56:13 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/30 00:00:06 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-int	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir)
+double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir)
 {
 	t_inter *inter;
 
@@ -24,15 +24,24 @@ int	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir)
 	inter->coef_c = get_scalar_product(inter->oc, inter->oc) - square(inter->radius);
 	inter->delta = get_delta(inter);
 	if (inter->delta < 0)
-		return (0);
+		return (-1);
 	else
 	{
 		inter->r1 = (-inter->coef_b - sqrt(inter->delta)) / (2 * inter->coef_a);
 		inter->r2 = (-inter->coef_b + sqrt(inter->delta)) / (2 * inter->coef_a);
-		if (inter->r1 > 0 || inter->r2 > 0)
-			return (1);
-		return (0);
+		if (inter->r1 > 0 && inter->r2 > 0)
+		{
+			if (inter->r1 < inter->r2)
+				return (inter->r2);
+			else
+				return (inter->r1);
+		}
+		else if (inter->r1 > 0)
+			return (inter->r1);
+		else if (inter->r2 > 0)
+			return (inter->r2);
 	}
+	return (-1);
 }
 
 static t_vector get_cylinder_center(t_vector base_center, t_vector axis, double height)
@@ -45,7 +54,7 @@ static t_vector get_cylinder_center(t_vector base_center, t_vector axis, double 
 	return (center);
 }
 
-int cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir)
+double cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir)
 {
 	t_inter		*inter;
 	t_vector	oc_perp;
@@ -59,8 +68,10 @@ int cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir)
 	double		P2_proj;
 	double		cylinder_min;
 	double		cylinder_max;
+	double		closest_intersection;
 
 	inter = data->inter;
+	closest_intersection = -1;
 	inter->radius = cylinder->diameter / 2;
 	inter->oc = get_oc_vector(&data->camera.pos, &data->objects->pos);
 
@@ -87,7 +98,7 @@ int cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir)
 	if (inter->delta < 0)
 	{
 		free(inter->oc);
-		return (0);
+		return (-1);
 	}
 
 	// Calcul des distances des points d'intersection
@@ -118,12 +129,19 @@ int cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir)
 
 	// Vérification si les points d'intersection sont dans les limites du cylindre
 
-	if ((P1_proj >= cylinder_min && P1_proj <= cylinder_max && inter->r1 > 0) || (P2_proj >= cylinder_min && P2_proj <= cylinder_max && inter->r2 > 0))
-		return (1);
-	return (0);
+	if (P1_proj >= cylinder_min && P1_proj <= cylinder_max && inter->r1 > 0)
+		closest_intersection = inter->r1;
+	if (P2_proj >= cylinder_min && P2_proj <= cylinder_max && inter->r2 > 0)
+	{
+		if (closest_intersection == -1 || inter->r2 < closest_intersection)
+			closest_intersection = inter->r2;
+	}
+	if (closest_intersection > 0)
+		return (closest_intersection);
+	return (-1);
 }
 
-int plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir)
+double plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir)
 {
 	t_vector plane_origin;
 	double t;
@@ -137,6 +155,6 @@ int plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir)
 		return (0);
 	t = get_scalar_product(&plane->normal, &plane_origin) / denominator;
 	if (t < 0)
-		return (0);
-	return (1);
+		return (-1);
+	return (t);
 }

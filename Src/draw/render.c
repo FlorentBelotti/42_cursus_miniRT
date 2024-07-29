@@ -3,41 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/29 23:12:58 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/30 01:01:39 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-static void	check_ray_intersection(t_object *object, t_data *data, int x, int y)
+static int	check_ray_intersection(t_object *object, t_data *data, int x, int y)
 {
+	double	distance;
+
+	distance = -1;
 	if (object->type == SPHERE)
-	{
-		if (sphere_intersection(data, &object->specific.sphere,
-			&data->rays[y * WINDOW_WIDTH + x].direction) == 1)
-	}
+		distance = sphere_intersection(data, &object->specific.sphere,
+			&data->rays[y * WINDOW_WIDTH + x].direction);
 	else if (object->type == CYLINDER)
-	{
-		if (cylinder_intersection(data, &object->specific.cylinder,
-			&data->rays[y * WINDOW_WIDTH + x].direction) == 1)
-			ft_mlx_pixel_put(data->img, x, y);
-	}
+		distance = cylinder_intersection(data, &object->specific.cylinder,
+			&data->rays[y * WINDOW_WIDTH + x].direction);
 	else if (object->type == PLANE)
-	{
-		if (plane_intersection(data, &object->specific.plane,
-			&data->rays[y * WINDOW_WIDTH + x].direction) == 1)
-			ft_mlx_pixel_put(data->img, x, y);
-	}
+		distance = plane_intersection(data, &object->specific.plane,
+			&data->rays[y * WINDOW_WIDTH + x].direction);
+	return (distance);
 }
 
 void	render(t_data *data)
 {
-	t_object *current_object;
-	int	x;
-	int	y;
+	t_object	*current_object;
+	t_object	*closest_object;
+	double		distance_min;
+	double		distance;
+	int			x;
+	int			y;
 
 	y = 0;
 	data->inter = malloc(sizeof(t_inter));
@@ -47,11 +46,22 @@ void	render(t_data *data)
 		while (x < WINDOW_WIDTH)
 		{
 			current_object = data->objects;
+			closest_object = NULL;
+			distance_min = -1;
 			while (current_object)
 			{
-				check_ray_intersection(current_object, data, x, y);
+				distance = check_ray_intersection(current_object, data, x, y);
+				if (distance > 0 && (distance < distance_min || distance_min == -1))
+				{
+					//printf("MAJ\n");
+					distance_min = distance;
+					closest_object = current_object;
+				}
+				//printf("(%d, %d) distance : %f | distance_min : %f\n", x, y, distance, distance_min);
 				current_object = current_object->next;
 			}
+			if (closest_object)
+				ft_mlx_pixel_put(data->img, x, y, rgb_to_int(closest_object->color));
 			x++;
 		}
 		y++;

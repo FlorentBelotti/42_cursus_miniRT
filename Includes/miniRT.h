@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/29 02:59:43 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/30 00:55:51 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include "42_cursus_libft/Includes/libft.h"
 
 // Dimensions de la fenêtre
-# define WINDOW_WIDTH 800
-# define WINDOW_HEIGHT 600
+# define WINDOW_WIDTH 6
+# define WINDOW_HEIGHT 6
 
 // Identifiants des objets
 typedef enum e_object_type
@@ -198,16 +198,17 @@ void	print_rays(t_data *data);
 int		raytracing(t_data *data);
 
 //Intersection calculation
-int		sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir);
-int	cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir);
-int plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir);
+double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir);
+double	cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir);
+double	plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir);
 
 //Render
 void	render(t_data *data);
 
 //Minilibx
 void	init_mlx_image(t_data *data);
-void	ft_mlx_pixel_put(t_img *img, int x, int y);
+int		rgb_to_int(t_color color);
+void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //draw_utils
 double		square(double x);
