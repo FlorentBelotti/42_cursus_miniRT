@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/30 00:00:06 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:48:28 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir)
 		if (inter->r1 > 0 && inter->r2 > 0)
 		{
 			if (inter->r1 < inter->r2)
-				return (inter->r2);
-			else
 				return (inter->r1);
+			else
+				return (inter->r2);
 		}
 		else if (inter->r1 > 0)
 			return (inter->r1);
