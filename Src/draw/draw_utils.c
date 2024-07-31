@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:47:34 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/29 00:13:44 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/01 00:20:04 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,22 @@ t_vector	*get_oc_vector(t_vector *ray_origin, t_vector *object_center)
 	return (vector_oc);
 }
 
-double	get_scalar_product(t_vector *a, t_vector *b)
+t_vector	vector_cross(t_vector a, t_vector b)
 {
-	return (a->x * b->x + a->y * b->y + a->z * b->z);
+	t_vector cross;
+
+	cross.x = a.y * b.z - a.z * b.y;
+	cross.y = a.z * b.x - a.x * b.z;
+	cross.z = a.x * b.y - a.y * b.x;
+	return (cross);
 }
 
-double	get_delta(t_inter *inter)
+t_vector	vector_subtract(t_vector a, t_vector b)
 {
-	return (square(inter->coef_b) - 4 * inter->coef_a * inter->coef_c);
-}
+	t_vector sub;
 
-double	square(double x)
-{
-	return (x * x);
+	sub.x = a.x - b.x;
+	sub.y = a.y - b.y;
+	sub.z = a.z - b.z;
+	return (sub);
 }

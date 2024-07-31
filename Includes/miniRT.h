@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/31 15:12:52 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/01 01:20:38 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_camera
 {
 	t_vector pos;
 	t_vector orient;
+	t_vector right;
+	t_vector up;
 	int fov;
 } t_camera;
 
@@ -216,5 +218,8 @@ double		square(double x);
 t_vector	*get_oc_vector(t_vector *ray_origin, t_vector *object_center);
 double		get_scalar_product(t_vector *a, t_vector *b);
 double		get_delta(t_inter *inter);
+t_vector	vector_cross(t_vector a, t_vector b);
+t_vector	vector_subtract(t_vector a, t_vector b);
+void		normalize_vector(t_vector *v);
 
 #endif
