@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/07/30 16:54:54 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:12:52 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ void	reset_keys(t_keys *keys);
 
 // Fonction de débogage
 void	debug_print_scene(t_data *data);
+void debug_print_object(const t_object *obj);
 void	print_rays(t_data *data);
 
 //Raytracing

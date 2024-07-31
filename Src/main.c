@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     mlx_loop_hook(data.mlx, loop_hook, &data);
 
     // Main loop
-	debug_print_scene(&data);
+	//debug_print_scene(&data);
 	init_mlx_image(&data);
 	raytracing(&data);
 	render(&data);
