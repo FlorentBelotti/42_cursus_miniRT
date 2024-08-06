@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:17:54 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/06 19:28:38 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/06 22:55:19 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	get_camera_axis_and_viewing_plane(t_data *data)
 	normalize_vector(&data->camera.up);
 	data->camera.fov_rad = data->camera.fov * (M_PI / 180.0);
 	aspect_ratio = (double)WINDOW_WIDTH / (double)WINDOW_HEIGHT;
-	data->view_width = 2.0 * tan(data->camera.fov_rad / 2.0);
+	data->view_width = tan(data->camera.fov_rad / 2.0);
 	data->view_height = data->view_width / aspect_ratio;
 }
 
@@ -54,8 +54,8 @@ static t_vector	get_ray_direction(t_data *data, int x, int y)
 	double		u;
 	double		v;
 
-	u = (2.0 * ((x + 0.5) / WINDOW_WIDTH) - 1.0) * data->view_width / 2.0;
-	v = (2.0 * ((y + 0.5) / WINDOW_HEIGHT) - 1.0) * data->view_height / 2.0;
+	u = (2.0 * ((x + 1.0) / WINDOW_WIDTH) - 1.0) * data->view_width / 2.0;
+	v = (2.0 * ((y + 1.0) / WINDOW_HEIGHT) - 1.0) * data->view_height / 2.0;
 	pixel_pos = add(add(data->camera.pos, mul(data->camera.right, u)),
 			mul(data->camera.up, v));
 	pixel_pos = add(pixel_pos, data->camera.orient);
