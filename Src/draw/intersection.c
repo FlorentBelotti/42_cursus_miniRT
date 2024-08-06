@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/06 18:58:37 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:33:57 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,11 @@ double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir, t_
 	t_inter inter;
 
 	inter.oc = get_oc_vector(&data->camera.pos, &current->pos);
-	//printf("vector oc initial (%f, %f, %f)\n", inter.oc.x, inter.oc.y, inter.oc.z);
-	//printf("vector raydir (%f, %f, %f)\n", ray_dir->x, ray_dir->y, ray_dir->z);
 	inter.radius = sphere->diameter / 2;
 	inter.coef_a = get_scalar_product(ray_dir, ray_dir);
 	inter.coef_b = 2 * get_scalar_product(&inter.oc, ray_dir);
 	inter.coef_c = get_scalar_product(&inter.oc, &inter.oc) - square(inter.radius);
-	//printf("radius : %f | coef_a : %f | coef_b : %f | coef_c : %f\n", inter.radius, inter.coef_a, inter.coef_b, inter.coef_c);
 	inter.delta = get_delta(&inter);
-	//printf("delta : %f\n", inter.delta);
 	if (inter.delta < 0)
 		return (-1);
 	else

@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/06 18:57:03 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:34:46 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,8 +196,11 @@ void	reset_keys(t_keys *keys);
 
 // Fonction de débogage
 void	debug_print_scene(t_data *data);
-void debug_print_object(const t_object *obj);
+void	debug_print_object(const t_object *obj);
 void	print_rays(t_data *data);
+
+//render
+void	render(t_data *data, t_ray *ray, int x, int y);
 
 //Raytracing
 int		raytracing(t_data *data);
@@ -212,13 +215,16 @@ void	init_mlx_image(t_data *data);
 int		rgb_to_int(t_color color);
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
-//draw_utils
-double		square(double x);
-t_vector	get_oc_vector(t_vector *ray_origin, t_vector *object_center);
-double		get_scalar_product(const t_vector *a, const t_vector *b);
-double		get_delta(t_inter *inter);
+//vector_utils
 t_vector	vector_cross(t_vector a, t_vector b);
 t_vector	vector_subtract(t_vector a, t_vector b);
+t_vector	get_oc_vector(t_vector *ray_origin, t_vector *object_center);
+t_vector	mul(t_vector a, double b);
+t_vector	sub(t_vector a, t_vector b);
+t_vector	add(t_vector a, t_vector b);
 void		normalize_vector(t_vector *v);
+double		square(double x);
+double		get_scalar_product(const t_vector *a, const t_vector *b);
+double		get_delta(t_inter *inter);
 
 #endif
