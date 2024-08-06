@@ -6,13 +6,13 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/01 00:46:54 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:36:27 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-static int	check_ray_intersection(t_object *object, t_data *data, int x, int y)
+/*static int	check_ray_intersection(t_object *object, t_data *data, int x, int y)
 {
 	double	d;
 
@@ -71,4 +71,4 @@ void	render(t_data *data)
 		y++;
 	}
 	free(data->inter);
-}
+}*/

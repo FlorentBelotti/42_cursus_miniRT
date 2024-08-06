@@ -6,22 +6,19 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:47:34 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/01 00:20:04 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:32:10 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-t_vector	*get_oc_vector(t_vector *ray_origin, t_vector *object_center)
+t_vector	get_oc_vector(t_vector *ray_origin, t_vector *object_center)
 {
-	t_vector *vector_oc;
+	t_vector vector_oc;
 
-	vector_oc = (t_vector *)malloc(sizeof(t_vector));
-	if (!vector_oc)
-		return (NULL);
-	vector_oc->x = ray_origin->x - object_center->x;
-	vector_oc->y = ray_origin->y - object_center->y;
-	vector_oc->z = ray_origin->z - object_center->z;
+	vector_oc.x = ray_origin->x - object_center->x;
+	vector_oc.y = ray_origin->y - object_center->y;
+	vector_oc.z = ray_origin->z - object_center->z;
 	return (vector_oc);
 }
 

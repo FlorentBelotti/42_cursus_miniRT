@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	//debug_print_scene(&data);
 	init_mlx_image(&data);
 	raytracing(&data);
-	render(&data);
+	//render(&data);
 	mlx_put_image_to_window(data.mlx, data.window, data.img->img_ptr, 0, 0);
     mlx_loop(data.mlx);
 

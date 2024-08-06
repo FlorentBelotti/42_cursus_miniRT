@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/01 01:20:38 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:57:03 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_camera
 	t_vector right;
 	t_vector up;
 	int fov;
+	double fov_rad;
 } t_camera;
 
 typedef struct s_light
@@ -135,7 +136,7 @@ typedef struct s_inter
 	double		delta;
 	double		r1;
 	double		r2;
-	t_vector	*oc;
+	t_vector	oc;
 } t_inter;
 
 typedef struct s_img
@@ -154,13 +155,14 @@ typedef struct s_data
 	int object_count;
 	int farthest_object;
 	double total_rays;
+	double view_width;
+	double view_height;
 	t_ambient ambient;
 	t_camera camera;
 	t_light light;
 	t_object *objects;
 	t_keys keys;
-	t_ray	*rays;
-	t_inter	*inter;
+	t_ray	ray;
 	t_img	*img;
 } t_data;
 
@@ -201,12 +203,9 @@ void	print_rays(t_data *data);
 int		raytracing(t_data *data);
 
 //Intersection calculation
-double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir);
-double	cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir);
+double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir, t_object *current);
+double	cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir, t_object *current);
 double	plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir);
-
-//Render
-void	render(t_data *data);
 
 //Minilibx
 void	init_mlx_image(t_data *data);
@@ -215,8 +214,8 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //draw_utils
 double		square(double x);
-t_vector	*get_oc_vector(t_vector *ray_origin, t_vector *object_center);
-double		get_scalar_product(t_vector *a, t_vector *b);
+t_vector	get_oc_vector(t_vector *ray_origin, t_vector *object_center);
+double		get_scalar_product(const t_vector *a, const t_vector *b);
 double		get_delta(t_inter *inter);
 t_vector	vector_cross(t_vector a, t_vector b);
 t_vector	vector_subtract(t_vector a, t_vector b);
