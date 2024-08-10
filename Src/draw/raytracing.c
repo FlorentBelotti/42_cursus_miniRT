@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:17:54 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/06 22:55:19 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:09:36 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static t_vector	get_ray_direction(t_data *data, int x, int y)
 	double		u;
 	double		v;
 
-	u = (2.0 * ((x + 1.0) / WINDOW_WIDTH) - 1.0) * data->view_width / 2.0;
-	v = (2.0 * ((y + 1.0) / WINDOW_HEIGHT) - 1.0) * data->view_height / 2.0;
+	u = -(2.0 * ((x + 0.5) / WINDOW_WIDTH) - 1.0) * data->view_width / 2.0;
+	v = -(1.0 - 2.0 * ((y + 0.5) / WINDOW_HEIGHT)) * data->view_height / 2.0;
 	pixel_pos = add(add(data->camera.pos, mul(data->camera.right, u)),
 			mul(data->camera.up, v));
 	pixel_pos = add(pixel_pos, data->camera.orient);
@@ -66,9 +66,9 @@ static t_vector	get_ray_direction(t_data *data, int x, int y)
 
 int	raytracing(t_data *data)
 {
-	t_ray ray;
-	int	x;
-	int	y;
+	t_ray	ray;
+	int		x;
+	int		y;
 
 	y = 0;
 	get_camera_axis_and_viewing_plane(data);
@@ -77,6 +77,7 @@ int	raytracing(t_data *data)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
+			data->z_buffer[y][x] = DBL_MAX;
 			ray.direction = get_ray_direction(data, x, y);
 			render(data, &ray, x, y);
 			x++;

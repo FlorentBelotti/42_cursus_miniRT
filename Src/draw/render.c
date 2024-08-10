@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/06 19:27:19 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:31:14 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,42 @@ static int	check_for_intersections(t_object *object, t_data *data, t_ray *ray)
 				&ray->direction, object);
 	else if (object->type == PLANE)
 		d = plane_intersection(data, &object->specific.plane,
-				&ray->direction);
+				&ray->direction, object);
 	return (d);
 }
 
+/*t_object	*choose_priority_object(t_object *old, t_object *current)
+{
+	if (old->type == current->type)
+		return (current);
+	else if (old->type < current->type)
+		return (old);
+	else
+		return (current);
+}*/
+
 void	render(t_data *data, t_ray *ray, int x, int y)
 {
-	t_object	*current;
-	t_object	*closest;
-	double		d_min;
+	t_object	*current_object;
+	t_object	*closest_object;
+	//t_object	*old_object;
 	double		d;
 
-	d_min = -1;
-	current = data->objects;
-	closest = NULL;
-	while (current)
+	current_object = data->objects;
+	closest_object = NULL;
+	while (current_object)
 	{
-		d = check_for_intersections(current, data, ray);
-		if (d > 0 && (d <= d_min || d_min == -1))
+		d = check_for_intersections(current_object, data, ray);
+		if (d >= EPSILON && d < data->z_buffer[y][x])
 		{
-			d_min = d;
-			closest = current;
+			closest_object = current_object;
+			data->z_buffer[y][x] = d;
 		}
-		current = current->next;
+		/*else if (d == data->z_buffer[y][x])
+			closest_object = choose_priority_object(old_object, current_object);
+		old_object = current_object;*/
+		current_object = current_object->next;
 	}
-	if (closest)
-		ft_mlx_pixel_put(data->img, x, y, rgb_to_int(closest->color));
+	if (closest_object)
+		ft_mlx_pixel_put(data->img, x, y, rgb_to_int(closest_object->color));
 }

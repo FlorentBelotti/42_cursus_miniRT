@@ -6,41 +6,35 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/06 19:33:57 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:16:51 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir, t_object *current)
+double sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir, t_object *current)
 {
-	t_inter inter;
+    t_inter inter;
 
-	inter.oc = get_oc_vector(&data->camera.pos, &current->pos);
-	inter.radius = sphere->diameter / 2;
-	inter.coef_a = get_scalar_product(ray_dir, ray_dir);
-	inter.coef_b = 2 * get_scalar_product(&inter.oc, ray_dir);
-	inter.coef_c = get_scalar_product(&inter.oc, &inter.oc) - square(inter.radius);
-	inter.delta = get_delta(&inter);
-	if (inter.delta < 0)
-		return (-1);
-	else
-	{
-		inter.r1 = (-inter.coef_b - sqrt(inter.delta)) / (2 * inter.coef_a);
-		inter.r2 = (-inter.coef_b + sqrt(inter.delta)) / (2 * inter.coef_a);
-		if (inter.r1 > 0 && inter.r2 > 0)
-		{
-			if (inter.r1 < inter.r2)
-				return (inter.r1);
-			else
-				return (inter.r2);
-		}
-		else if (inter.r1 > 0)
-			return (inter.r1);
-		else if (inter.r2 > 0)
-			return (inter.r2);
-	}
-	return (-1);
+    inter.oc = get_oc_vector(&data->camera.pos, &current->pos);
+    inter.radius = sphere->diameter / 2;
+    inter.coef_a = get_scalar_product(ray_dir, ray_dir);
+    inter.coef_b = 2 * get_scalar_product(&inter.oc, ray_dir);
+    inter.coef_c = get_scalar_product(&inter.oc, &inter.oc) - square(inter.radius);
+    inter.delta = get_delta(&inter);
+
+    if (inter.delta < 0)
+        return (-1);
+
+    inter.r1 = (-inter.coef_b - sqrt(inter.delta)) / (2 * inter.coef_a);
+    inter.r2 = (-inter.coef_b + sqrt(inter.delta)) / (2 * inter.coef_a);
+
+    if (inter.r1 > EPSILON && (inter.r1 < inter.r2 || inter.r2 <= EPSILON))
+        return inter.r1;
+    if (inter.r2 > EPSILON)
+        return inter.r2;
+
+    return (-1);
 }
 
 static t_vector get_cylinder_center(t_vector base_center, t_vector axis, double height)
@@ -135,20 +129,20 @@ double cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_d
 	return (-1);
 }
 
-double plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir)
+double plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir, t_object *current)
 {
 	t_vector plane_origin;
 	double t;
 	double denominator;
 
-	plane_origin.x = plane->normal.x - data->camera.pos.x;
-	plane_origin.y = plane->normal.y - data->camera.pos.y;
-	plane_origin.z = plane->normal.z - data->camera.pos.z;
+	plane_origin.x = current->pos.x - data->camera.pos.x;
+	plane_origin.y = current->pos.y - data->camera.pos.y;
+	plane_origin.z = current->pos.z - data->camera.pos.z;
 	denominator = get_scalar_product(&plane->normal, ray_dir);
-	if (fabs(denominator) < 1e-6)
+	if (fabs(denominator) < EPSILON)
 		return (0);
 	t = get_scalar_product(&plane->normal, &plane_origin) / denominator;
-	if (t < 0)
-		return (-1);
-	return (t);
+	if (t > EPSILON)
+		return (t);
+	return (-1);
 }

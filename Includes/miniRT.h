@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/06 19:34:46 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:15:36 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 # include <stdbool.h>
 # include <string.h>
 # include <math.h>
+# include <float.h>
 # include "minilibx-linux/mlx.h"
 # include "42_cursus_libft/Includes/libft.h"
 
 // Dimensions de la fenêtre
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
+# define EPSILON 1e-6
 
 // Identifiants des objets
 typedef enum e_object_type
@@ -157,6 +159,7 @@ typedef struct s_data
 	double total_rays;
 	double view_width;
 	double view_height;
+	double z_buffer[WINDOW_HEIGHT][WINDOW_WIDTH];
 	t_ambient ambient;
 	t_camera camera;
 	t_light light;
@@ -208,7 +211,7 @@ int		raytracing(t_data *data);
 //Intersection calculation
 double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir, t_object *current);
 double	cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir, t_object *current);
-double	plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir);
+double	plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir, t_object *current);
 
 //Minilibx
 void	init_mlx_image(t_data *data);
