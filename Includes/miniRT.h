@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/10 17:15:36 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/11 18:31:40 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,9 @@ void	print_rays(t_data *data);
 
 //render
 void	render(t_data *data, t_ray *ray, int x, int y);
+
+//lightning
+t_color	get_pixel_lightning(t_data *data, t_object *object, t_vector intersection);
 
 //Raytracing
 int		raytracing(t_data *data);
