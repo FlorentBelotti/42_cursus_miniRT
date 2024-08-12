@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:17:54 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/10 16:09:36 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:55:01 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	raytracing(t_data *data)
 		{
 			data->z_buffer[y][x] = DBL_MAX;
 			ray.direction = get_ray_direction(data, x, y);
+			ray.origin = data->camera.pos;
 			render(data, &ray, x, y);
 			x++;
 		}

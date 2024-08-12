@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/11 18:31:40 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:04:53 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_keys
 typedef struct s_ray
 {
 	t_vector direction;
+	t_vector origin;
 } t_ray;
 
 typedef struct s_inter
@@ -204,6 +205,7 @@ void	print_rays(t_data *data);
 
 //render
 void	render(t_data *data, t_ray *ray, int x, int y);
+int		check_for_intersections(t_object *object, t_ray *ray);
 
 //lightning
 t_color	get_pixel_lightning(t_data *data, t_object *object, t_vector intersection);
@@ -212,9 +214,9 @@ t_color	get_pixel_lightning(t_data *data, t_object *object, t_vector intersectio
 int		raytracing(t_data *data);
 
 //Intersection calculation
-double	sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir, t_object *current);
-double	cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir, t_object *current);
-double	plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir, t_object *current);
+double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current);
+double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current);
+double	plane_intersection(t_plane *plane, t_ray *ray, t_object *current);
 
 //Minilibx
 void	init_mlx_image(t_data *data);

@@ -6,35 +6,31 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/10 17:16:51 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/12 23:16:43 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-double sphere_intersection(t_data *data, t_sphere *sphere, t_vector *ray_dir, t_object *current)
+double sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current)
 {
-    t_inter inter;
+	t_inter inter;
 
-    inter.oc = get_oc_vector(&data->camera.pos, &current->pos);
-    inter.radius = sphere->diameter / 2;
-    inter.coef_a = get_scalar_product(ray_dir, ray_dir);
-    inter.coef_b = 2 * get_scalar_product(&inter.oc, ray_dir);
-    inter.coef_c = get_scalar_product(&inter.oc, &inter.oc) - square(inter.radius);
-    inter.delta = get_delta(&inter);
-
-    if (inter.delta < 0)
-        return (-1);
-
-    inter.r1 = (-inter.coef_b - sqrt(inter.delta)) / (2 * inter.coef_a);
-    inter.r2 = (-inter.coef_b + sqrt(inter.delta)) / (2 * inter.coef_a);
-
-    if (inter.r1 > EPSILON && (inter.r1 < inter.r2 || inter.r2 <= EPSILON))
-        return inter.r1;
-    if (inter.r2 > EPSILON)
-        return inter.r2;
-
-    return (-1);
+	inter.oc = get_oc_vector(&ray->origin, &current->pos);
+	inter.radius = sphere->diameter / 2;
+	inter.coef_a = get_scalar_product(&ray->direction, &ray->direction);
+	inter.coef_b = 2 * get_scalar_product(&inter.oc, &ray->direction);
+	inter.coef_c = get_scalar_product(&inter.oc, &inter.oc) - square(inter.radius);
+	inter.delta = get_delta(&inter);
+	if (inter.delta < 0)
+		return (-1);
+	inter.r1 = (-inter.coef_b - sqrt(inter.delta)) / (2 * inter.coef_a);
+	inter.r2 = (-inter.coef_b + sqrt(inter.delta)) / (2 * inter.coef_a);
+	if (inter.r1 > EPSILON && (inter.r1 < inter.r2 || inter.r2 <= EPSILON))
+		return (inter.r1);
+	if (inter.r2 > EPSILON)
+		return (inter.r2);
+	return (-1);
 }
 
 static t_vector get_cylinder_center(t_vector base_center, t_vector axis, double height)
@@ -47,7 +43,7 @@ static t_vector get_cylinder_center(t_vector base_center, t_vector axis, double 
 	return (center);
 }
 
-double cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_dir, t_object *current)
+double cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current)
 {
 	t_inter		inter;
 	t_vector	oc_perp;
@@ -65,21 +61,21 @@ double cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_d
 
 	closest_intersection = -1;
 	inter.radius = cylinder->diameter / 2;
-	inter.oc = get_oc_vector(&data->camera.pos, &current->pos);
+	inter.oc = get_oc_vector(&ray->origin, &current->pos);
 
 	// Calcul des projections sur l'axe du cylindre
 
 	oc_v = get_scalar_product(&inter.oc, &cylinder->axis);
-	ray_dir_v = get_scalar_product(ray_dir, &cylinder->axis);
+	ray_dir_v = get_scalar_product(&ray->direction, &cylinder->axis);
 
 	// Calcul des composantes perpendiculaires aux projections
 
 	oc_perp.x = inter.oc.x - oc_v * cylinder->axis.x;
 	oc_perp.y = inter.oc.y - oc_v * cylinder->axis.y;
 	oc_perp.z = inter.oc.z - oc_v * cylinder->axis.z;
-	dir_perp.x = ray_dir->x - ray_dir_v * cylinder->axis.x;
-	dir_perp.y = ray_dir->y - ray_dir_v * cylinder->axis.y;
-	dir_perp.z = ray_dir->z - ray_dir_v * cylinder->axis.z;
+	dir_perp.x = ray->direction.x - ray_dir_v * cylinder->axis.x;
+	dir_perp.y = ray->direction.y - ray_dir_v * cylinder->axis.y;
+	dir_perp.z = ray->direction.z - ray_dir_v * cylinder->axis.z;
 
 	// Calcul des coefficients de l'équation quadratique
 
@@ -98,12 +94,12 @@ double cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_d
 	// Calcul des points d'intersection sur le cylindre
 
 	cylinder_center = get_cylinder_center(current->pos, cylinder->axis, cylinder->height);
-	P1.x = data->camera.pos.x + inter.r1 * ray_dir->x;
-	P1.y = data->camera.pos.y + inter.r1 * ray_dir->y;
-	P1.z = data->camera.pos.z + inter.r1 * ray_dir->z;
-	P2.x = data->camera.pos.x + inter.r2 * ray_dir->x;
-	P2.y = data->camera.pos.y + inter.r2 * ray_dir->y;
-	P2.z = data->camera.pos.z + inter.r2 * ray_dir->z;
+	P1.x = ray->origin.x + inter.r1 * ray->direction.x;
+	P1.y = ray->origin.y + inter.r1 * ray->direction.y;
+	P1.z = ray->origin.z + inter.r1 * ray->direction.z;
+	P2.x = ray->origin.x + inter.r2 * ray->direction.x;
+	P2.y = ray->origin.y + inter.r2 * ray->direction.y;
+	P2.z = ray->origin.z + inter.r2 * ray->direction.z;
 
 	// Projections des points d'intersection sur l'axe du cylindre
 
@@ -129,16 +125,16 @@ double cylinder_intersection(t_data *data, t_cylinder *cylinder, t_vector *ray_d
 	return (-1);
 }
 
-double plane_intersection(t_data *data, t_plane *plane, t_vector *ray_dir, t_object *current)
+double plane_intersection(t_plane *plane, t_ray *ray, t_object *current)
 {
 	t_vector plane_origin;
 	double t;
 	double denominator;
 
-	plane_origin.x = current->pos.x - data->camera.pos.x;
-	plane_origin.y = current->pos.y - data->camera.pos.y;
-	plane_origin.z = current->pos.z - data->camera.pos.z;
-	denominator = get_scalar_product(&plane->normal, ray_dir);
+	plane_origin.x = current->pos.x - ray->origin.x;
+	plane_origin.y = current->pos.y - ray->origin.y;
+	plane_origin.z = current->pos.z - ray->origin.z;
+	denominator = get_scalar_product(&plane->normal, &ray->direction);
 	if (fabs(denominator) < EPSILON)
 		return (0);
 	t = get_scalar_product(&plane->normal, &plane_origin) / denominator;

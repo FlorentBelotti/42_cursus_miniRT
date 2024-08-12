@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/11 19:48:25 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:30:09 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,38 @@ static t_color get_diffuse_light(t_light light, t_object *object, t_vector inter
 	return (diffuse_color);
 }
 
+static double	get_light_distance(t_vector a, t_vector b)
+{
+	t_vector	diff;
+	double		result;
+
+	diff = vector_subtract(a, b);
+	result = sqrt(get_scalar_product(&diff, &diff));
+	return (result);
+}
+
+int		is_in_shadow(t_data *data, t_vector intersection, t_light light)
+{
+	t_ray		shadow_ray;
+	t_object	*current_object;
+	double		d;
+	double		d_light;
+
+	shadow_ray.direction = sub(light.pos, intersection);
+	normalize_vector(&shadow_ray.direction);
+	shadow_ray.origin = add(intersection, mul(shadow_ray.direction, EPSILON));
+	d_light = get_light_distance(light.pos, shadow_ray.origin);
+	current_object = data->objects;
+	while (current_object)
+	{
+		d = check_for_intersections(current_object, &shadow_ray);
+		if (d > EPSILON && d < d_light)
+			return (1);
+		current_object = current_object->next;
+	}
+	return (0);
+}
+
 t_color	get_pixel_lightning(t_data *data, t_object *object, t_vector intersection)
 {
 	t_color	ambient_color;
@@ -101,10 +133,18 @@ t_color	get_pixel_lightning(t_data *data, t_object *object, t_vector intersectio
 	t_color	final_color;
 
 	ambient_color = get_ambient_light(data->ambient, object->color);
-	// add type check for object.
-	diffuse_color = get_diffuse_light(data->light, object, intersection);
-	final_color.r = fmin(ambient_color.r + diffuse_color.r, 255);
-	final_color.g = fmin(ambient_color.g + diffuse_color.g, 255);
-	final_color.b = fmin(ambient_color.b + diffuse_color.b, 255);
+	if (is_in_shadow(data, intersection, data->light) == 0)
+	{
+		diffuse_color = get_diffuse_light(data->light, object, intersection);
+		final_color.r = fmin(ambient_color.r + diffuse_color.r, 255);
+		final_color.g = fmin(ambient_color.g + diffuse_color.g, 255);
+		final_color.b = fmin(ambient_color.b + diffuse_color.b, 255);
+	}
+	else
+	{
+		final_color.r = fmin(ambient_color.r, 255);
+		final_color.g = fmin(ambient_color.g, 255);
+		final_color.b = fmin(ambient_color.b, 255);
+	}
 	return (final_color);
 }
