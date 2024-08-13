@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/12 22:05:06 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:52:52 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
-
-int	check_for_intersections(t_object *object, t_ray *ray)
-{
-	double	d;
-
-	d = -1;
-	if (object->type == SPHERE)
-		d = sphere_intersection(&object->specific.sphere,
-				ray, object);
-	else if (object->type == CYLINDER)
-		d = cylinder_intersection(&object->specific.cylinder,
-				ray, object);
-	else if (object->type == PLANE)
-		d = plane_intersection(&object->specific.plane,
-				ray, object);
-	return (d);
-}
 
 t_object	*choose_priority_object(t_object *old, t_object *current)
 {

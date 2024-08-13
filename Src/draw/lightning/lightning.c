@@ -6,24 +6,11 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 14:12:05 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:32:12 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-static t_color	get_ambient_light(t_ambient ambient, t_color object_color)
-{
-	t_color	result;
-
-	result.r = (int)(object_color.r * ambient.ratio * (ambient.color.r / 255.0));
-	result.g = (int)(object_color.g * ambient.ratio * (ambient.color.g / 255.0));
-	result.b = (int)(object_color.b * ambient.ratio * (ambient.color.b / 255.0));
-	result.r = fmin(result.r, 255);
-	result.g = fmin(result.g, 255);
-	result.b = fmin(result.b, 255);
-	return (result);
-}
 
 static t_color	get_plane_lightning(t_light light, t_object *object, t_vector intersection)
 {
@@ -95,38 +82,6 @@ static t_color get_diffuse_light(t_light light, t_object *object, t_vector inter
 	else if (object->type == CYLINDER)
 		diffuse_color = get_cylinder_lightning(light, object, intersection);
 	return (diffuse_color);
-}
-
-static double	get_light_distance(t_vector a, t_vector b)
-{
-	t_vector	diff;
-	double		result;
-
-	diff = vector_subtract(a, b);
-	result = sqrt(get_scalar_product(&diff, &diff));
-	return (result);
-}
-
-int		is_in_shadow(t_data *data, t_vector intersection, t_light light)
-{
-	t_ray		shadow_ray;
-	t_object	*current_object;
-	double		d;
-	double		d_light;
-
-	shadow_ray.direction = sub(light.pos, intersection);
-	normalize_vector(&shadow_ray.direction);
-	shadow_ray.origin = add(intersection, mul(shadow_ray.direction, EPSILON));
-	d_light = get_light_distance(light.pos, shadow_ray.origin);
-	current_object = data->objects;
-	while (current_object)
-	{
-		d = check_for_intersections(current_object, &shadow_ray);
-		if (d > EPSILON && d < d_light)
-			return (1);
-		current_object = current_object->next;
-	}
-	return (0);
 }
 
 t_color	get_pixel_lightning(t_data *data, t_object *object, t_vector intersection)

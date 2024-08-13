@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 14:04:13 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:56:52 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,8 @@ int		check_for_intersections(t_object *object, t_ray *ray);
 
 //lightning
 t_color	get_pixel_lightning(t_data *data, t_object *object, t_vector intersection);
+int		is_in_shadow(t_data *data, t_vector intersection, t_light light);
+t_color	get_ambient_light(t_ambient ambient, t_color object_color);
 
 //Raytracing
 int		raytracing(t_data *data);
@@ -236,7 +238,6 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //vector_utils
 t_vector	vector_cross(t_vector a, t_vector b);
-t_vector	vector_subtract(t_vector a, t_vector b);
 t_vector	get_oc_vector(t_vector *ray_origin, t_vector *object_center);
 t_vector	mul(t_vector a, double b);
 t_vector	sub(t_vector a, t_vector b);
