@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lightning.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/12 22:30:09 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:12:05 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ static t_color get_diffuse_light(t_light light, t_object *object, t_vector inter
 {
 	t_color	diffuse_color;
 
+	diffuse_color.r = 0;
+	diffuse_color.g = 0;
+	diffuse_color.b = 0;
 	if (object->type == PLANE)
 		diffuse_color = get_plane_lightning(light, object, intersection);
 	else if (object->type == SPHERE)

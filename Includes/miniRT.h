@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/12 22:04:53 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:04:13 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,18 @@ typedef struct s_inter
 	double		delta;
 	double		r1;
 	double		r2;
+	double		ray_dir_v;
+	double		cylinder_min;
+	double		cylinder_max;
+	double		P1_proj;
+	double		P2_proj;
+	double		oc_v;
 	t_vector	oc;
+	t_vector	oc_perp;
+	t_vector	dir_perp;
+	t_vector	cylinder_center;
+	t_vector	P1;
+	t_vector	P2;
 } t_inter;
 
 typedef struct s_img
