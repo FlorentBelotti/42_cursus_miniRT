@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   raytracing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:17:54 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/12 21:55:01 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:24:14 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-static t_vector get_reference_up(t_data *data)
+static t_vector	get_reference_up(t_data *data)
 {
-	t_vector ref_up;
+	t_vector	ref_up;
 
 	ref_up.x = 0.0;
 	if (fabs(data->camera.orient.y) == 1.0)

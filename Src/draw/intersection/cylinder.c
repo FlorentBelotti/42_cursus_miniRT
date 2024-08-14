@@ -6,13 +6,13 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:51:34 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 14:11:41 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:37:32 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-static	t_vector get_cylinder_center(t_vector base_center, t_vector axis,
+static t_vector	get_cylinder_center(t_vector base_center, t_vector axis,
 						double height)
 {
 	t_vector	center;
@@ -44,7 +44,7 @@ int	calculate_quadratic_coef(t_inter *inter)
 	inter->coef_a = get_scalar_product(&inter->dir_perp, &inter->dir_perp);
 	inter->coef_b = 2 * get_scalar_product(&inter->oc_perp, &inter->dir_perp);
 	inter->coef_c = get_scalar_product(&inter->oc_perp, &inter->oc_perp)
-			- square(inter->radius);
+		- square(inter->radius);
 	inter->delta = get_delta(inter);
 	if (inter->delta < 0)
 		return (0);
@@ -84,10 +84,10 @@ double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray,
 	inter.r2 = (-inter.coef_b + sqrt(inter.delta)) / (2 * inter.coef_a);
 	get_cylinder_intersection_points(&inter, cylinder, ray, current);
 	if (inter.P1_proj >= inter.cylinder_min
-			&& inter.P1_proj <= inter.cylinder_max && inter.r1 > 0)
+		&& inter.P1_proj <= inter.cylinder_max && inter.r1 > 0)
 		closest_intersection = inter.r1;
 	if (inter.P2_proj >= inter.cylinder_min
-			&& inter.P2_proj <= inter.cylinder_max && inter.r2 > 0)
+		&& inter.P2_proj <= inter.cylinder_max && inter.r2 > 0)
 	{
 		if (closest_intersection == -1 || inter.r2 < closest_intersection)
 			closest_intersection = inter.r2;

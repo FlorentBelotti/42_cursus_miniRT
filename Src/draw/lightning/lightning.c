@@ -6,20 +6,17 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 15:32:12 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:34:41 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-static t_color	get_plane_lightning(t_light light, t_object *object, t_vector intersection)
+static t_color	get_plane_lightning(t_light light, t_object *object, t_vector light_dir)
 {
-	t_vector	light_dir;
 	t_color		diffuse_color;
 	double		intensity;
 
-	light_dir = sub(light.pos, intersection);
-	normalize_vector(&light_dir);
 	intensity = fmax(0.0, get_scalar_product(&object->specific.plane.normal, &light_dir)) * light.brightness;
 	diffuse_color.r = fmin((int)(object->color.r * intensity * (light.color.r / 255.0)), 255);
 	diffuse_color.g = fmin((int)(object->color.g * intensity * (light.color.g / 255.0)), 255);
@@ -27,15 +24,12 @@ static t_color	get_plane_lightning(t_light light, t_object *object, t_vector int
 	return (diffuse_color);
 }
 
-static t_color get_sphere_lightning(t_light light, t_object *object, t_vector intersection)
+static t_color	get_sphere_lightning(t_light light, t_object *object, t_vector intersection, t_vector light_dir)
 {
-	t_vector normal;
-	t_vector light_dir;
-	t_color diffuse_color;
-	double intensity;
+	t_vector	normal;
+	t_color		diffuse_color;
+	double		intensity;
 
-	light_dir = sub(light.pos, intersection);
-	normalize_vector(&light_dir);
 	normal = sub(intersection, object->pos);
 	normalize_vector(&normal);
 	intensity = fmax(0.0, get_scalar_product(&normal, &light_dir)) * light.brightness;
@@ -45,17 +39,14 @@ static t_color get_sphere_lightning(t_light light, t_object *object, t_vector in
 	return (diffuse_color);
 }
 
-static t_color get_cylinder_lightning(t_light light, t_object *object, t_vector intersection)
+static t_color	get_cylinder_lightning(t_light light, t_object *object, t_vector intersection, t_vector light_dir)
 {
-	t_vector normal;
-	t_vector light_dir;
-	t_vector projection;
-	t_vector oc;
-	t_color diffuse_color;
-	double intensity;
+	t_vector	normal;
+	t_vector	projection;
+	t_vector	oc;
+	t_color		diffuse_color;
+	double		intensity;
 
-	light_dir = sub(light.pos, intersection);
-	normalize_vector(&light_dir);
 	oc = sub(intersection, object->pos);
 	projection = mul(object->specific.cylinder.axis, get_scalar_product(&oc, &object->specific.cylinder.axis));
 	normal = sub(oc, projection);
@@ -67,20 +58,22 @@ static t_color get_cylinder_lightning(t_light light, t_object *object, t_vector 
 	return (diffuse_color);
 }
 
-
-static t_color get_diffuse_light(t_light light, t_object *object, t_vector intersection)
+static t_color	get_diffuse_light(t_light light, t_object *object, t_vector intersection)
 {
-	t_color	diffuse_color;
+	t_color		diffuse_color;
+	t_vector	light_dir;
 
 	diffuse_color.r = 0;
 	diffuse_color.g = 0;
 	diffuse_color.b = 0;
+	light_dir = sub(light.pos, intersection);
+	normalize_vector(&light_dir);
 	if (object->type == PLANE)
-		diffuse_color = get_plane_lightning(light, object, intersection);
+		diffuse_color = get_plane_lightning(light, object, light_dir);
 	else if (object->type == SPHERE)
-		diffuse_color = get_sphere_lightning(light, object, intersection);
+		diffuse_color = get_sphere_lightning(light, object, intersection, light_dir);
 	else if (object->type == CYLINDER)
-		diffuse_color = get_cylinder_lightning(light, object, intersection);
+		diffuse_color = get_cylinder_lightning(light, object, intersection, light_dir);
 	return (diffuse_color);
 }
 

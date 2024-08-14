@@ -6,13 +6,13 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 15:52:52 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:23:39 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-t_object	*choose_priority_object(t_object *old, t_object *current)
+/* static t_object	*choose_priority_object(t_object *old, t_object *current)
 {
 	if (old->type == current->type)
 		return (current);
@@ -22,13 +22,16 @@ t_object	*choose_priority_object(t_object *old, t_object *current)
 		return (current);
 }
 
+else if (d == data->z_buffer[y][x])
+	closest_object = choose_priority_object(old_object, current_object);
+old_object = current_object; */
+
 void	render(t_data *data, t_ray *ray, int x, int y)
 {
 	t_object	*current_object;
 	t_object	*closest_object;
 	t_vector	intersection;
 	t_color		color;
-	t_object	*old_object;
 	double		d;
 
 	current_object = data->objects;
@@ -42,9 +45,6 @@ void	render(t_data *data, t_ray *ray, int x, int y)
 			data->z_buffer[y][x] = d;
 			intersection = add(data->camera.pos, mul(ray->direction, d));
 		}
-		else if (d == data->z_buffer[y][x])
-			closest_object = choose_priority_object(old_object, current_object);
-		old_object = current_object;
 		current_object = current_object->next;
 	}
 	if (closest_object)

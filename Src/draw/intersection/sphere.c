@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 14:11:04 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:38:12 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current)
 	inter.coef_a = get_scalar_product(&ray->direction, &ray->direction);
 	inter.coef_b = 2 * get_scalar_product(&inter.oc, &ray->direction);
 	inter.coef_c = get_scalar_product(&inter.oc, &inter.oc)
-			- square(inter.radius);
+		- square(inter.radius);
 	inter.delta = get_delta(&inter);
 	if (inter.delta < 0)
 		return (-1);

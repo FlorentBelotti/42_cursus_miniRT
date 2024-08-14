@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:00 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 15:53:02 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:35:53 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_vector	get_oc_vector(t_vector *ray_origin, t_vector *object_center)
 {
-	t_vector vector_oc;
+	t_vector	vector_oc;
 
 	vector_oc.x = ray_origin->x - object_center->x;
 	vector_oc.y = ray_origin->y - object_center->y;
@@ -24,7 +24,7 @@ t_vector	get_oc_vector(t_vector *ray_origin, t_vector *object_center)
 
 void	normalize_vector(t_vector *v)
 {
-	double norm;
+	double	norm;
 
 	norm = sqrt(v->x * v->x + v->y * v->y + v->z * v->z);
 	if (norm != 0)
