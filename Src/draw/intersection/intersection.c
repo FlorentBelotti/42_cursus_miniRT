@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:00 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/14 14:35:53 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:30:31 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ int	check_for_intersections(t_object *object, t_ray *ray)
 				ray, object);
 	else if (object->type == PLANE)
 		d = plane_intersection(&object->specific.plane,
-				ray, object);
+				ray, &object->pos);
 	return (d);
 }
