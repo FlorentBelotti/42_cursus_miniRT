@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/14 14:34:41 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:51:45 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_color	get_sphere_lightning(t_light light, t_object *object, t_vector in
 	double		intensity;
 
 	normal = sub(intersection, object->pos);
-	normalize_vector(&normal);
+	//normalize_vector(&normal);
 	intensity = fmax(0.0, get_scalar_product(&normal, &light_dir)) * light.brightness;
 	diffuse_color.r = fmin((int)(object->color.r * intensity * (light.color.r / 255.0)), 255);
 	diffuse_color.g = fmin((int)(object->color.g * intensity * (light.color.g / 255.0)), 255);
@@ -50,7 +50,7 @@ static t_color	get_cylinder_lightning(t_light light, t_object *object, t_vector 
 	oc = sub(intersection, object->pos);
 	projection = mul(object->specific.cylinder.axis, get_scalar_product(&oc, &object->specific.cylinder.axis));
 	normal = sub(oc, projection);
-	normalize_vector(&normal);
+	//normalize_vector(&normal);
 	intensity = fmax(0.0, get_scalar_product(&normal, &light_dir)) * light.brightness;
 	diffuse_color.r = fmin((int)(object->color.r * intensity * (light.color.r / 255.0)), 255);
 	diffuse_color.g = fmin((int)(object->color.g * intensity * (light.color.g / 255.0)), 255);

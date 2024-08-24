@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:25:59 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 15:56:34 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:36:38 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_in_shadow(t_data *data, t_vector intersection, t_light light)
 	while (current_object)
 	{
 		d = check_for_intersections(current_object, &shadow_ray);
-		if (d > EPSILON && d < d_light)
+		if (d > EPSILON && d < d_light - EPSILON)
 			return (1);
 		current_object = current_object->next;
 	}
