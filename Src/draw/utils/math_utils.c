@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:50:25 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 15:50:50 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/25 20:54:35 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ double	square(double x)
 
 double	get_delta(t_inter *inter)
 {
-	return (square(inter->coef_b) - (4 * inter->coef_a * inter->coef_c));
+	return (square(inter->coef_b) - 4 * inter->coef_a * inter->coef_c);
 }

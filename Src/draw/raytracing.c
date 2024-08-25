@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:17:54 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/23 14:46:15 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/26 00:11:57 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static t_vector	get_ray_direction(t_data *data, int x, int y)
 	double		u;
 	double		v;
 
-	u = -(2.0 * ((x + 0.5) / WINDOW_WIDTH) - 1.0) * data->view_width / 2.0;
-	v = (1.0 - 2.0 * ((y + 0.5) / WINDOW_HEIGHT)) * data->view_height / 2.0;
+	u = -(2.0 * ((x + 0.5) / WINDOW_WIDTH) - 1.0) * data->view_width;
+	v = (1.0 - 2.0 * ((y + 0.5) / WINDOW_HEIGHT)) * data->view_height;
 	pixel_pos = add(add(data->camera.pos, mul(data->camera.right, u)),
 			mul(data->camera.up, v));
 	pixel_pos = add(pixel_pos, data->camera.orient);

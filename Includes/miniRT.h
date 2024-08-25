@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/22 16:30:49 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/26 01:31:31 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,12 +216,14 @@ void	print_rays(t_data *data);
 
 //render
 void	render(t_data *data, t_ray *ray, int x, int y);
-int		check_for_intersections(t_object *object, t_ray *ray);
+double		get_low_intersection_distance(t_object *object, t_ray *ray);
+double	get_high_intersection_distance(t_object *object, t_ray *ray);
 
 //lightning
-t_color	get_pixel_lightning(t_data *data, t_object *object, t_vector intersection);
-int		is_in_shadow(t_data *data, t_vector intersection, t_light light);
+t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
 t_color	get_ambient_light(t_ambient ambient, t_color object_color);
+int		get_shadow_factor(t_data *data, t_vector intersection, t_light light);
+double	get_light_distance(t_vector a, t_vector b);
 
 //Raytracing
 int		raytracing(t_data *data);
