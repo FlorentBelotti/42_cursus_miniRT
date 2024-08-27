@@ -6,11 +6,11 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/26 01:17:50 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/27 23:09:37 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "../Includes/miniRT.h"
 
 static t_color	get_diffuse_lighting(t_light light, t_vector normal, t_vector light_dir, t_color object_color, double shadow_factor, double d_light)
 {

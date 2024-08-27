@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:25:59 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/26 16:25:05 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/27 23:17:30 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "../Includes/miniRT.h"
 
 double	get_light_distance(t_vector a, t_vector b)
 {

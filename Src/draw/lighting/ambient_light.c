@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ambient_light.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:31:55 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/13 15:55:35 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/27 23:00:19 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "../Includes/miniRT.h"
 
 t_color	get_ambient_light(t_ambient ambient, t_color object_color)
 {
