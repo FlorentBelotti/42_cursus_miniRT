@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/26 01:32:09 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:10:55 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void	render(t_data *data, t_ray *ray, int x, int y)
 
 	current_object = data->objects;
 	closest_object = NULL;
+	data->objects->specific.cylinder.disk = 0;
 	while (current_object)
 	{
-		d = get_low_intersection_distance(current_object, ray);
+		d = get_intersection_distance(current_object, ray, -1);
 		if (d >= EPSILON && d < data->z_buffer[y][x])
 		{
 			closest_object = current_object;
@@ -34,7 +35,7 @@ void	render(t_data *data, t_ray *ray, int x, int y)
 	}
 	if (closest_object)
 	{
-		d = get_high_intersection_distance(closest_object, ray);
+		d = get_intersection_distance(closest_object, ray, 1);
 		intersection = add(ray->origin, mul(ray->direction, d));
 		color = get_pixel_lighting(data, closest_object, intersection);
 		ft_mlx_pixel_put(data->img, x, y, rgb_to_int(color));

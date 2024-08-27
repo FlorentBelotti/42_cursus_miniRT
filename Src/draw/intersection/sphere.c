@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/26 01:21:30 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:23:11 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
 
-double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current)
+double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code)
 {
 	t_inter	inter;
 
@@ -27,9 +27,5 @@ double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current)
 		return (-1);
 	inter.r1 = (-inter.coef_b - sqrt(inter.delta)) / (2 * inter.coef_a);
 	inter.r2 = (-inter.coef_b + sqrt(inter.delta)) / (2 * inter.coef_a);
-	if (inter.r1 > EPSILON && (inter.r1 < inter.r2 || inter.r2 <= EPSILON))
-		return (inter.r1);
-	if (inter.r2 > EPSILON)
-		return (inter.r2);
-	return (-1);
+	return (return_high_or_low(inter, code));
 }

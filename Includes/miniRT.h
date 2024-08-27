@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/26 01:31:31 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:05:31 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	double diameter;
-	double height;
+	double	diameter;
+	double	height;
+	int		disk;
 	t_vector axis;
 } t_cylinder;
 
@@ -216,8 +217,7 @@ void	print_rays(t_data *data);
 
 //render
 void	render(t_data *data, t_ray *ray, int x, int y);
-double		get_low_intersection_distance(t_object *object, t_ray *ray);
-double	get_high_intersection_distance(t_object *object, t_ray *ray);
+double	get_intersection_distance(t_object *object, t_ray *ray, int code);
 
 //lightning
 t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
@@ -229,9 +229,11 @@ double	get_light_distance(t_vector a, t_vector b);
 int		raytracing(t_data *data);
 
 //Intersection calculation
-double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current);
+double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code);
 double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current);
+double	plane_disk_intersection(t_vector disk_center, t_cylinder *cylinder, double radius, t_ray *ray, double closest_intersection);
 double	plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos);
+double	return_high_or_low(t_inter inter, int code);
 
 //Minilibx
 void	init_mlx_image(t_data *data);

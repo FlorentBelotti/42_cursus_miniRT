@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:51:34 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/22 18:16:48 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:29:52 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_vector	get_cylinder_center(t_vector base_center, t_vector axis,
 	return (center);
 }
 
-void	init_cylinder_intersection(t_inter *inter, t_cylinder *cylinder,
+static void	init_cylinder_intersection(t_inter *inter, t_cylinder *cylinder,
 				t_ray *ray, t_object *current)
 {
 	inter->radius = cylinder->diameter / 2;
@@ -38,7 +38,7 @@ void	init_cylinder_intersection(t_inter *inter, t_cylinder *cylinder,
 	inter->dir_perp.z = ray->direction.z - inter->ray_dir_v * cylinder->axis.z;
 }
 
-int	calculate_quadratic_coef(t_inter *inter)
+static int	calculate_quadratic_coef(t_inter *inter)
 {
 	inter->coef_a = get_scalar_product(&inter->dir_perp, &inter->dir_perp);
 	inter->coef_b = 2 * get_scalar_product(&inter->oc_perp, &inter->dir_perp);
@@ -50,7 +50,7 @@ int	calculate_quadratic_coef(t_inter *inter)
 	return (1);
 }
 
-void	get_cylinder_intersection_points(t_inter *inter, t_cylinder *cylinder,
+static void	get_cylinder_intersection_points(t_inter *inter, t_cylinder *cylinder,
 				t_ray *ray, t_object *current)
 {
 	t_vector	top_cap;
@@ -70,29 +70,7 @@ void	get_cylinder_intersection_points(t_inter *inter, t_cylinder *cylinder,
 	inter->cylinder_max = get_scalar_product(&top_cap, &cylinder->axis);
 }
 
-double	disk_intersection(t_vector disk_center, t_vector axis, double radius, t_ray *ray, double closest_intersection)
-{
-	t_plane		plane;
-	t_vector	intersection_point;
-	t_vector	diff;
-	double		t;
-	double		distance_to_center;
-
-	plane.normal = axis;
-	t = plane_intersection(&plane, ray, &disk_center);
-	if (t > EPSILON && (closest_intersection == -1 || t < closest_intersection - EPSILON))
-	{
-		intersection_point = add(ray->origin, mul(ray->direction, t));
-		diff = sub(intersection_point, disk_center);
-		distance_to_center = sqrt(get_scalar_product(&diff, &diff));
-		if (distance_to_center <= radius + EPSILON)
-			return (t);
-	}
-	return (closest_intersection);
-}
-
-double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray,
-			t_object *current)
+double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current)
 {
 	t_inter		inter;
 	t_vector	cap_center;
@@ -105,17 +83,22 @@ double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray,
 	inter.r1 = (-inter.coef_b - sqrt(inter.delta)) / (2 * inter.coef_a);
 	inter.r2 = (-inter.coef_b + sqrt(inter.delta)) / (2 * inter.coef_a);
 	get_cylinder_intersection_points(&inter, cylinder, ray, current);
-	if (inter.P1_proj >= inter.cylinder_min
-		&& inter.P1_proj <= inter.cylinder_max && inter.r1 > 0)
+	if (inter.P1_proj >= inter.cylinder_min && inter.P1_proj <= inter.cylinder_max && inter.r1 > 0)
 		closest_intersection = inter.r1;
-	if (inter.P2_proj >= inter.cylinder_min
-		&& inter.P2_proj <= inter.cylinder_max && inter.r2 > 0)
+	if (inter.P2_proj >= inter.cylinder_min && inter.P2_proj <= inter.cylinder_max && inter.r2 > 0)
 	{
 		if (closest_intersection == -1 || inter.r2 < closest_intersection)
 			closest_intersection = inter.r2;
 	}
-	closest_intersection = disk_intersection(current->pos, cylinder->axis, inter.radius, ray, closest_intersection);
+	closest_intersection = plane_disk_intersection(current->pos, cylinder, inter.radius, ray, closest_intersection);
 	cap_center = add(current->pos, mul(cylinder->axis, cylinder->height));
-	closest_intersection = disk_intersection(cap_center, cylinder->axis, inter.radius, ray, closest_intersection);
+	closest_intersection = plane_disk_intersection(cap_center, cylinder, inter.radius, ray, closest_intersection);
 	return (closest_intersection);
 }
+
+/*
+	t_vector	cap_center;
+	closest_intersection = plane_disk_intersection(current->pos, cylinder, inter.radius, ray, closest_intersection);
+	cap_center = add(current->pos, mul(cylinder->axis, cylinder->height));
+	closest_intersection = plane_disk_intersection(cap_center, cylinder, inter.radius, ray, closest_intersection);
+*/
