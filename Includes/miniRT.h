@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/26 18:05:31 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/27 23:28:47 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ int		raytracing(t_data *data);
 
 //Intersection calculation
 double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code);
-double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current);
+double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current, int code);
 double	plane_disk_intersection(t_vector disk_center, t_cylinder *cylinder, double radius, t_ray *ray, double closest_intersection);
 double	plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos);
 double	return_high_or_low(t_inter inter, int code);
