@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/26 15:23:11 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/29 00:19:16 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/miniRT.h"
+
+double	return_high_or_low(t_inter inter, int code)
+{
+	if (code == -1)
+	{
+		if (inter.r1 > EPSILON && (inter.r1 < inter.r2 || inter.r2 <= EPSILON))
+			return (inter.r1);
+		if (inter.r2 > EPSILON)
+			return (inter.r2);
+	}
+	else if (code == 1)
+	{
+		if (inter.r1 > EPSILON && inter.r2 > EPSILON)
+			return (fmax(inter.r1, inter.r2));
+		else if (inter.r1 > EPSILON)
+			return (inter.r1);
+		else if (inter.r2 > EPSILON)
+			return (inter.r2);
+	}
+	return (0);
+}
 
 double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code)
 {

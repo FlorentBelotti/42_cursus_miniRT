@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/27 23:18:39 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/29 00:14:49 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	render(t_data *data, t_ray *ray, int x, int y)
 
 	current_object = data->objects;
 	closest_object = NULL;
-	data->objects->specific.cylinder.disk = 0;
 	while (current_object)
 	{
 		d = get_intersection_distance(current_object, ray, -1);

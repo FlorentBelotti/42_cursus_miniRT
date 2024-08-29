@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/27 23:28:47 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/29 18:52:18 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_cylinder
 	double	diameter;
 	double	height;
 	int		disk;
+	int		is_base;
 	t_vector axis;
 } t_cylinder;
 
@@ -146,6 +147,8 @@ typedef struct s_inter
 	double		P1_proj;
 	double		P2_proj;
 	double		oc_v;
+	double		closest;
+	t_vector	cap_pos;
 	t_vector	oc;
 	t_vector	oc_perp;
 	t_vector	dir_perp;
@@ -153,6 +156,17 @@ typedef struct s_inter
 	t_vector	P1;
 	t_vector	P2;
 } t_inter;
+
+typedef struct s_shadow
+{
+	t_vector	light_dir;
+	t_vector	normal;
+	t_color		ambient;
+	t_color		color;
+	t_color		diffuse;
+	double		shadow_factor;
+	double		d_light;
+} t_shadow;
 
 typedef struct s_img
 {
@@ -168,7 +182,7 @@ typedef struct s_data
 	void *mlx;
 	void *window;
 	int object_count;
-	int farthest_object;
+	double farthest_object;
 	double total_rays;
 	double view_width;
 	double view_height;
@@ -221,9 +235,9 @@ double	get_intersection_distance(t_object *object, t_ray *ray, int code);
 
 //lightning
 t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
-t_color	get_ambient_light(t_ambient ambient, t_color object_color);
 int		get_shadow_factor(t_data *data, t_vector intersection, t_light light);
 double	get_light_distance(t_vector a, t_vector b);
+t_vector get_closest_cap_normal(t_vector light_pos, t_cylinder *cylinder, t_object *object);
 
 //Raytracing
 int		raytracing(t_data *data);
@@ -231,9 +245,9 @@ int		raytracing(t_data *data);
 //Intersection calculation
 double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code);
 double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current, int code);
-double	plane_disk_intersection(t_vector disk_center, t_cylinder *cylinder, double radius, t_ray *ray, double closest_intersection);
 double	plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos);
 double	return_high_or_low(t_inter inter, int code);
+double	plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int code);
 
 //Minilibx
 void	init_mlx_image(t_data *data);

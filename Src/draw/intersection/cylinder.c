@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:51:34 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/28 00:01:26 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/08/29 17:53:16 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,22 @@ double	cylinder_return_high_or_low(t_inter *inter, int code)
 	closest_intersection = -1;
 	if (code == 1)
 	{
-		if (inter->P1_proj >= inter->cylinder_min && inter->P1_proj <= inter->cylinder_max && inter->r1 > 0)
+		if (inter->P1_proj >= inter->cylinder_min && inter->P1_proj <= inter->cylinder_max && inter->r1 > EPSILON)
 			closest_intersection = inter->r1;
-		if (inter->P2_proj >= inter->cylinder_min && inter->P2_proj <= inter->cylinder_max && inter->r2 > 0)
+		if (inter->P2_proj >= inter->cylinder_min && inter->P2_proj <= inter->cylinder_max && inter->r2 > EPSILON)
 		{
-			if (closest_intersection == -1 || inter->r2 > closest_intersection) // On prend le plus grand
+			if (closest_intersection == -1 || inter->r2 > closest_intersection)
 				closest_intersection = inter->r2;
 		}
 		return (closest_intersection);
 	}
 	else
 	{
-		if (inter->P1_proj >= inter->cylinder_min && inter->P1_proj <= inter->cylinder_max && inter->r1 > 0)
+		if (inter->P1_proj >= inter->cylinder_min && inter->P1_proj <= inter->cylinder_max && inter->r1 > EPSILON)
 			closest_intersection = inter->r1;
-		if (inter->P2_proj >= inter->cylinder_min && inter->P2_proj <= inter->cylinder_max && inter->r2 > 0)
+		if (inter->P2_proj >= inter->cylinder_min && inter->P2_proj <= inter->cylinder_max && inter->r2 > EPSILON)
 		{
-			if (closest_intersection == -1 || inter->r2 < closest_intersection) // On prend le plus petit
+			if (closest_intersection == -1 || inter->r2 < closest_intersection)
 				closest_intersection = inter->r2;
 		}
 		return (closest_intersection);
@@ -102,19 +102,19 @@ double	cylinder_return_high_or_low(t_inter *inter, int code)
 double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current, int code)
 {
 	t_inter		inter;
-	t_vector	cap_center;
-	double		closest_intersection;
 
-	closest_intersection = -1;
+	inter.closest = -1;
 	init_cylinder_intersection(&inter, cylinder, ray, current);
 	if (calculate_quadratic_coef(&inter) == 0)
 		return (-1);
 	inter.r1 = (-inter.coef_b - sqrt(inter.delta)) / (2 * inter.coef_a);
 	inter.r2 = (-inter.coef_b + sqrt(inter.delta)) / (2 * inter.coef_a);
 	get_cylinder_intersection_points(&inter, cylinder, ray, current);
-	closest_intersection = cylinder_return_high_or_low(&inter, code);
-	closest_intersection = plane_disk_intersection(current->pos, cylinder, inter.radius, ray, closest_intersection);
-	cap_center = add(current->pos, mul(cylinder->axis, cylinder->height));
-	closest_intersection = plane_disk_intersection(cap_center, cylinder, inter.radius, ray, closest_intersection);
-	return (closest_intersection);
+	inter.closest = cylinder_return_high_or_low(&inter, code);
+	inter.cap_pos = current->pos;
+	inter.closest = plane_disk_intersection(current, &inter, ray, code);
+	inter.cap_pos = add(current->pos, mul(cylinder->axis, cylinder->height));
+	inter.closest = plane_disk_intersection(current, &inter, ray, code);
+	//printf("disk : %d\n", cylinder->disk);
+	return (inter.closest);
 }
