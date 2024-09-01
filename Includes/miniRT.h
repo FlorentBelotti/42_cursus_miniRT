@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/29 18:52:18 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:35:47 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
 # define EPSILON 1e-6
+
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115
+# define KEY_D 100
+# define KEY_Q 113
+# define KEY_E 101
+# define KEY_MINUS 45
+# define KEY_PLUS 61
+# define KEY_ESC 65307
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
 
 // Identifiants des objets
 typedef enum e_object_type
@@ -253,6 +267,11 @@ double	plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int
 void	init_mlx_image(t_data *data);
 int		rgb_to_int(t_color color);
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+//events
+void	apply_movement_to_camera(int key_code, t_data *data);
+void	apply_rotation_to_camera(int key_code, t_data *data);
+void	update_draw(t_data *data);
 
 //vector_utils
 t_vector	vector_cross(t_vector a, t_vector b);

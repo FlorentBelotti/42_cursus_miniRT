@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:08:31 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/29 16:53:21 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:44:21 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,5 @@ double	plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos)
 	if (fabs(denominator) < EPSILON)
 		return (0);
 	t = get_scalar_product(&plane->normal, &plane_origin) / denominator;
-	//printf("Prayon_dir : \tx=%f \t| \ty=%f \t| \tz=%f\n", ray->direction.x, ray->direction.y, ray->direction.z);
-	//printf("denominator = %f\n", denominator);
-	// printf("t = %f\n", t);
 	return (t);
 }

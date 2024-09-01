@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/29 18:52:02 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:44:35 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 	else if (object->type == CYLINDER)
 	{
 		if (object->specific.cylinder.disk > 0)
-		{
-			printf("lighting_disk_value = %d\n", object->specific.cylinder.disk);
 			normal = get_closest_cap_normal(light_pos, &object->specific.cylinder, object);
-		}
 		else
 		{
 			oc = sub(intersection, object->pos);

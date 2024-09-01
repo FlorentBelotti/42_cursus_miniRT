@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:51:34 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/29 17:53:16 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:44:14 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,5 @@ double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current
 	inter.closest = plane_disk_intersection(current, &inter, ray, code);
 	inter.cap_pos = add(current->pos, mul(cylinder->axis, cylinder->height));
 	inter.closest = plane_disk_intersection(current, &inter, ray, code);
-	//printf("disk : %d\n", cylinder->disk);
 	return (inter.closest);
 }
