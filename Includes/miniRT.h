@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/01 18:35:47 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/01 20:26:17 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ typedef struct s_shadow
 	t_color		ambient;
 	t_color		color;
 	t_color		diffuse;
+	t_color		specular;
 	double		shadow_factor;
 	double		d_light;
 } t_shadow;

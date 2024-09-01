@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/01 18:44:35 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/01 21:09:23 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,31 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 	return (normal);
 }
 
+static	t_color get_specular_lighting(t_light light, t_shadow *parts, t_vector view_dir, double shininess)
+{
+	t_color specular;
+	t_vector reflect_dir;
+	double spec_intensity;
+	double spec_dot;
+
+	reflect_dir = sub(mul(parts->normal, 2.0 * get_scalar_product(&parts->light_dir, &parts->normal)), parts->light_dir);
+	normalize_vector(&reflect_dir);
+	spec_dot = get_scalar_product(&reflect_dir, &view_dir);
+	spec_intensity = pow(fmax(0.0, spec_dot), shininess) * light.brightness;
+	specular.r = fmin(spec_intensity * (light.color.r / 255.0) * 255.0, 255.0);
+	specular.g = fmin(spec_intensity * (light.color.g / 255.0) * 255.0, 255.0);
+	specular.b = fmin(spec_intensity * (light.color.b / 255.0) * 255.0, 255.0);
+	return (specular);
+}
+
 t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection)
 {
 	t_shadow	parts;
+	t_vector	view_dir;
+	double		shininess = 32.0;
 
+	view_dir = sub(data->camera.pos, intersection);
+	normalize_vector(&view_dir);
 	parts.ambient = get_ambient_light(data->ambient, object->color);
 	parts.light_dir = sub(data->light.pos, intersection);
 	normalize_vector(&parts.light_dir);
@@ -77,8 +98,9 @@ t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection
 	parts.d_light = get_light_distance(data->light.pos, intersection);
 	parts.shadow_factor = get_shadow_factor(data, intersection, data->light);
 	parts.diffuse = get_diffuse_lighting(data->light, &parts, object->color);
-	parts.color.r = fmin(parts.diffuse.r + parts.ambient.r, 255.0);
-	parts.color.g = fmin(parts.diffuse.g + parts.ambient.g, 255.0);
-	parts.color.b = fmin(parts.diffuse.b + parts.ambient.b, 255.0);
+	parts.specular = get_specular_lighting(data->light, &parts, view_dir, shininess);
+	parts.color.r = fmin(parts.diffuse.r + parts.ambient.r + parts.specular.r, 255.0);
+	parts.color.g = fmin(parts.diffuse.g + parts.ambient.g + parts.specular.g, 255.0);
+	parts.color.b = fmin(parts.diffuse.b + parts.ambient.b + parts.specular.b, 255.0);
 	return (parts.color);
 }
