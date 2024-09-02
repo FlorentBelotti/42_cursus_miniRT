@@ -62,12 +62,17 @@ void debug_print_scene(t_data *data)
     debug_print_vector(&data->camera.orient);
     printf("FOV: %d\n", data->camera.fov);
 
-    printf("\nLight:\n");
-    printf("Position: ");
-    debug_print_vector(&data->light.pos);
-    printf("Brightness: %.2f\n", data->light.brightness);
-    printf("Color: ");
-    debug_print_color(&data->light.color);
+    printf("\nLights:\n");
+    t_light *current_light = data->light;
+    while (current_light)
+    {
+        printf("Position: ");
+        debug_print_vector(&current_light->pos);
+        printf("Brightness: %.2f\n", current_light->brightness);
+        printf("Color: ");
+        debug_print_color(&current_light->color);
+        current_light = current_light->next;
+    }
 
     printf("\nObjects (%d):\n", data->object_count);
     t_object *current = data->objects;

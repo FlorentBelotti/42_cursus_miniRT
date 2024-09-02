@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:25:59 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/29 18:42:33 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/02 04:00:44 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ double	get_light_distance(t_vector a, t_vector b)
 	return (result);
 }
 
-int	get_shadow_factor(t_data *data, t_vector intersection, t_light light)
+int	get_shadow_factor(t_data *data, t_vector intersection, t_light *light)
 {
 	t_ray		shadow_ray;
 	t_object	*current_object;
@@ -31,10 +31,10 @@ int	get_shadow_factor(t_data *data, t_vector intersection, t_light light)
 	double		shadow_factor;
 
 	shadow_factor = -1.0;
-	shadow_ray.direction = sub(light.pos, intersection);
+	shadow_ray.direction = sub(light->pos, intersection);
 	normalize_vector(&shadow_ray.direction);
 	shadow_ray.origin = add(intersection, mul(shadow_ray.direction, EPSILON));
-	d_light = get_light_distance(light.pos, shadow_ray.origin);
+	d_light = get_light_distance(light->pos, shadow_ray.origin);
 	current_object = data->objects;
 	while (current_object)
 	{
