@@ -49,7 +49,7 @@ int main(int argc, char **argv)
     }
 
 	//DELETE THE DEBUG
-	debug_print_scene(&data);
+	//debug_print_scene(&data);
 
     // Render
 	init_mlx_image(&data);

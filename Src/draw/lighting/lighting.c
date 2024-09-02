@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/02 04:02:15 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/02 13:42:42 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_color	get_diffuse_lighting(t_light *light, t_shadow *parts, t_color obj
 	dot = get_scalar_product(&parts->normal, &parts->light_dir);
 	intensity = fmax(0.0, dot) * light->brightness;
 	if (parts->shadow_factor > 0 && parts->shadow_factor < parts->d_light)
-		intensity *= 0.5;
+		intensity *= 0.9;
 	diffuse.r = fmin(object_color.r * intensity * (light->color.r / 255.0), 255.0);
 	diffuse.g = fmin(object_color.g * intensity * (light->color.g / 255.0), 255.0);
 	diffuse.b = fmin(object_color.b * intensity * (light->color.b / 255.0), 255.0);
@@ -87,20 +87,27 @@ t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection
 {
 	t_shadow	parts;
 	t_vector	view_dir;
+	t_light		*current_light;
 	double		shininess = 32.0;
 
 	view_dir = sub(data->camera.pos, intersection);
 	normalize_vector(&view_dir);
 	parts.ambient = get_ambient_light(data->ambient, object->color);
-	parts.light_dir = sub(data->light->pos, intersection);
-	normalize_vector(&parts.light_dir);
-	parts.normal = get_object_normal(data->light->pos, intersection, object);
-	parts.d_light = get_light_distance(data->light->pos, intersection);
-	parts.shadow_factor = get_shadow_factor(data, intersection, data->light);
-	parts.diffuse = get_diffuse_lighting(data->light, &parts, object->color);
-	parts.specular = get_specular_lighting(data->light, &parts, view_dir, shininess);
-	parts.color.r = fmin(parts.diffuse.r + parts.ambient.r + parts.specular.r, 255.0);
-	parts.color.g = fmin(parts.diffuse.g + parts.ambient.g + parts.specular.g, 255.0);
-	parts.color.b = fmin(parts.diffuse.b + parts.ambient.b + parts.specular.b, 255.0);
+	parts.color = parts.ambient;
+	current_light = data->light;
+	while (current_light)
+	{
+		parts.light_dir = sub(current_light->pos, intersection);
+		normalize_vector(&parts.light_dir);
+		parts.normal = get_object_normal(current_light->pos, intersection, object);
+		parts.d_light = get_light_distance(current_light->pos, intersection);
+		parts.shadow_factor = get_shadow_factor(data, intersection, current_light);
+		parts.diffuse = get_diffuse_lighting(current_light, &parts, object->color);
+		parts.specular = get_specular_lighting(current_light, &parts, view_dir, shininess);
+		parts.color.r = fmin(parts.color.r + parts.diffuse.r + parts.specular.r, 255.0);
+		parts.color.g = fmin(parts.color.g + parts.diffuse.g + parts.specular.g, 255.0);
+		parts.color.b = fmin(parts.color.b + parts.diffuse.b + parts.specular.b, 255.0);
+		current_light = current_light->next;
+	}
 	return (parts.color);
 }
