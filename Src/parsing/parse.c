@@ -33,7 +33,7 @@ int validate_scene_elements(t_data *data)
         ft_printf("Error: Camera not defined\n");
         return 1;
     }
-    if (data->light.brightness == -1)
+    if (data->light->brightness == -1)
     {
         ft_printf("Error: Light not defined\n");
         return 1;
@@ -57,7 +57,7 @@ int parse_scene(const char *filename, t_data *data)
     char *line;
     data->ambient.ratio = -1;
     data->camera.fov = -1;
-    data->light.brightness = -1;
+    data->light->brightness = -1;
 
     while ((line = get_next_line(fd)) != NULL)
     {
@@ -71,7 +71,7 @@ int parse_scene(const char *filename, t_data *data)
     }
     close(fd);
 
-    if (data->ambient.ratio == -1 || data->camera.fov == -1 || data->light.brightness == -1)
+    if (data->ambient.ratio == -1 || data->camera.fov == -1 || data->light->brightness == -1)
         return (ft_printf("Error: Missing mandatory scene elements\n"), 1);
 
     // Find the farthest object
@@ -138,10 +138,12 @@ int parse_camera(char **split, t_data *data)
 
 int parse_light(char **split, t_data *data)
 {
-    if (data->light.brightness != -1)
-        return (ft_printf("Error: Light already defined\n"), 1);
+    t_light *new_light = malloc(sizeof(t_light));
+    if (!new_light)
+        return (ft_printf("Error: Memory allocation failed\n"), 1);
+
     if (!split[1] || !split[2] || !split[3])
-        return (ft_printf("Error: Invalid light format\n"), 1);
+        return (ft_printf("Error: Invalid light format\n"), free(new_light), 1);
 
     char **pos_split = ft_split(split[1], ',');
     char **color_split = ft_split(split[3], ',');
@@ -149,21 +151,38 @@ int parse_light(char **split, t_data *data)
     {
         free_split(pos_split);
         free_split(color_split);
-        return (ft_printf("Error: Invalid light position or color format\n"), 1);
+        return (ft_printf("Error: Invalid light position or color format\n"), free(new_light), 1);
     }
 
-    data->light.pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
-    data->light.brightness = ft_atof(split[2]);
-    data->light.color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
+    new_light->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
+    new_light->brightness = ft_atof(split[2]);
+    new_light->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
+    new_light->next = NULL;
 
     free_split(pos_split);
     free_split(color_split);
 
-    if (validate_color(data->light.color))
+    if (validate_color(new_light->color))
+    {
+        free(new_light);
         return 1;
+    }
+
+    // Add the new light to the list
+    if (data->light == NULL)
+        data->light = new_light;
+    else
+    {
+        t_light *current = data->light;
+        while (current->next)
+            current = current->next;
+        current->next = new_light;
+    }
 
     return 0;
 }
+
+
 
 int parse_object(char **split, t_data *data, t_object_type type)
 {

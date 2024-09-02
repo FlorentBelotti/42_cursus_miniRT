@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/01 20:26:17 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/02 03:51:07 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_light
 	t_vector pos;
 	double brightness;
 	t_color color;
+	struct s_light *next;
 } t_light;
 
 typedef struct s_keys
@@ -204,7 +205,7 @@ typedef struct s_data
 	double z_buffer[WINDOW_HEIGHT][WINDOW_WIDTH];
 	t_ambient ambient;
 	t_camera camera;
-	t_light light;
+	t_light *light;
 	t_object *objects;
 	t_keys keys;
 	t_ray	ray;
