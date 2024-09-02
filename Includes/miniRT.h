@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/02 03:51:07 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/02 04:02:35 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ double	get_intersection_distance(t_object *object, t_ray *ray, int code);
 
 //lightning
 t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
-int		get_shadow_factor(t_data *data, t_vector intersection, t_light light);
+int		get_shadow_factor(t_data *data, t_vector intersection, t_light *light);
 double	get_light_distance(t_vector a, t_vector b);
 t_vector get_closest_cap_normal(t_vector light_pos, t_cylinder *cylinder, t_object *object);
 

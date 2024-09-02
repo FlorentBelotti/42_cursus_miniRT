@@ -57,7 +57,7 @@ int parse_scene(const char *filename, t_data *data)
     char *line;
     data->ambient.ratio = -1;
     data->camera.fov = -1;
-    data->light->brightness = -1;
+    data->light = NULL;  // Initialize the light pointer to NULL
 
     while ((line = get_next_line(fd)) != NULL)
     {
@@ -71,12 +71,13 @@ int parse_scene(const char *filename, t_data *data)
     }
     close(fd);
 
-    if (data->ambient.ratio == -1 || data->camera.fov == -1 || data->light->brightness == -1)
+    // Ensure mandatory elements are present
+    if (data->ambient.ratio == -1 || data->camera.fov == -1 || data->light == NULL || data->light->brightness == -1)
         return (ft_printf("Error: Missing mandatory scene elements\n"), 1);
 
     // Find the farthest object
     t_object *obj = data->objects;
-	data->farthest_object = 0;
+    data->farthest_object = 0;
     while (obj)
     {
         if (obj->pos.z > data->farthest_object)
