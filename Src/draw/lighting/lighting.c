@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/02 13:42:42 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/03 21:40:58 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static t_color	get_diffuse_lighting(t_light *light, t_shadow *parts, t_color obj
 
 	dot = get_scalar_product(&parts->normal, &parts->light_dir);
 	intensity = fmax(0.0, dot) * light->brightness;
-	if (parts->shadow_factor > 0 && parts->shadow_factor < parts->d_light)
-		intensity *= 0.9;
+	if (parts->shadow_factor > 0 && parts->shadow_factor <= parts->d_light)
+		intensity *= 0.5;
 	diffuse.r = fmin(object_color.r * intensity * (light->color.r / 255.0), 255.0);
 	diffuse.g = fmin(object_color.g * intensity * (light->color.g / 255.0), 255.0);
 	diffuse.b = fmin(object_color.b * intensity * (light->color.b / 255.0), 255.0);

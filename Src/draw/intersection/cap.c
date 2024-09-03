@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 16:52:53 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/29 18:08:13 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/03 21:45:41 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ double	plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int
 	t = plane_intersection(&plane, ray, &inter->cap_pos);
 	if (code == -1)
 	{
-		if (t > EPSILON && (inter->closest == -1 || t <= inter->closest - EPSILON))
+		if (t > EPSILON && (inter->closest == -1 || t < inter->closest - EPSILON))
 			return (get_disk_intersection(object, inter, ray, t));
 	}
-	if (code == 1)
-	{
-		if (t > EPSILON && (inter->closest == -1 || t >= inter->closest - EPSILON))
-			return (get_disk_intersection(object, inter, ray, t));
-	}
+	// if (code == -1)
+	// {
+	// 	if (t > EPSILON && (inter->closest == -1 || t > inter->closest - EPSILON))
+	// 		return (get_disk_intersection(object, inter, ray, t));
+	// }
 	return (inter->closest);
 }
