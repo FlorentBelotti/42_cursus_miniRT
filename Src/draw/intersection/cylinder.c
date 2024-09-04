@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:51:34 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/04 17:52:28 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/05 00:31:50 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ double	cylinder_return_high_or_low(t_inter *inter, int code)
 	double	closest_intersection;
 
 	closest_intersection = -1;
-	if (code == 1 || code == 2)
+	if (code == 1)
 	{
 		if (inter->P1_proj >= inter->cylinder_min && inter->P1_proj <= inter->cylinder_max && inter->r1 > EPSILON)
 			closest_intersection = inter->r1;

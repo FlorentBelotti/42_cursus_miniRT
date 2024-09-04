@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:00 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/29 03:36:11 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/05 00:21:39 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ double	get_intersection_distance(t_object *object, t_ray *ray, int code)
 				ray, object, code);
 	else if (object->type == CYLINDER)
 	{
-		object->specific.cylinder.disk = 0;
 		d = cylinder_intersection(&object->specific.cylinder,
 				ray, object, code);
+		object->specific.cylinder.disk = 0;
 	}
 	else if (object->type == PLANE)
 		d = plane_intersection(&object->specific.plane,

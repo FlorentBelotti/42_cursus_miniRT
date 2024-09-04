@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cap.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 16:52:53 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/04 18:10:05 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/05 00:31:43 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,5 @@ double	plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int
 		if (t > EPSILON && (inter->closest == -1 || t >= inter->closest - EPSILON))
 			return (get_disk_intersection(object, inter, ray, t));
 	}
-	else if (code == 2)
-		return (inter->closest);
 	return (inter->closest);
 }
