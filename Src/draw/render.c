@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:40:28 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/02 12:10:50 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:03:20 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	render(t_data *data, t_ray *ray, int x, int y)
 
 	current_object = data->objects;
 	closest_object = NULL;
+	data->flag = 0;
 	while (current_object)
 	{
 		d = get_intersection_distance(current_object, ray, -1);
@@ -34,6 +35,8 @@ void	render(t_data *data, t_ray *ray, int x, int y)
 	}
 	if (closest_object)
 	{
+		if (closest_object->type == CYLINDER)
+			data->flag = 1;
 		d = get_intersection_distance(closest_object, ray, -1);
 		intersection = add(ray->origin, mul(ray->direction, d));
 		color = get_pixel_lighting(data, closest_object, intersection);

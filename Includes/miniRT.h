@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/03 21:39:44 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:58:47 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ typedef struct s_data
 	void *mlx;
 	void *window;
 	int object_count;
+	int	flag;
 	double farthest_object;
 	double total_rays;
 	double view_width;
@@ -253,7 +254,7 @@ double	get_intersection_distance(t_object *object, t_ray *ray, int code);
 t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
 int		get_shadow_factor(t_data *data, t_vector intersection, t_light *light);
 double	get_light_distance(t_vector a, t_vector b);
-t_vector get_closest_cap_normal(t_vector light_pos, t_cylinder *cylinder, t_object *object);
+t_vector get_closest_cap_normal(t_cylinder *cylinder, t_object *object, t_vector intersection);
 
 //Raytracing
 int		raytracing(t_data *data);

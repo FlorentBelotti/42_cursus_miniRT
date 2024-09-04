@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:25:59 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/03 21:22:29 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:52:13 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	get_shadow_factor(t_data *data, t_vector intersection, t_light *light)
 	current_object = data->objects;
 	while (current_object)
 	{
-		d = get_intersection_distance(current_object, &shadow_ray, 1);
+		if (data->flag == 1)
+			d = get_intersection_distance(current_object, &shadow_ray, 2);
+		else
+			d = get_intersection_distance(current_object, &shadow_ray, 1);
 		if (d > EPSILON && d < d_light - EPSILON)
 		{
 			if (shadow_factor < 0 || d < shadow_factor)

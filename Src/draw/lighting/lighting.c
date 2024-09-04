@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/03 21:40:58 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:57:45 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 	t_vector	oc;
 	t_vector	projection;
 
+	(void)light_pos;
 	if (object->type == SPHERE)
 		normal = sub(intersection, object->pos);
 	else if (object->type == PLANE)
@@ -54,7 +55,7 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 	else if (object->type == CYLINDER)
 	{
 		if (object->specific.cylinder.disk > 0)
-			normal = get_closest_cap_normal(light_pos, &object->specific.cylinder, object);
+			normal = get_closest_cap_normal(&object->specific.cylinder, object, intersection);
 		else
 		{
 			oc = sub(intersection, object->pos);
@@ -65,6 +66,7 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 	normalize_vector(&normal);
 	return (normal);
 }
+
 
 static	t_color get_specular_lighting(t_light *light, t_shadow *parts, t_vector view_dir, double shininess)
 {
