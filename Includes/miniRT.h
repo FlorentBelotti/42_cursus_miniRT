@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/04 17:58:47 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:37:45 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,5 +286,7 @@ void		normalize_vector(t_vector *v);
 double		square(double x);
 double		get_scalar_product(const t_vector *a, const t_vector *b);
 double		get_delta(t_inter *inter);
+
+void perturb_normal(t_vector *normal);
 
 #endif

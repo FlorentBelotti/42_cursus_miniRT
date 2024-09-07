@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/04 17:57:45 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:50:25 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 		}
 	}
 	normalize_vector(&normal);
+	//perturb_normal(&normal);
 	return (normal);
 }
-
 
 static	t_color get_specular_lighting(t_light *light, t_shadow *parts, t_vector view_dir, double shininess)
 {
