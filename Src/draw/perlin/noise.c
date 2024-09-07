@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:38:44 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/07 11:33:29 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/07 14:43:15 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,17 @@ static double	get_noise_value(int octaves, double frequency, double persistence,
 	r = 0.0;
 	f = frequency;
 	amplitude = 1.0;
+	geo_lim = 0;
 	i = 0;
 	while (i++ < octaves)
 	{
 		r += perlin(x * f, y * f) * amplitude;
 		amplitude *= persistence;
+		geo_lim += amplitude;
 		f *= 2;
 	}
-	geo_lim = (1 - persistence) / (1 - amplitude);
-	return (r * geo_lim);
+	//geo_lim = (1 - persistence) / (1 - amplitude);
+	return (r / geo_lim);
 }
 
 void	perturb_normal(t_vector *normal)
@@ -77,5 +79,4 @@ void	perturb_normal(t_vector *normal)
 	normal->x += noise_value * intensity;
 	normal->y += noise_value * intensity;
 	normal->z += noise_value * intensity;
-	//normalize_vector(normal);
 }

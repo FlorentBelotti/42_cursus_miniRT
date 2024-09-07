@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/07 10:50:56 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/07 16:53:02 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 		}
 	}
 	normalize_vector(&normal);
-	perturb_normal(&normal);
+	//perturb_normal(&normal);
 	return (normal);
 }
 
