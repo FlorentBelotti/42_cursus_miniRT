@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/06 15:37:45 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/07 11:28:30 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,20 @@ typedef struct s_inter
 	t_vector	P2;
 } t_inter;
 
+typedef struct s_perlin
+{
+	int		int_x;
+	int		int_y;
+	double	frac_x;
+	double	frac_y;
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	double	interpolate_x1;
+	double	interpolate_x2;
+} t_perlin;
+
 typedef struct s_shadow
 {
 	t_vector	light_dir;
@@ -287,6 +301,9 @@ double		square(double x);
 double		get_scalar_product(const t_vector *a, const t_vector *b);
 double		get_delta(t_inter *inter);
 
-void perturb_normal(t_vector *normal);
+//perlin
+void		perturb_normal(t_vector *normal);
+double		generate_smooth_noise(int x, int y);
+double		perlin(double x, double y);
 
 #endif
