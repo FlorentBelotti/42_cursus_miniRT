@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/07 11:28:30 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/07 23:49:28 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ typedef enum e_object_type
 {
 	SPHERE,
 	PLANE,
-	CYLINDER
+	CYLINDER,
+	PARABOLOID
 } t_object_type;
 
 // Structures de base
@@ -84,11 +85,29 @@ typedef struct s_cylinder
 	t_vector axis;
 } t_cylinder;
 
+typedef struct s_paraboloid
+{
+    double demi_axe_a;
+    double demi_axe_b;
+    double height;
+    t_vector orient;
+} t_paraboloid;
+
+typedef struct s_noise
+{
+    int octaves;
+    double scale_x;
+    double scale_y;
+    double intensity;
+} t_noise;
+
 // Structure principale de l'objet
 typedef struct s_object
 {
 	t_object_type type;
 	bool is_selected;
+    bool checkerboard;
+    t_noise noise;
 	t_vector pos;
 	t_color color;
 	union
@@ -96,6 +115,7 @@ typedef struct s_object
 		t_sphere sphere;
 		t_plane plane;
 		t_cylinder cylinder;
+		t_paraboloid paraboloid;
 	} specific;
 	struct s_object *next;
 } t_object;
@@ -228,16 +248,17 @@ typedef struct s_data
 } t_data;
 
 // Prototypes de fonctions
-int		parse_scene(const char *filename, t_data *data);
 int		parse_ambient(char **split, t_data *data);
 int		parse_camera(char **split, t_data *data);
 int		parse_light(char **split, t_data *data);
-int		parse_object(char **split, t_data *data, t_object_type type);
-int		parse_sphere(char **split, t_object *obj, t_data *data);
-int		parse_plane(char **split, t_object *obj, t_data *data);
-int		parse_cylinder(char **split, t_object *obj, t_data *data);
-int		parse_line(char *line, t_data *data);
-char	*construct_scene_path(const char *filename);
+int parse_scene(const char *filename, t_data *data);
+int parse_line(char *line, t_data *data);
+int parse_object_options(char **split, t_object *obj);
+int parse_perlin_noise(char **split, t_noise *noise);
+int parse_sphere(char **split, t_data *data);
+int parse_plane(char **split, t_data *data);
+int parse_cylinder(char **split, t_data *data);
+int parse_paraboloid(char **split, t_data *data);
 
 void	free_objects(t_object *objects);
 void	free_split(char **split);
