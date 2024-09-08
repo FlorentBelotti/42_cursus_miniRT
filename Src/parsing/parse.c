@@ -41,53 +41,7 @@ int validate_scene_elements(t_data *data)
     return 0;
 }
 
-#include "miniRT.h"
-
-int parse_scene(const char *filename, t_data *data)
-{
-    if (validate_filename(filename) != 0)
-        return 1;
-
-    char *filepath = construct_scene_path(filename);
-    int fd = open(filepath, O_RDONLY);
-    free(filepath);
-    if (fd < 0)
-        return (ft_printf("Error: Unable to open file %s\n", filename), 1);
-
-    char *line;
-    data->ambient.ratio = -1;
-    data->camera.fov = -1;
-    data->light = NULL;  // Initialize the light pointer to NULL
-
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        if (parse_line(line, data))
-        {
-            free(line);
-            close(fd);
-            return 1;
-        }
-        free(line);
-    }
-    close(fd);
-
-    // Ensure mandatory elements are present
-    if (data->ambient.ratio == -1 || data->camera.fov == -1 || data->light == NULL || data->light->brightness == -1)
-        return (ft_printf("Error: Missing mandatory scene elements\n"), 1);
-
-    // Find the farthest object
-    t_object *obj = data->objects;
-    data->farthest_object = 0;
-    while (obj)
-    {
-        if (obj->pos.z > data->farthest_object)
-            data->farthest_object = obj->pos.z;
-        obj = obj->next;
-    }
-
-    return 0;
-}
-
+// Parse ambient light
 int parse_ambient(char **split, t_data *data)
 {
     if (data->ambient.ratio != -1)
@@ -106,12 +60,10 @@ int parse_ambient(char **split, t_data *data)
     data->ambient.color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
     free_split(color_split);
 
-    if (validate_color(data->ambient.color))
-        return 1;
-
     return 0;
 }
 
+// Parse camera
 int parse_camera(char **split, t_data *data)
 {
     if (data->camera.fov != -1)
@@ -137,6 +89,7 @@ int parse_camera(char **split, t_data *data)
     return 0;
 }
 
+// Parse light
 int parse_light(char **split, t_data *data)
 {
     t_light *new_light = malloc(sizeof(t_light));
@@ -163,12 +116,6 @@ int parse_light(char **split, t_data *data)
     free_split(pos_split);
     free_split(color_split);
 
-    if (validate_color(new_light->color))
-    {
-        free(new_light);
-        return 1;
-    }
-
     // Add the new light to the list
     if (data->light == NULL)
         data->light = new_light;
@@ -184,134 +131,55 @@ int parse_light(char **split, t_data *data)
 }
 
 
+#include "miniRT.h"
 
-int parse_object(char **split, t_data *data, t_object_type type)
+// Helper function to construct file path for the scene
+char *construct_scene_path(const char *filename)
 {
-    t_object *obj = malloc(sizeof(t_object));
-    if (!obj)
-        return (ft_printf("Error: Memory allocation failed\n"), 1);
-
-    if (type == SPHERE)
+    const char *scene_dir = "Scene/";
+    size_t len = ft_strlen(scene_dir) + ft_strlen(filename) + 1;
+    char *filepath = malloc(len);
+    if (filepath)
     {
-        return parse_sphere(split, obj, data);
+        ft_strlcpy(filepath, scene_dir, len);
+        ft_strlcat(filepath, filename, len);
     }
-    else if (type == PLANE)
-    {
-        return parse_plane(split, obj, data);
-    }
-    else if (type == CYLINDER)
-    {
-        return parse_cylinder(split, obj, data);
-    }
-
-    free(obj);
-    return (ft_printf("Error: Unknown object type\n"), 1);
+    return filepath;
 }
 
-int parse_sphere(char **split, t_object *obj, t_data *data)
+// General scene parsing
+int parse_scene(const char *filename, t_data *data)
 {
-    if (!split[1] || !split[2] || !split[3])
-        return (ft_printf("Error: Invalid sphere format\n"), free(obj), 1);
+    char *filepath = construct_scene_path(filename);
+    int fd = open(filepath, O_RDONLY);
+    free(filepath);
+    if (fd < 0)
+        return (ft_printf("Error: Unable to open file %s\n", filename), 1);
 
-    char **pos_split = ft_split(split[1], ',');
-    char **color_split = ft_split(split[3], ',');
-    if (!pos_split || !pos_split[0] || !pos_split[1] || !pos_split[2] || !color_split || !color_split[0] || !color_split[1] || !color_split[2])
+    char *line;
+    data->ambient.ratio = -1;
+    data->camera.fov = -1;
+    data->light = NULL;
+
+    while ((line = get_next_line(fd)) != NULL)
     {
-        free_split(pos_split);
-        free_split(color_split);
-        return (ft_printf("Error: Invalid sphere position or color format\n"), free(obj), 1);
+        if (parse_line(line, data))
+        {
+            free(line);
+            close(fd);
+            return 1;
+        }
+        free(line);
     }
+    close(fd);
 
-    obj->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
-    obj->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
-    obj->specific.sphere.diameter = ft_atof(split[2]);
+    if (data->ambient.ratio == -1 || data->camera.fov == -1 || data->light == NULL || data->light->brightness == -1)
+        return (ft_printf("Error: Missing mandatory scene elements\n"), 1);
 
-    free_split(pos_split);
-    free_split(color_split);
-
-    if (validate_color(obj->color))
-        return 1;
-
-    obj->type = SPHERE;
-    obj->is_selected = false;
-    obj->next = data->objects;
-    data->objects = obj;
-    data->object_count++;
     return 0;
 }
 
-int parse_plane(char **split, t_object *obj, t_data *data)
-{
-    if (!split[1] || !split[2] || !split[3])
-        return (ft_printf("Error: Invalid plane format\n"), free(obj), 1);
-
-    char **pos_split = ft_split(split[1], ',');
-    char **normal_split = ft_split(split[2], ',');
-    char **color_split = ft_split(split[3], ',');
-    if (!pos_split || !pos_split[0] || !pos_split[1] || !pos_split[2] || !normal_split || !normal_split[0] || !normal_split[1] || !normal_split[2] || !color_split || !color_split[0] || !color_split[1] || !color_split[2])
-    {
-        free_split(pos_split);
-        free_split(normal_split);
-        free_split(color_split);
-        return (ft_printf("Error: Invalid plane position, normal, or color format\n"), free(obj), 1);
-    }
-
-    obj->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
-    obj->specific.plane.normal = (t_vector){ft_atof(normal_split[0]), ft_atof(normal_split[1]), ft_atof(normal_split[2])};
-    obj->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
-
-    free_split(pos_split);
-    free_split(normal_split);
-    free_split(color_split);
-
-    if (validate_color(obj->color))
-        return 1;
-
-    obj->type = PLANE;
-    obj->is_selected = false;
-    obj->next = data->objects;
-    data->objects = obj;
-    data->object_count++;
-    return 0;
-}
-
-int parse_cylinder(char **split, t_object *obj, t_data *data)
-{
-    if (!split[1] || !split[2] || !split[3] || !split[4] || !split[5])
-        return (ft_printf("Error: Invalid cylinder format\n"), free(obj), 1);
-
-    char **pos_split = ft_split(split[1], ',');
-    char **axis_split = ft_split(split[2], ',');
-    char **color_split = ft_split(split[5], ',');
-    if (!pos_split || !pos_split[0] || !pos_split[1] || !pos_split[2] || !axis_split || !axis_split[0] || !axis_split[1] || !axis_split[2] || !color_split || !color_split[0] || !color_split[1] || !color_split[2])
-    {
-        free_split(pos_split);
-        free_split(axis_split);
-        free_split(color_split);
-        return (ft_printf("Error: Invalid cylinder position, axis, or color format\n"), free(obj), 1);
-    }
-
-    obj->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
-    obj->specific.cylinder.axis = (t_vector){ft_atof(axis_split[0]), ft_atof(axis_split[1]), ft_atof(axis_split[2])};
-    obj->specific.cylinder.diameter = ft_atof(split[3]);
-    obj->specific.cylinder.height = ft_atof(split[4]);
-    obj->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
-
-    free_split(pos_split);
-    free_split(axis_split);
-    free_split(color_split);
-
-    if (validate_color(obj->color))
-        return 1;
-
-    obj->type = CYLINDER;
-    obj->is_selected = false;
-    obj->next = data->objects;
-    data->objects = obj;
-    data->object_count++;
-    return 0;
-}
-
+// Parse individual line in the scene file
 int parse_line(char *line, t_data *data)
 {
     char **split = ft_split(line, ' ');
@@ -349,7 +217,7 @@ int parse_line(char *line, t_data *data)
     }
     else if (ft_strcmp(split[0], "sp") == 0)
     {
-        if (parse_object(split, data, SPHERE))
+        if (parse_sphere(split, data))
         {
             free_split(split);
             return 1;
@@ -357,7 +225,7 @@ int parse_line(char *line, t_data *data)
     }
     else if (ft_strcmp(split[0], "pl") == 0)
     {
-        if (parse_object(split, data, PLANE))
+        if (parse_plane(split, data))
         {
             free_split(split);
             return 1;
@@ -365,7 +233,15 @@ int parse_line(char *line, t_data *data)
     }
     else if (ft_strcmp(split[0], "cy") == 0)
     {
-        if (parse_object(split, data, CYLINDER))
+        if (parse_cylinder(split, data))
+        {
+            free_split(split);
+            return 1;
+        }
+    }
+    else if (ft_strcmp(split[0], "par") == 0)
+    {
+        if (parse_paraboloid(split, data))
         {
             free_split(split);
             return 1;
@@ -382,15 +258,203 @@ int parse_line(char *line, t_data *data)
     return 0;
 }
 
-char *construct_scene_path(const char *filename)
+int parse_object_options(char **split, t_object *obj)
 {
-    const char *scene_dir = "Scene/";
-    size_t len = ft_strlen(scene_dir) + ft_strlen(filename) + 1;
-    char *filepath = malloc(len);
-    if (filepath)
+    for (int i = 4; split[i] != NULL; i++)
     {
-        ft_strlcpy(filepath, scene_dir, len);
-        ft_strlcat(filepath, filename, len);
+        if (ft_strcmp(split[i], "checkerboard") == 0 || ft_strcmp(split[i], "checkerboard\n") == 0)
+        {
+            obj->checkerboard = true;  // Set checkerboard flag
+        }
+        else if (ft_strcmp(split[i], "P") == 0)  // Handle Perlin noise
+        {
+            // Ensure enough parameters follow "P"
+            if (!split[i + 1] || !split[i + 2] || !split[i + 3] || !split[i + 4])
+                return (ft_printf("Error: Invalid Perlin noise format\n"), 1);
+
+            // Set Perlin noise parameters
+            obj->noise.octaves = ft_atoi(split[i + 1]);
+            obj->noise.scale_x = ft_atof(split[i + 2]);
+            obj->noise.scale_y = ft_atof(split[i + 3]);
+            obj->noise.intensity = ft_atof(split[i + 4]);
+
+            // Skip past Perlin noise parameters
+            i += 4;
+        }
     }
-    return filepath;
+
+    return 0;
+}
+
+// Parse Perlin noise settings
+int parse_perlin_noise(char **split, t_noise *noise)
+{
+    if (!split[1] || !split[2] || !split[3] || !split[4])
+        return (ft_printf("Error: Invalid Perlin noise format\n"), 1);
+
+    noise->octaves = ft_atoi(split[1]);
+    noise->scale_x = ft_atof(split[2]);
+    noise->scale_y = ft_atof(split[3]);
+    noise->intensity = ft_atof(split[4]);
+
+    return 0;
+}
+
+// Parse sphere
+int parse_sphere(char **split, t_data *data)
+{
+    t_object *obj = malloc(sizeof(t_object));
+    if (!obj)
+        return (ft_printf("Error: Memory allocation failed\n"), 1);
+
+    char **pos_split = ft_split(split[1], ',');
+    char **color_split = ft_split(split[3], ',');
+
+    if (!pos_split || !color_split)
+    {
+        free_split(pos_split);
+        free_split(color_split);
+        return (ft_printf("Error: Invalid sphere format\n"), free(obj), 1);
+    }
+
+    obj->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
+    obj->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
+    obj->specific.sphere.diameter = ft_atof(split[2]);
+
+    free_split(pos_split);
+    free_split(color_split);
+
+    obj->type = SPHERE;
+
+    if (parse_object_options(split, obj))
+        return 1;
+
+    obj->next = data->objects;
+    data->objects = obj;
+    data->object_count++;
+    return 0;
+}
+
+// Parse plane
+int parse_plane(char **split, t_data *data)
+{
+    t_object *obj = malloc(sizeof(t_object));
+    if (!obj)
+        return (ft_printf("Error: Memory allocation failed\n"), 1);
+
+    char **pos_split = ft_split(split[1], ',');
+    char **normal_split = ft_split(split[2], ',');
+    char **color_split = ft_split(split[3], ',');
+
+    if (!pos_split || !normal_split || !color_split)
+    {
+        free_split(pos_split);
+        free_split(normal_split);
+        free_split(color_split);
+        return (ft_printf("Error: Invalid plane format\n"), free(obj), 1);
+    }
+
+    obj->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
+    obj->specific.plane.normal = (t_vector){ft_atof(normal_split[0]), ft_atof(normal_split[1]), ft_atof(normal_split[2])};
+    obj->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
+
+    free_split(pos_split);
+    free_split(normal_split);
+    free_split(color_split);
+
+    obj->type = PLANE;
+    obj->checkerboard = false;  // Initialize to false
+    memset(&obj->noise, 0, sizeof(t_noise));  // Initialize noise to zero
+
+    if (parse_object_options(split, obj))
+    {
+        free(obj);
+        return 1;
+    }
+
+    obj->next = data->objects;
+    data->objects = obj;
+    data->object_count++;
+    return 0;
+}
+
+// Parse cylinder
+int parse_cylinder(char **split, t_data *data)
+{
+    t_object *obj = malloc(sizeof(t_object));
+    if (!obj)
+        return (ft_printf("Error: Memory allocation failed\n"), 1);
+
+    char **pos_split = ft_split(split[1], ',');
+    char **axis_split = ft_split(split[2], ',');
+    char **color_split = ft_split(split[5], ',');
+
+    if (!pos_split || !axis_split || !color_split)
+    {
+        free_split(pos_split);
+        free_split(axis_split);
+        free_split(color_split);
+        return (ft_printf("Error: Invalid cylinder format\n"), free(obj), 1);
+    }
+
+    obj->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
+    obj->specific.cylinder.axis = (t_vector){ft_atof(axis_split[0]), ft_atof(axis_split[1]), ft_atof(axis_split[2])};
+    obj->specific.cylinder.diameter = ft_atof(split[3]);
+    obj->specific.cylinder.height = ft_atof(split[4]);
+    obj->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
+
+    free_split(pos_split);
+    free_split(axis_split);
+    free_split(color_split);
+
+    obj->type = CYLINDER;
+
+    if (parse_object_options(split, obj))
+        return 1;
+
+    obj->next = data->objects;
+    data->objects = obj;
+    data->object_count++;
+    return 0;
+}
+
+// Parse paraboloid
+int parse_paraboloid(char **split, t_data *data)
+{
+    t_object *obj = malloc(sizeof(t_object));
+    if (!obj)
+        return (ft_printf("Error: Memory allocation failed\n"), 1);
+
+    char **pos_split = ft_split(split[1], ',');
+    char **orient_split = ft_split(split[4], ',');
+    char **color_split = ft_split(split[5], ',');
+
+    if (!pos_split || !orient_split || !color_split)
+    {
+        free_split(pos_split);
+        free_split(orient_split);
+        free_split(color_split);
+        return (ft_printf("Error: Invalid paraboloid format\n"), free(obj), 1);
+    }
+
+    obj->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
+    obj->specific.paraboloid.demi_axe_a = ft_atof(split[2]);
+    obj->specific.paraboloid.demi_axe_b = ft_atof(split[3]);
+    obj->specific.paraboloid.height = ft_atof(split[4]);
+    obj->specific.paraboloid.orient = (t_vector){ft_atof(orient_split[0]), ft_atof(orient_split[1]), ft_atof(orient_split[2])};
+    obj->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
+
+    free_split(pos_split);
+    free_split(orient_split);
+    free_split(color_split);
+
+    obj->type = PARABOLOID;
+
+    if (parse_object_options(split, obj))
+        return 1;
+
+    obj->next = data->objects;
+    data->objects = obj;
+    data->object_count++;
+    return 0;
 }
