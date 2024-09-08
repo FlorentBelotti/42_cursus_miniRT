@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/07 23:49:28 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/08 11:47:58 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,27 +87,26 @@ typedef struct s_cylinder
 
 typedef struct s_paraboloid
 {
-    double demi_axe_a;
-    double demi_axe_b;
-    double height;
-    t_vector orient;
+	double demi_axe_a;
+	double demi_axe_b;
+	double height;
+	t_vector orient;
 } t_paraboloid;
 
 typedef struct s_noise
 {
-    int octaves;
-    double scale_x;
-    double scale_y;
-    double intensity;
+	int		octaves;
+	double	frequency;
+	double	persistence;
+	double	intensity;
 } t_noise;
 
-// Structure principale de l'objet
 typedef struct s_object
 {
 	t_object_type type;
 	bool is_selected;
-    bool checkerboard;
-    t_noise noise;
+	bool checkerboard;
+	t_noise noise;
 	t_vector pos;
 	t_color color;
 	union
@@ -323,7 +322,7 @@ double		get_scalar_product(const t_vector *a, const t_vector *b);
 double		get_delta(t_inter *inter);
 
 //perlin
-void		perturb_normal(t_vector *normal);
+void perturb_normal(t_vector *normal, t_object *object, t_vector intersection);
 double		generate_smooth_noise(int x, int y);
 double		perlin(double x, double y);
 

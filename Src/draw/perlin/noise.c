@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   noise.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:38:44 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/07 14:43:15 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/08 12:10:11 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,59 @@ static double	get_noise_value(int octaves, double frequency, double persistence,
 		geo_lim += amplitude;
 		f *= 2;
 	}
-	//geo_lim = (1 - persistence) / (1 - amplitude);
 	return (r / geo_lim);
 }
 
-void	perturb_normal(t_vector *normal)
+static double	define_theta(t_object *object, t_vector *normal, t_vector intersection)
 {
-	int		octaves;
-	double	frequency;
-	double	persistence;
-	double	intensity;
+	t_vector	oc;
+	t_vector	projection;
+	t_vector	radial_vector;
+	double		height;
+
+	if (object->type == SPHERE)
+		return (normal->x);
+	else if (object->type == CYLINDER)
+	{
+		oc = sub(intersection, object->pos);
+		height = get_scalar_product(&oc, &object->specific.cylinder.axis);
+		projection = mul(object->specific.cylinder.axis, height);
+		radial_vector = sub(oc, projection);
+		return (atan2(radial_vector.y, radial_vector.x));
+	}
+	else if (object->type == PLANE)
+		return (intersection.x);
+	return (normal->x);
+}
+
+static double	define_height(t_object *object, t_vector *normal, t_vector intersection)
+{
+	t_vector	oc;
+
+	if (object->type == SPHERE)
+		return (normal->y);
+	else if (object->type == CYLINDER)
+	{
+		oc = sub(intersection, object->pos);
+		return (get_scalar_product(&oc, &object->specific.cylinder.axis));
+	}
+	else if (object->type == PLANE)
+		return (intersection.z);
+	return (normal->x);
+}
+
+void perturb_normal(t_vector *normal, t_object *object, t_vector intersection)
+{
+	double	theta;
+	double	height;
 	double	noise_value;
 
-	octaves = 5;
-	frequency = 5.0;
-	persistence = 0.9;
-	intensity = 0.4;
-	noise_value = get_noise_value(octaves, frequency, persistence, normal->x, normal->y);
-	normal->x += noise_value * intensity;
-	normal->y += noise_value * intensity;
-	normal->z += noise_value * intensity;
+	theta = define_theta(object, normal, intersection);
+	height = define_height(object, normal, intersection);
+	noise_value = get_noise_value(object->noise.octaves,
+			object->noise.frequency, object->noise.persistence, theta, height);
+	normal->x += noise_value * object->noise.intensity;
+	normal->y += noise_value * object->noise.intensity;
+	normal->z += noise_value * object->noise.intensity;
+	//normalize_vector(normal);
 }

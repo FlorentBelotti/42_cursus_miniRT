@@ -17,8 +17,8 @@ void debug_print_noise(const t_noise *noise)
     {
         printf("Perlin Noise:\n");
         printf("  Octaves: %d\n", noise->octaves);
-        printf("  Scale_x: %.2f\n", noise->scale_x);
-        printf("  Scale_y: %.2f\n", noise->scale_y);
+        printf("  Persistence: %.2f\n", noise->persistence);
+        printf("  Frequency: %.2f\n", noise->frequency);
         printf("  Intensity: %.2f\n", noise->intensity);
     }
 }
@@ -79,8 +79,8 @@ void debug_print_object(const t_object *obj)
     {
         printf("Perlin Noise:\n");
         printf("  Octaves: %d\n", obj->noise.octaves);
-        printf("  Scale_x: %.2f\n", obj->noise.scale_x);
-        printf("  Scale_y: %.2f\n", obj->noise.scale_y);
+        printf("  Persistence: %.2f\n", obj->noise.frequency);
+        printf("  Frequency: %.2f\n", obj->noise.persistence);
         printf("  Intensity: %.2f\n", obj->noise.intensity);
     }
     else

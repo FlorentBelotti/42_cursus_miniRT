@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/07 16:53:02 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/08 11:48:14 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,11 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 		}
 	}
 	normalize_vector(&normal);
-	//perturb_normal(&normal);
+	if (object->noise.octaves > 0)
+	{
+		//printf("noise\n");
+		perturb_normal(&normal, object, intersection);
+	}
 	return (normal);
 }
 

@@ -274,8 +274,8 @@ int parse_object_options(char **split, t_object *obj)
 
             // Set Perlin noise parameters
             obj->noise.octaves = ft_atoi(split[i + 1]);
-            obj->noise.scale_x = ft_atof(split[i + 2]);
-            obj->noise.scale_y = ft_atof(split[i + 3]);
+            obj->noise.frequency = ft_atof(split[i + 2]);
+            obj->noise.persistence = ft_atof(split[i + 3]);
             obj->noise.intensity = ft_atof(split[i + 4]);
 
             // Skip past Perlin noise parameters
@@ -293,8 +293,8 @@ int parse_perlin_noise(char **split, t_noise *noise)
         return (ft_printf("Error: Invalid Perlin noise format\n"), 1);
 
     noise->octaves = ft_atoi(split[1]);
-    noise->scale_x = ft_atof(split[2]);
-    noise->scale_y = ft_atof(split[3]);
+    noise->frequency = ft_atof(split[2]);
+    noise->persistence = ft_atof(split[3]);
     noise->intensity = ft_atof(split[4]);
 
     return 0;
