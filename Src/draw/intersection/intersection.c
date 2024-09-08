@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:00 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/08 00:09:13 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/08 17:54:40 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ double	get_intersection_distance(t_object *object, t_ray *ray, int code)
 	else if (object->type == PLANE)
 		d = plane_intersection(&object->specific.plane,
 				ray, &object->pos);
-	// else if (object->type == PARABOLOID)
-	// 	d = paraboloid_intersection(&object->specific.paraboloid, ray,
-	// 			object, code);
+	else if (object->type == CONE)
+		d = cone_intersection(&object->specific.cone, ray,
+				object, code);
 	return (d);
 }

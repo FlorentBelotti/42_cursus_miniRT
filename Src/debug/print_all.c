@@ -57,18 +57,17 @@ void debug_print_object(const t_object *obj)
         printf("Diameter: %.2f\n", obj->specific.cylinder.diameter);
         printf("Height: %.2f\n", obj->specific.cylinder.height);
     }
-    else if (obj->type == PARABOLOID)
+    else if (obj->type == CONE)
     {
-        printf("Paraboloid\n");
+        printf("Cone\n");
         printf("Position: ");
         debug_print_vector(&obj->pos);
         printf("Color: ");
         debug_print_color(&obj->color);
-        printf("Demi-Axe A: %.2f\n", obj->specific.paraboloid.demi_axe_a);
-        printf("Demi-Axe B: %.2f\n", obj->specific.paraboloid.demi_axe_b);
-        printf("Height: %.2f\n", obj->specific.paraboloid.height);
-        printf("Orientation: ");
-        debug_print_vector(&obj->specific.paraboloid.orient);
+		printf("Axis: ");
+        debug_print_vector(&obj->specific.cone.axis);
+        printf("Diameter: %.2f\n", obj->specific.cone.diameter);
+        printf("Height: %.2f\n", obj->specific.cone.height);
     }
 
     // Print checkerboard info

@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/08 11:48:14 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/08 18:08:28 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,15 @@ static t_vector	get_object_normal(t_vector light_pos, t_vector intersection, t_o
 			normal = sub(oc, projection);
 		}
 	}
+	else if (object->type == CONE)
+	{
+		oc = sub(intersection, object->pos);
+		projection = mul(object->specific.cone.axis, get_scalar_product(&oc, &object->specific.cone.axis));
+		normal = sub(oc, projection);
+	}
 	normalize_vector(&normal);
 	if (object->noise.octaves > 0)
-	{
-		//printf("noise\n");
 		perturb_normal(&normal, object, intersection);
-	}
 	return (normal);
 }
 

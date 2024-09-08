@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:51:34 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/05 00:31:50 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/08 17:53:10 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ static void	get_cylinder_intersection_points(t_inter *inter, t_cylinder *cylinde
 	inter->P1_proj = get_scalar_product(&inter->P1, &cylinder->axis);
 	inter->P2_proj = get_scalar_product(&inter->P2, &cylinder->axis);
 	top_cap = add(current->pos, mul(cylinder->axis, cylinder->height));
-	inter->cylinder_min = get_scalar_product(&current->pos, &cylinder->axis);
-	inter->cylinder_max = get_scalar_product(&top_cap, &cylinder->axis);
+	inter->c_min = get_scalar_product(&current->pos, &cylinder->axis);
+	inter->c_max = get_scalar_product(&top_cap, &cylinder->axis);
 }
 
 double	cylinder_return_high_or_low(t_inter *inter, int code)
@@ -77,9 +77,9 @@ double	cylinder_return_high_or_low(t_inter *inter, int code)
 	closest_intersection = -1;
 	if (code == 1)
 	{
-		if (inter->P1_proj >= inter->cylinder_min && inter->P1_proj <= inter->cylinder_max && inter->r1 > EPSILON)
+		if (inter->P1_proj >= inter->c_min && inter->P1_proj <= inter->c_max && inter->r1 > EPSILON)
 			closest_intersection = inter->r1;
-		if (inter->P2_proj >= inter->cylinder_min && inter->P2_proj <= inter->cylinder_max && inter->r2 > EPSILON)
+		if (inter->P2_proj >= inter->c_min && inter->P2_proj <= inter->c_max && inter->r2 > EPSILON)
 		{
 			if (closest_intersection == -1 || inter->r2 > closest_intersection)
 				closest_intersection = inter->r2;
@@ -88,9 +88,9 @@ double	cylinder_return_high_or_low(t_inter *inter, int code)
 	}
 	else
 	{
-		if (inter->P1_proj >= inter->cylinder_min && inter->P1_proj <= inter->cylinder_max && inter->r1 > EPSILON)
+		if (inter->P1_proj >= inter->c_min && inter->P1_proj <= inter->c_max && inter->r1 > EPSILON)
 			closest_intersection = inter->r1;
-		if (inter->P2_proj >= inter->cylinder_min && inter->P2_proj <= inter->cylinder_max && inter->r2 > EPSILON)
+		if (inter->P2_proj >= inter->c_min && inter->P2_proj <= inter->c_max && inter->r2 > EPSILON)
 		{
 			if (closest_intersection == -1 || inter->r2 < closest_intersection)
 				closest_intersection = inter->r2;

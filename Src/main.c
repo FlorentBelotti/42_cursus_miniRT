@@ -4,6 +4,7 @@ int main(int argc, char **argv)
 {
     t_data data;
 
+	//printf("before all\n");
     if (argc != 2)
     {
         ft_printf("Usage: %s <scene.rt>\n", argv[0]);
@@ -48,8 +49,9 @@ int main(int argc, char **argv)
         return (1);
     }
 
+	//printf("before debug\n");
 	//DELETE THE DEBUG
-	debug_print_scene(&data);
+	//debug_print_scene(&data);
 
     // Render
 	init_mlx_image(&data);

@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:38:44 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/08 12:10:11 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/08 18:14:45 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,19 @@ static double	define_height(t_object *object, t_vector *normal, t_vector interse
 		return (normal->y);
 	else if (object->type == CYLINDER)
 	{
+		if (object->specific.cylinder.disk > 0)
+			return (intersection.z);
 		oc = sub(intersection, object->pos);
 		return (get_scalar_product(&oc, &object->specific.cylinder.axis));
 	}
+	else if (object->type == CONE)
+	{
+		oc = sub(intersection, object->pos);
+		return (get_scalar_product(&oc, &object->specific.cone.axis));
+	}
 	else if (object->type == PLANE)
 		return (intersection.z);
-	return (normal->x);
+	return (normal->y);
 }
 
 void perturb_normal(t_vector *normal, t_object *object, t_vector intersection)

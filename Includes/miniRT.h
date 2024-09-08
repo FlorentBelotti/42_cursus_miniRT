@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/08 11:47:58 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/08 17:55:26 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef enum e_object_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
-	PARABOLOID
+	CONE
 } t_object_type;
 
 // Structures de base
@@ -85,13 +85,12 @@ typedef struct s_cylinder
 	t_vector axis;
 } t_cylinder;
 
-typedef struct s_paraboloid
+typedef struct s_cone
 {
-	double demi_axe_a;
-	double demi_axe_b;
-	double height;
-	t_vector orient;
-} t_paraboloid;
+	double	diameter;
+	double	height;
+	t_vector axis;
+} t_cone;
 
 typedef struct s_noise
 {
@@ -114,7 +113,7 @@ typedef struct s_object
 		t_sphere sphere;
 		t_plane plane;
 		t_cylinder cylinder;
-		t_paraboloid paraboloid;
+		t_cone cone;
 	} specific;
 	struct s_object *next;
 } t_object;
@@ -176,8 +175,8 @@ typedef struct s_inter
 	double		r1;
 	double		r2;
 	double		ray_dir_v;
-	double		cylinder_min;
-	double		cylinder_max;
+	double		c_min;
+	double		c_max;
 	double		P1_proj;
 	double		P2_proj;
 	double		oc_v;
@@ -189,6 +188,7 @@ typedef struct s_inter
 	t_vector	cylinder_center;
 	t_vector	P1;
 	t_vector	P2;
+	t_vector	cone_apex;
 } t_inter;
 
 typedef struct s_perlin
@@ -257,7 +257,8 @@ int parse_perlin_noise(char **split, t_noise *noise);
 int parse_sphere(char **split, t_data *data);
 int parse_plane(char **split, t_data *data);
 int parse_cylinder(char **split, t_data *data);
-int parse_paraboloid(char **split, t_data *data);
+int parse_cone(char **split, t_data *data);
+//int parse_paraboloid(char **split, t_data *data);
 
 void	free_objects(t_object *objects);
 void	free_split(char **split);
@@ -298,7 +299,9 @@ double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int 
 double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current, int code);
 double	plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos);
 double	return_high_or_low(t_inter inter, int code);
+double cone_intersection(t_cone *cone, t_ray *ray, t_object *current, int code);
 double	plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int code);
+//double	paraboloid_intersection(t_paraboloid *parab, t_ray *ray, t_object *current, int code);
 
 //Minilibx
 void	init_mlx_image(t_data *data);

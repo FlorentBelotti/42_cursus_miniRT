@@ -239,9 +239,9 @@ int parse_line(char *line, t_data *data)
             return 1;
         }
     }
-    else if (ft_strcmp(split[0], "par") == 0)
+    else if (ft_strcmp(split[0], "co") == 0)
     {
-        if (parse_paraboloid(split, data))
+        if (parse_cone(split, data))
         {
             free_split(split);
             return 1;
@@ -419,36 +419,35 @@ int parse_cylinder(char **split, t_data *data)
 }
 
 // Parse paraboloid
-int parse_paraboloid(char **split, t_data *data)
+int parse_cone(char **split, t_data *data)
 {
     t_object *obj = malloc(sizeof(t_object));
     if (!obj)
         return (ft_printf("Error: Memory allocation failed\n"), 1);
 
     char **pos_split = ft_split(split[1], ',');
-    char **orient_split = ft_split(split[4], ',');
+    char **axis_split = ft_split(split[2], ',');
     char **color_split = ft_split(split[5], ',');
 
-    if (!pos_split || !orient_split || !color_split)
+    if (!pos_split || !axis_split || !color_split)
     {
         free_split(pos_split);
-        free_split(orient_split);
+        free_split(axis_split);
         free_split(color_split);
-        return (ft_printf("Error: Invalid paraboloid format\n"), free(obj), 1);
+        return (ft_printf("Error: Invalid cone format\n"), free(obj), 1);
     }
 
     obj->pos = (t_vector){ft_atof(pos_split[0]), ft_atof(pos_split[1]), ft_atof(pos_split[2])};
-    obj->specific.paraboloid.demi_axe_a = ft_atof(split[2]);
-    obj->specific.paraboloid.demi_axe_b = ft_atof(split[3]);
-    obj->specific.paraboloid.height = ft_atof(split[4]);
-    obj->specific.paraboloid.orient = (t_vector){ft_atof(orient_split[0]), ft_atof(orient_split[1]), ft_atof(orient_split[2])};
+    obj->specific.cone.axis = (t_vector){ft_atof(axis_split[0]), ft_atof(axis_split[1]), ft_atof(axis_split[2])};
+    obj->specific.cone.diameter = ft_atof(split[3]);
+    obj->specific.cone.height = ft_atof(split[4]);
     obj->color = (t_color){ft_atoi(color_split[0]), ft_atoi(color_split[1]), ft_atoi(color_split[2])};
 
     free_split(pos_split);
-    free_split(orient_split);
+    free_split(axis_split);
     free_split(color_split);
 
-    obj->type = PARABOLOID;
+    obj->type = CONE;
 
     if (parse_object_options(split, obj))
         return 1;
