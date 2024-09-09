@@ -36,7 +36,14 @@ int	parse_scene_file(int fd, t_data *data)
 		result = parse_line(line, data);
 		free(line);
 		if (result)
+		{
+			while (line)
+			{
+				line = get_next_line(fd);
+				free(line);
+			}
 			return (1);
+		}
 		line = get_next_line(fd);
 	}
 	return (0);
