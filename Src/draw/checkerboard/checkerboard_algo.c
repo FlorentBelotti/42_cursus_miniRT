@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:38:29 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 15:38:54 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:46:13 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_color	apply_checkerboard_to_vertical_plane(t_vector inter, t_checker *checker)
 		return (checker->black);
 }
 
-t_color	apply_checkerboard_to_sphere(t_object *object, t_vector inter, t_checker *checker)
+t_color	apply_checkerboard_to_sphere(t_object *object,
+		t_vector inter, t_checker *checker)
 {
 	double		u;
 	double		v;
@@ -48,8 +49,10 @@ t_color	apply_checkerboard_to_sphere(t_object *object, t_vector inter, t_checker
 	int			check_v;
 
 	checker->relative_pos = sub(inter, object->pos);
-	u = 0.5 + atan2(checker->relative_pos.z, checker->relative_pos.x) / (2 * M_PI);
-	v = 0.5 - asin(checker->relative_pos.y / object->specific.sphere.diameter) / M_PI;
+	u = 0.5 + atan2(checker->relative_pos.z,
+			checker->relative_pos.x) / (2 * M_PI);
+	v = 0.5 - asin(checker->relative_pos.y / object->specific.sphere.diameter)
+		/ M_PI;
 	check_u = (int)(floor(u * 10.0));
 	check_v = (int)(floor(v * 10.0));
 	if ((check_u + check_v) % 2 == 0)
@@ -58,7 +61,8 @@ t_color	apply_checkerboard_to_sphere(t_object *object, t_vector inter, t_checker
 		return (checker->black);
 }
 
-t_color	apply_checkerboard_to_cylinder(t_object *object, t_vector inter, t_checker *checker)
+t_color	apply_checkerboard_to_cylinder(t_object *object,
+		t_vector inter, t_checker *checker)
 {
 	int	t;
 	int	h;
@@ -66,12 +70,14 @@ t_color	apply_checkerboard_to_cylinder(t_object *object, t_vector inter, t_check
 	checker->relative_pos = sub(inter, object->pos);
 	if (fabs(object->specific.cylinder.axis.y) > 0.9)
 	{
-		checker->theta = atan2(checker->relative_pos.z, checker->relative_pos.x);
+		checker->theta = atan2(checker->relative_pos.z,
+				checker->relative_pos.x);
 		checker->height = checker->relative_pos.y;
 	}
 	else
 	{
-		checker->theta = atan2(checker->relative_pos.y, checker->relative_pos.z);
+		checker->theta = atan2(checker->relative_pos.y,
+				checker->relative_pos.z);
 		checker->height = checker->relative_pos.x;
 	}
 	t = (int)(floor(checker->theta * checker->scale));
@@ -82,7 +88,8 @@ t_color	apply_checkerboard_to_cylinder(t_object *object, t_vector inter, t_check
 		return (checker->black);
 }
 
-t_color	apply_checkerboard_to_cone(t_object *object, t_vector inter, t_checker *checker)
+t_color	apply_checkerboard_to_cone(t_object *object,
+		t_vector inter, t_checker *checker)
 {
 	int	t;
 	int	h;
@@ -90,12 +97,14 @@ t_color	apply_checkerboard_to_cone(t_object *object, t_vector inter, t_checker *
 	checker->relative_pos = sub(inter, object->pos);
 	if (fabs(object->specific.cone.axis.y) > 0.9)
 	{
-		checker->theta = atan2(checker->relative_pos.z, checker->relative_pos.x);
+		checker->theta = atan2(checker->relative_pos.z,
+				checker->relative_pos.x);
 		checker->height = checker->relative_pos.y;
 	}
 	else
 	{
-		checker->theta = atan2(checker->relative_pos.y, checker->relative_pos.z);
+		checker->theta = atan2(checker->relative_pos.y,
+				checker->relative_pos.z);
 		checker->height = checker->relative_pos.x;
 	}
 	t = (int)(floor(checker->theta * checker->scale));

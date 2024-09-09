@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:57:09 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 15:38:05 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:46:36 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_color	apply_checkerboard_pattern(t_object *object, t_vector inter)
 	init_checker(&checker);
 	if (object->type == PLANE)
 	{
-		if (fabs(object->specific.plane.normal.y) > fabs(object->specific.plane.normal.x))
+		if (fabs(object->specific.plane.normal.y)
+			> fabs(object->specific.plane.normal.x))
 			return (apply_smooth_checkerboard_to_plane(inter, &checker));
 		else
 			return (apply_checkerboard_to_vertical_plane(inter, &checker));
@@ -41,5 +42,5 @@ t_color	apply_checkerboard_pattern(t_object *object, t_vector inter)
 		return (apply_checkerboard_to_cylinder(object, inter, &checker));
 	else if (object->type == CONE)
 		return (apply_checkerboard_to_cone(object, inter, &checker));
-	return object->color;
+	return (object->color);
 }
