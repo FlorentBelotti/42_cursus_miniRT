@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:33:38 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 14:13:29 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:31:47 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static int	close_minirt(t_data *data)
 	return (0);
 }
 
-static void ft_mlx_clear_window(t_data *data)
+static void	ft_mlx_clear_window(t_data *data)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	while (j < WINDOW_HEIGHT)

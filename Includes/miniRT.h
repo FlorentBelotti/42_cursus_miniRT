@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 16:15:28 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:29:31 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,9 @@ typedef struct s_shadow
 	t_color		color;
 	t_color		diffuse;
 	t_color		specular;
+	t_vector	view_dir;
 	double		shadow_factor;
+	double		shininess;
 	double		d_light;
 } t_shadow;
 
@@ -225,6 +227,18 @@ typedef struct s_img
 	int				line_len;
 	int				endian;
 }	t_img;
+
+typedef struct s_checker
+{
+	t_color		black;
+	t_color		white;
+	t_vector	relative_pos;
+	int			check_theta;
+	int			check_height;
+	double		theta;
+	double		height;
+	double		scale;
+}	t_checker;
 
 typedef struct s_data
 {
@@ -247,94 +261,106 @@ typedef struct s_data
 } t_data;
 
 // Prototypes de fonctions
-int	validate_filename(const char *filename);
-int	validate_color(t_color color);
-int	validate_ambient(t_data *data);
-int	validate_camera(t_data *data);
-int	validate_light(t_data *data);
-int	validate_scene_elements(t_data *data);
-int	parse_ambient_color(char **color_split, t_data *data);
-int	parse_ambient(char **split, t_data *data);
-int	parse_camera_position(char **pos_split, t_data *data);
-int	parse_camera_orientation(char **orient_split, t_data *data);
-int	parse_camera(char **split, t_data *data);
-int	parse_light_position(char **pos_split, t_light *new_light);
-int	parse_light_color(char **color_split, t_light *new_light);
-void	add_light_to_list(t_data *data, t_light *new_light);
-int	parse_light(char **split, t_data *data);
-double	ft_atof_sign(const char **str);
-double	ft_atof_integer(const char **str);
-double	ft_atof_fraction(const char **str);
-double	ft_atof(const char *str);
-void	free_split(char **split);
-char	*construct_scene_path(const char *filename);
-void	init_scene_data(t_data *data);
-int	parse_scene_file(int fd, t_data *data);
-int	check_mandatory_elements(t_data *data);
-int	parse_scene(const char *filename, t_data *data);
-int	parse_known_object(char **split, t_data *data);
-int	parse_line(char *line, t_data *data);
-int	parse_object_options(char **split, t_object *obj);
-int	parse_perlin_noise(char **split, t_noise *noise);
-int	parse_sphere_data(char **split, t_object *obj);
-int	parse_sphere(char **split, t_data *data);
-int	parse_plane_data(char **split, t_object *obj);
-int	parse_plane(char **split, t_data *data);
-int	parse_cylinder_data(char **split, t_object *obj);
-int	parse_cylinder(char **split, t_data *data);
-int	parse_cone_data(char **split, t_object *obj);
-int	parse_cone(char **split, t_data *data);
+int			validate_filename(const char *filename);
+int			validate_color(t_color color);
+int			validate_ambient(t_data *data);
+int			validate_camera(t_data *data);
+int			validate_light(t_data *data);
+int			validate_scene_elements(t_data *data);
+int			parse_ambient_color(char **color_split, t_data *data);
+int			parse_ambient(char **split, t_data *data);
+int			parse_camera_position(char **pos_split, t_data *data);
+int			parse_camera_orientation(char **orient_split, t_data *data);
+int			parse_camera(char **split, t_data *data);
+int			parse_light_position(char **pos_split, t_light *new_light);
+int			parse_light_color(char **color_split, t_light *new_light);
+void		add_light_to_list(t_data *data, t_light *new_light);
+int			parse_light(char **split, t_data *data);
+double		ft_atof_sign(const char **str);
+double		ft_atof_integer(const char **str);
+double		ft_atof_fraction(const char **str);
+double		ft_atof(const char *str);
+void		free_split(char **split);
+char		*construct_scene_path(const char *filename);
+void		init_scene_data(t_data *data);
+int			parse_scene_file(int fd, t_data *data);
+int			check_mandatory_elements(t_data *data);
+int			parse_scene(const char *filename, t_data *data);
+int			parse_known_object(char **split, t_data *data);
+int			parse_line(char *line, t_data *data);
+int			parse_object_options(char **split, t_object *obj);
+int			parse_perlin_noise(char **split, t_noise *noise);
+int			parse_sphere_data(char **split, t_object *obj);
+int			parse_sphere(char **split, t_data *data);
+int			parse_plane_data(char **split, t_object *obj);
+int			parse_plane(char **split, t_data *data);
+int			parse_cylinder_data(char **split, t_object *obj);
+int			parse_cylinder(char **split, t_data *data);
+int			parse_cone_data(char **split, t_object *obj);
+int			parse_cone(char **split, t_data *data);
 
-void	free_objects(t_object *objects);
-void	free_split(char **split);
-double	ft_atof(const char *str);
-void free_data(t_data *data);
-int	handle_close(t_data *data);
+void		free_objects(t_object *objects);
+void		free_split(char **split);
+double		ft_atof(const char *str);
+void 		free_data(t_data *data);
+int			handle_close(t_data *data);
 
 // Event handling functions
-int		handle_keypress(int keycode, t_data *data);
-int		handle_keyrelease(int keycode, t_data *data);
-int		handle_mouse(int button, int x, int y, t_data *data);
-void	update_object_position(t_object *obj, t_keys *keys);
-int		loop_hook(t_data *data);
-void	reset_keys(t_keys *keys);
+int			handle_keypress(int keycode, t_data *data);
+int			handle_keyrelease(int keycode, t_data *data);
+int			handle_mouse(int button, int x, int y, t_data *data);
+void		update_object_position(t_object *obj, t_keys *keys);
+int			loop_hook(t_data *data);
+void		reset_keys(t_keys *keys);
 
-// Fonction de débogage
-void	debug_print_scene(t_data *data);
-void	debug_print_object(const t_object *obj);
-void	print_rays(t_data *data);
+// // Fonction de débogage
+// void		debug_print_scene(t_data *data);
+// void		debug_print_object(const t_object *obj);
+// void		print_rays(t_data *data);
 
 //render
-void	render(t_data *data, t_ray *ray, int x, int y);
-double	get_intersection_distance(t_object *object, t_ray *ray, int code);
+void		render(t_data *data, t_ray *ray, int x, int y);
+double		get_intersection_distance(t_object *object, t_ray *ray, int code);
 
 //lightning
-t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
-int		get_shadow_factor(t_data *data, t_vector intersection, t_light *light);
-double	get_light_distance(t_vector a, t_vector b);
-t_vector get_closest_cap_normal(t_cylinder *cylinder, t_object *object, t_vector intersection);
+t_color		get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
+t_vector	get_closest_cap_normal(t_cylinder *cylinder, t_object *object, t_vector intersection);
+int			get_shadow_factor(t_data *data, t_vector intersection, t_light *light);
+double		get_light_distance(t_vector a, t_vector b);
+t_color		get_ambient_light(t_ambient ambient, t_color object_color);
+void		init_lighting(t_shadow *parts, t_data *data, t_object *object, t_vector intersection);
+void		add_color(t_shadow *parts);
+
 
 //Raytracing
-int		raytracing(t_data *data);
+int			raytracing(t_data *data);
 
 //Intersection calculation
-double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code);
-double	cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current, int code);
-double	plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos);
-double	return_high_or_low(t_inter inter, int code);
-double cone_intersection(t_cone *cone, t_ray *ray, t_object *current, int code);
-double	plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int code);
-//double	paraboloid_intersection(t_paraboloid *parab, t_ray *ray, t_object *current, int code);
+double		sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code);
+double		cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current, int code);
+double		plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos);
+double		return_high_or_low(t_inter inter, int code);
+double		cone_intersection(t_cone *cone, t_ray *ray, t_object *current, int code);
+double		plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int code);
+double		c_return_high_or_low(t_inter *inter, int code);
+
+//Checkerboard
+t_color		apply_checkerboard_pattern(t_object *object, t_vector intersection);
+t_color		apply_smooth_checkerboard_to_plane(t_vector inter, t_checker *checker);
+t_color		apply_checkerboard_to_vertical_plane(t_vector inter, t_checker *checker);
+t_color		apply_checkerboard_to_sphere(t_object *object, t_vector inter, t_checker *checker);
+t_color		apply_checkerboard_to_cylinder(t_object *object, t_vector inter, t_checker *checker);
+t_color		apply_checkerboard_to_cone(t_object *object, t_vector inter, t_checker *checker);
 
 //Minilibx
-void	init_mlx_image(t_data *data);
-int		rgb_to_int(t_color color);
-void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
+void		init_mlx_image(t_data *data);
+int			rgb_to_int(t_color color);
+void		ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //events
-void	apply_movement_to_camera(int key_code, t_data *data);
-void	apply_rotation_to_camera(int key_code, t_data *data);
-void	update_draw(t_data *data);
+void		apply_movement_to_camera(int key_code, t_data *data);
+void		apply_rotation_to_camera(int key_code, t_data *data);
+void		update_draw(t_data *data);
 
 //vector_utils
 t_vector	vector_cross(t_vector a, t_vector b);
@@ -348,11 +374,12 @@ double		get_scalar_product(const t_vector *a, const t_vector *b);
 double		get_delta(t_inter *inter);
 
 //perlin
-void perturb_normal(t_vector *normal, t_object *object, t_vector intersection);
-double		generate_smooth_noise(int x, int y);
+void		perturb_normal(t_vector *normal, t_object *object, t_vector intersection);
 double		perlin(double x, double y);
 
-//checkerboard
-t_color apply_checkerboard_pattern(t_object *object, t_vector intersection);
+//noise
+double		generate_smooth_noise(int x, int y);
+double		generate_2d_noise(int x, int y);
+double		generate_random_noise(int t);
 
 #endif

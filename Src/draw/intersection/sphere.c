@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:51:04 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/08/29 00:19:16 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:09:36 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ double	return_high_or_low(t_inter inter, int code)
 	return (0);
 }
 
-double	sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code)
+double	sphere_intersection(t_sphere *sphere, t_ray *ray,
+		t_object *current, int code)
 {
 	t_inter	inter;
 
