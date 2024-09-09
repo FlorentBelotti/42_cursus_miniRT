@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 14:12:48 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:15:28 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,28 +247,49 @@ typedef struct s_data
 } t_data;
 
 // Prototypes de fonctions
-int		parse_ambient(char **split, t_data *data);
-int		parse_camera(char **split, t_data *data);
-int		parse_light(char **split, t_data *data);
-int parse_scene(const char *filename, t_data *data);
-int parse_line(char *line, t_data *data);
-int parse_object_options(char **split, t_object *obj);
-int parse_perlin_noise(char **split, t_noise *noise);
-int parse_sphere(char **split, t_data *data);
-int parse_plane(char **split, t_data *data);
-int parse_cylinder(char **split, t_data *data);
-int parse_cone(char **split, t_data *data);
-//int parse_paraboloid(char **split, t_data *data);
+int	validate_filename(const char *filename);
+int	validate_color(t_color color);
+int	validate_ambient(t_data *data);
+int	validate_camera(t_data *data);
+int	validate_light(t_data *data);
+int	validate_scene_elements(t_data *data);
+int	parse_ambient_color(char **color_split, t_data *data);
+int	parse_ambient(char **split, t_data *data);
+int	parse_camera_position(char **pos_split, t_data *data);
+int	parse_camera_orientation(char **orient_split, t_data *data);
+int	parse_camera(char **split, t_data *data);
+int	parse_light_position(char **pos_split, t_light *new_light);
+int	parse_light_color(char **color_split, t_light *new_light);
+void	add_light_to_list(t_data *data, t_light *new_light);
+int	parse_light(char **split, t_data *data);
+double	ft_atof_sign(const char **str);
+double	ft_atof_integer(const char **str);
+double	ft_atof_fraction(const char **str);
+double	ft_atof(const char *str);
+void	free_split(char **split);
+char	*construct_scene_path(const char *filename);
+void	init_scene_data(t_data *data);
+int	parse_scene_file(int fd, t_data *data);
+int	check_mandatory_elements(t_data *data);
+int	parse_scene(const char *filename, t_data *data);
+int	parse_known_object(char **split, t_data *data);
+int	parse_line(char *line, t_data *data);
+int	parse_object_options(char **split, t_object *obj);
+int	parse_perlin_noise(char **split, t_noise *noise);
+int	parse_sphere_data(char **split, t_object *obj);
+int	parse_sphere(char **split, t_data *data);
+int	parse_plane_data(char **split, t_object *obj);
+int	parse_plane(char **split, t_data *data);
+int	parse_cylinder_data(char **split, t_object *obj);
+int	parse_cylinder(char **split, t_data *data);
+int	parse_cone_data(char **split, t_object *obj);
+int	parse_cone(char **split, t_data *data);
 
 void	free_objects(t_object *objects);
 void	free_split(char **split);
 double	ft_atof(const char *str);
 void free_data(t_data *data);
 int	handle_close(t_data *data);
-
-// Validation functions
-int		validate_filename(const char *filename);
-int		validate_scene_elements(t_data *data);
 
 // Event handling functions
 int		handle_keypress(int keycode, t_data *data);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 16:24:31 by jedurand          #+#    #+#             */
+/*   Updated: 2024/09/09 16:24:32 by jedurand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
 double	ft_atof_sign(const char **str)
@@ -65,17 +77,4 @@ double	ft_atof(const char *str)
 	fraction = ft_atof_fraction(&str);
 	result = sign * (integer + fraction);
 	return (result);
-}
-
-void	free_split(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
 }
