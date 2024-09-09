@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 15:39:34 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:01:35 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,7 @@ double		plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos);
 double		return_high_or_low(t_inter inter, int code);
 double		cone_intersection(t_cone *cone, t_ray *ray, t_object *current, int code);
 double		plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int code);
+double		c_return_high_or_low(t_inter *inter, int code);
 
 //Checkerboard
 t_color		apply_checkerboard_pattern(t_object *object, t_vector intersection);
