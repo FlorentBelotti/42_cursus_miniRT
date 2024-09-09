@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/08 17:55:26 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:13:07 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,6 +263,7 @@ int parse_cone(char **split, t_data *data);
 void	free_objects(t_object *objects);
 void	free_split(char **split);
 double	ft_atof(const char *str);
+void free_data(t_data *data);
 
 // Validation functions
 int		validate_filename(const char *filename);
