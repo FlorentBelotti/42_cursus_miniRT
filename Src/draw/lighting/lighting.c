@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/08 18:08:28 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:57:39 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ t_color	get_pixel_lighting(t_data *data, t_object *object, t_vector intersection
 	t_light		*current_light;
 	double		shininess = 32.0;
 
+	if (object->checkerboard)
+		object->color = apply_checkerboard_pattern(object, intersection);
 	view_dir = sub(data->camera.pos, intersection);
 	normalize_vector(&view_dir);
 	parts.ambient = get_ambient_light(data->ambient, object->color);

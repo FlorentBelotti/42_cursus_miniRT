@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 05:13:07 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:58:58 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,5 +329,8 @@ double		get_delta(t_inter *inter);
 void perturb_normal(t_vector *normal, t_object *object, t_vector intersection);
 double		generate_smooth_noise(int x, int y);
 double		perlin(double x, double y);
+
+//checkerboard
+t_color apply_checkerboard_pattern(t_object *object, t_vector intersection);
 
 #endif
