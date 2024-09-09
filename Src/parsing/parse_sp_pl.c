@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:24:28 by jedurand          #+#    #+#             */
-/*   Updated: 2024/09/09 17:54:59 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:00:59 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	parse_sphere(char **split, t_data *data)
 	}
 	ft_memset(obj, 0, sizeof(t_object));
 	if (parse_sphere_data(split, obj))
-		return (1);
+		return (free(obj), 1);
 	obj->type = SPHERE;
 	if (parse_object_options(split, obj))
 		return (1);
