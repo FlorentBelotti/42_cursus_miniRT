@@ -200,6 +200,7 @@ int	parse_sphere(char **split, t_data *data)
 		ft_printf("Error: Memory allocation failed\n");
 		return (1);
 	}
+	ft_memset(obj, 0, sizeof(t_object));
 	if (parse_sphere_data(split, obj))
 		return (1);
 	obj->type = SPHERE;
@@ -249,6 +250,7 @@ int	parse_plane(char **split, t_data *data)
 		ft_printf("Error: Memory allocation failed\n");
 		return (1);
 	}
+	ft_memset(obj, 0, sizeof(t_object));
 	if (parse_plane_data(split, obj))
 		return (1);
 	obj->type = PLANE;
@@ -304,6 +306,7 @@ int	parse_cylinder(char **split, t_data *data)
 		ft_printf("Error: Memory allocation failed\n");
 		return (1);
 	}
+	ft_memset(obj, 0, sizeof(t_object));
 	if (parse_cylinder_data(split, obj))
 		return (1);
 	obj->type = CYLINDER;
