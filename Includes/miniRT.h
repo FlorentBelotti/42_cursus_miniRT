@@ -6,7 +6,7 @@
 /*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 05:58:58 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/09 14:12:48 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,7 @@ void	free_objects(t_object *objects);
 void	free_split(char **split);
 double	ft_atof(const char *str);
 void free_data(t_data *data);
+int	handle_close(t_data *data);
 
 // Validation functions
 int		validate_filename(const char *filename);

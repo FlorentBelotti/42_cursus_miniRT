@@ -354,6 +354,7 @@ int	parse_cone(char **split, t_data *data)
 		ft_printf("Error: Memory allocation failed\n");
 		return (1);
 	}
+	ft_memset(obj, 0, sizeof(t_object));
 	if (parse_cone_data(split, obj))
 		return (1);
 	obj->type = CONE;

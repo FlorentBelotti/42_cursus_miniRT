@@ -8,6 +8,7 @@ int main(int argc, char **argv)
         ft_printf("Error: Memory allocation failed\n");
         return (1);
     }
+	ft_memset(data, 0, sizeof(t_data));
 
     if (argc != 2)
     {
@@ -65,6 +66,7 @@ int main(int argc, char **argv)
 
     // Events and loop
     mlx_key_hook(data->window, handle_keypress, data);
+	mlx_hook(data->window, 17, 0, handle_close, data);
     mlx_loop(data->mlx);
 
     // Free resources
