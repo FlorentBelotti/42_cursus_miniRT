@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 16:21:37 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:43:02 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,9 @@ typedef struct s_shadow
 	t_color		color;
 	t_color		diffuse;
 	t_color		specular;
+	t_vector	view_dir;
 	double		shadow_factor;
+	double		shininess;
 	double		d_light;
 } t_shadow;
 
@@ -298,9 +300,13 @@ double		get_intersection_distance(t_object *object, t_ray *ray, int code);
 
 //lightning
 t_color		get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
+t_vector	get_closest_cap_normal(t_cylinder *cylinder, t_object *object, t_vector intersection);
 int			get_shadow_factor(t_data *data, t_vector intersection, t_light *light);
 double		get_light_distance(t_vector a, t_vector b);
-t_vector	get_closest_cap_normal(t_cylinder *cylinder, t_object *object, t_vector intersection);
+t_color		get_ambient_light(t_ambient ambient, t_color object_color);
+void		init_lighting(t_shadow *parts, t_data *data, t_object *object, t_vector intersection);
+void		add_color(t_shadow *parts);
+
 
 //Raytracing
 int			raytracing(t_data *data);
