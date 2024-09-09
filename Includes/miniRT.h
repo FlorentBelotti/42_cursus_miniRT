@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 16:01:35 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:21:37 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,7 +345,11 @@ double		get_delta(t_inter *inter);
 
 //perlin
 void		perturb_normal(t_vector *normal, t_object *object, t_vector intersection);
-double		generate_smooth_noise(int x, int y);
 double		perlin(double x, double y);
+
+//noise
+double		generate_smooth_noise(int x, int y);
+double		generate_2d_noise(int x, int y);
+double		generate_random_noise(int t);
 
 #endif
