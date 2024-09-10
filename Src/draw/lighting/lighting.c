@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:52:10 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 17:02:36 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:17:31 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_color	get_diffuse_lighting(t_light *light, t_shadow *parts,
 	return (diffuse);
 }
 
-static t_vector	get_c_normal(t_vector axis, t_vector intersection,
+static t_vector	c_normal(t_vector axis, t_vector intersection,
 		t_object *object)
 {
 	t_vector	oc;
@@ -50,18 +50,18 @@ static t_vector	get_object_normal(t_vector intersection, t_object *object)
 	if (object->type == SPHERE)
 		normal = sub(intersection, object->pos);
 	else if (object->type == PLANE)
-		normal = object->specific.plane.normal;
+		normal = object->u_specific.plane.normal;
 	else if (object->type == CYLINDER)
 	{
-		if (object->specific.cylinder.disk > 0)
-			normal = get_closest_cap_normal(&object->specific.cylinder,
+		if (object->u_specific.cylinder.disk > 0)
+			normal = get_closest_cap_normal(&object->u_specific.cylinder,
 					object, intersection);
 		else
-			normal = get_c_normal(object->specific.cylinder.axis,
+			normal = c_normal(object->u_specific.cylinder.axis,
 					intersection, object);
 	}
 	else if (object->type == CONE)
-		normal = get_c_normal(object->specific.cone.axis, intersection, object);
+		normal = c_normal(object->u_specific.cone.axis, intersection, object);
 	normalize_vector(&normal);
 	if (object->noise.octaves > 0)
 		perturb_normal(&normal, object, intersection);

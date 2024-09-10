@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:02:48 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 16:08:31 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:10:53 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static double	get_highest_intersection(t_inter *inter,
 		double closest_intersection)
 {
-	if (inter->P1_proj >= inter->c_min && inter->P1_proj <= inter->c_max
+	if (inter->p1_proj >= inter->c_min && inter->p1_proj <= inter->c_max
 		&& inter->r1 > EPSILON)
 		closest_intersection = inter->r1;
-	if (inter->P2_proj >= inter->c_min && inter->P2_proj <= inter->c_max
+	if (inter->p2_proj >= inter->c_min && inter->p2_proj <= inter->c_max
 		&& inter->r2 > EPSILON)
 	{
 		if (closest_intersection == -1 || inter->r2 > closest_intersection)
@@ -30,10 +30,10 @@ static double	get_highest_intersection(t_inter *inter,
 static double	get_lowest_intersection(t_inter *inter,
 		double closest_intersection)
 {
-	if (inter->P1_proj >= inter->c_min && inter->P1_proj <= inter->c_max
+	if (inter->p1_proj >= inter->c_min && inter->p1_proj <= inter->c_max
 		&& inter->r1 > EPSILON)
 		closest_intersection = inter->r1;
-	if (inter->P2_proj >= inter->c_min && inter->P2_proj <= inter->c_max
+	if (inter->p2_proj >= inter->c_min && inter->p2_proj <= inter->c_max
 		&& inter->r2 > EPSILON)
 	{
 		if (closest_intersection == -1 || inter->r2 < closest_intersection)

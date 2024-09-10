@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 17:35:37 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 16:01:02 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:10:53 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ static void	get_cone_intersection_points(t_inter *inter, t_cone *cone,
 		t_ray *ray, t_object *current)
 {
 	inter->cone_apex = get_cone_apex(current->pos, cone->axis, cone->height);
-	inter->P1.x = ray->origin.x + inter->r1 * ray->direction.x;
-	inter->P1.y = ray->origin.y + inter->r1 * ray->direction.y;
-	inter->P1.z = ray->origin.z + inter->r1 * ray->direction.z;
-	inter->P2.x = ray->origin.x + inter->r2 * ray->direction.x;
-	inter->P2.y = ray->origin.y + inter->r2 * ray->direction.y;
-	inter->P2.z = ray->origin.z + inter->r2 * ray->direction.z;
-	inter->P1_proj = get_scalar_product(&inter->P1, &cone->axis);
-	inter->P2_proj = get_scalar_product(&inter->P2, &cone->axis);
+	inter->p1.x = ray->origin.x + inter->r1 * ray->direction.x;
+	inter->p1.y = ray->origin.y + inter->r1 * ray->direction.y;
+	inter->p1.z = ray->origin.z + inter->r1 * ray->direction.z;
+	inter->p2.x = ray->origin.x + inter->r2 * ray->direction.x;
+	inter->p2.y = ray->origin.y + inter->r2 * ray->direction.y;
+	inter->p2.z = ray->origin.z + inter->r2 * ray->direction.z;
+	inter->p1_proj = get_scalar_product(&inter->p1, &cone->axis);
+	inter->p2_proj = get_scalar_product(&inter->p2, &cone->axis);
 	inter->c_min = get_scalar_product(&current->pos, &cone->axis);
 	inter->c_max = get_scalar_product(&inter->cone_apex, &cone->axis);
 }

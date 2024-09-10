@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 17:29:31 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:15:21 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdbool.h>
 # include <string.h>
 # include <math.h>
-# include <float.h>
 # include "minilibx-linux/mlx.h"
 # include "42_cursus_libft/Includes/libft.h"
 
@@ -26,6 +25,7 @@
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
 # define EPSILON 1e-6
+# define DBL_MAX 1.7976931348623157E+308
 
 # define KEY_W 119
 # define KEY_A 97
@@ -48,49 +48,49 @@ typedef enum e_object_type
 	PLANE,
 	CYLINDER,
 	CONE
-} t_object_type;
+}	t_object_type;
 
 // Structures de base
 typedef struct s_vector
 {
-	double x;
-	double y;
-	double z;
-} t_vector;
+	double	x;
+	double	y;
+	double	z;
+}	t_vector;
 
 typedef struct s_color
 {
-	int r;
-	int g;
-	int b;
-} t_color;
+	int	r;
+	int	g;
+	int	b;
+}	t_color;
 
 // Sous-structures pour les objets
 typedef struct s_sphere
 {
-	double diameter;
-} t_sphere;
+	double	diameter;
+}	t_sphere;
 
 typedef struct s_plane
 {
-	t_vector normal;
-} t_plane;
+	t_vector	normal;
+}	t_plane;
 
 typedef struct s_cylinder
 {
-	double	diameter;
-	double	height;
-	int		disk;
-	int		is_base;
-	t_vector axis;
-} t_cylinder;
+	double		diameter;
+	double		height;
+	int			disk;
+	int			is_base;
+	t_vector	axis;
+}	t_cylinder;
 
 typedef struct s_cone
 {
-	double	diameter;
-	double	height;
-	t_vector axis;
-} t_cone;
+	double		diameter;
+	double		height;
+	t_vector	axis;
+}	t_cone;
 
 typedef struct s_noise
 {
@@ -98,72 +98,72 @@ typedef struct s_noise
 	double	frequency;
 	double	persistence;
 	double	intensity;
-} t_noise;
+}	t_noise;
 
 typedef struct s_object
 {
-	t_object_type type;
-	bool is_selected;
-	bool checkerboard;
-	t_noise noise;
-	t_vector pos;
-	t_color color;
+	t_object_type	type;
+	bool			is_selected;
+	bool			checkerboard;
+	t_noise			noise;
+	t_vector		pos;
+	t_color			color;
 	union
 	{
-		t_sphere sphere;
-		t_plane plane;
-		t_cylinder cylinder;
-		t_cone cone;
-	} specific;
-	struct s_object *next;
-} t_object;
+		t_sphere	sphere;
+		t_plane		plane;
+		t_cylinder	cylinder;
+		t_cone		cone;
+	} u_specific;
+	struct s_object	*next;
+}	t_object;
 
 // Structure de la scène
 typedef struct s_ambient
 {
-	double ratio;
-	t_color color;
-} t_ambient;
+	double	ratio;
+	t_color	color;
+}	t_ambient;
 
 typedef struct s_camera
 {
-	t_vector pos;
-	t_vector orient;
-	t_vector right;
-	t_vector up;
-	int fov;
-	double fov_rad;
-} t_camera;
+	t_vector	pos;
+	t_vector	orient;
+	t_vector	right;
+	t_vector	up;
+	int			fov;
+	double		fov_rad;
+}	t_camera;
 
 typedef struct s_light
 {
-	t_vector pos;
-	double brightness;
-	t_color color;
-	struct s_light *next;
-} t_light;
+	t_vector		pos;
+	double			brightness;
+	t_color			color;
+	struct s_light	*next;
+}	t_light;
 
 typedef struct s_keys
 {
-	int w;
-	int a;
-	int s;
-	int d;
-	int q;
-	int e;
-	int t;
-	int y;
-	int g;
-	int h;
-	int b;
-	int n;
-} t_keys;
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	q;
+	int	e;
+	int	t;
+	int	y;
+	int	g;
+	int	h;
+	int	b;
+	int	n;
+}	t_keys;
 
 typedef struct s_ray
 {
-	t_vector direction;
-	t_vector origin;
-} t_ray;
+	t_vector	direction;
+	t_vector	origin;
+}	t_ray;
 
 typedef struct s_inter
 {
@@ -177,8 +177,8 @@ typedef struct s_inter
 	double		ray_dir_v;
 	double		c_min;
 	double		c_max;
-	double		P1_proj;
-	double		P2_proj;
+	double		p1_proj;
+	double		p2_proj;
 	double		oc_v;
 	double		closest;
 	t_vector	cap_pos;
@@ -186,10 +186,10 @@ typedef struct s_inter
 	t_vector	oc_perp;
 	t_vector	dir_perp;
 	t_vector	cylinder_center;
-	t_vector	P1;
-	t_vector	P2;
+	t_vector	p1;
+	t_vector	p2;
 	t_vector	cone_apex;
-} t_inter;
+}	t_inter;
 
 typedef struct s_perlin
 {
@@ -203,7 +203,7 @@ typedef struct s_perlin
 	double	d;
 	double	interpolate_x1;
 	double	interpolate_x2;
-} t_perlin;
+}	t_perlin;
 
 typedef struct s_shadow
 {
@@ -217,15 +217,15 @@ typedef struct s_shadow
 	double		shadow_factor;
 	double		shininess;
 	double		d_light;
-} t_shadow;
+}	t_shadow;
 
 typedef struct s_img
 {
-	void			*img_ptr;
-	char			*img_addr;
-	int				bits_per_pixel;
-	int				line_len;
-	int				endian;
+	void	*img_ptr;
+	char	*img_addr;
+	int		bits_per_pixel;
+	int		line_len;
+	int		endian;
 }	t_img;
 
 typedef struct s_checker
@@ -242,23 +242,23 @@ typedef struct s_checker
 
 typedef struct s_data
 {
-	void *mlx;
-	void *window;
-	int object_count;
-	int	flag;
-	double farthest_object;
-	double total_rays;
-	double view_width;
-	double view_height;
-	double z_buffer[WINDOW_HEIGHT + 1][WINDOW_WIDTH + 1];
-	t_ambient ambient;
-	t_camera camera;
-	t_light *light;
-	t_object *objects;
-	t_keys keys;
-	t_ray	ray;
-	t_img	*img;
-} t_data;
+	void		*mlx;
+	void		*window;
+	int			object_count;
+	int			flag;
+	double		farthest_object;
+	double		total_rays;
+	double		view_width;
+	double		view_height;
+	double		z_buffer[WINDOW_HEIGHT + 1][WINDOW_WIDTH + 1];
+	t_ambient	ambient;
+	t_camera	camera;
+	t_light		*light;
+	t_object	*objects;
+	t_keys		keys;
+	t_ray		ray;
+	t_img		*img;
+}	t_data;
 
 // Prototypes de fonctions
 int			validate_filename(const char *filename);
@@ -298,11 +298,10 @@ int			parse_cylinder_data(char **split, t_object *obj);
 int			parse_cylinder(char **split, t_data *data);
 int			parse_cone_data(char **split, t_object *obj);
 int			parse_cone(char **split, t_data *data);
-
 void		free_objects(t_object *objects);
 void		free_split(char **split);
 double		ft_atof(const char *str);
-void 		free_data(t_data *data);
+void		free_data(t_data *data);
 int			handle_close(t_data *data);
 
 // Event handling functions
@@ -323,34 +322,47 @@ void		render(t_data *data, t_ray *ray, int x, int y);
 double		get_intersection_distance(t_object *object, t_ray *ray, int code);
 
 //lightning
-t_color		get_pixel_lighting(t_data *data, t_object *object, t_vector intersection);
-t_vector	get_closest_cap_normal(t_cylinder *cylinder, t_object *object, t_vector intersection);
-int			get_shadow_factor(t_data *data, t_vector intersection, t_light *light);
+t_color		get_pixel_lighting(t_data *data, t_object *object,
+				t_vector intersection);
+t_vector	get_closest_cap_normal(t_cylinder *cylinder, t_object *object,
+				t_vector intersection);
+int			get_shadow_factor(t_data *data, t_vector intersection,
+				t_light *light);
 double		get_light_distance(t_vector a, t_vector b);
 t_color		get_ambient_light(t_ambient ambient, t_color object_color);
-void		init_lighting(t_shadow *parts, t_data *data, t_object *object, t_vector intersection);
+void		init_lighting(t_shadow *parts, t_data *data, t_object *object,
+				t_vector intersection);
 void		add_color(t_shadow *parts);
-
 
 //Raytracing
 int			raytracing(t_data *data);
 
 //Intersection calculation
-double		sphere_intersection(t_sphere *sphere, t_ray *ray, t_object *current, int code);
-double		cylinder_intersection(t_cylinder *cylinder, t_ray *ray, t_object *current, int code);
+double		sphere_intersection(t_sphere *sphere, t_ray *ray,
+				t_object *current, int code);
+double		cylinder_intersection(t_cylinder *cylinder, t_ray *ray,
+				t_object *current, int code);
 double		plane_intersection(t_plane *plane, t_ray *ray, t_vector *pos);
 double		return_high_or_low(t_inter inter, int code);
-double		cone_intersection(t_cone *cone, t_ray *ray, t_object *current, int code);
-double		plane_disk_intersection(t_object *object, t_inter *inter, t_ray *ray, int code);
+double		cone_intersection(t_cone *cone, t_ray *ray,
+				t_object *current, int code);
+double		plane_disk_intersection(t_object *object,
+				t_inter *inter, t_ray *ray, int code);
 double		c_return_high_or_low(t_inter *inter, int code);
 
 //Checkerboard
-t_color		apply_checkerboard_pattern(t_object *object, t_vector intersection);
-t_color		apply_smooth_checkerboard_to_plane(t_vector inter, t_checker *checker);
-t_color		apply_checkerboard_to_vertical_plane(t_vector inter, t_checker *checker);
-t_color		apply_checkerboard_to_sphere(t_object *object, t_vector inter, t_checker *checker);
-t_color		apply_checkerboard_to_cylinder(t_object *object, t_vector inter, t_checker *checker);
-t_color		apply_checkerboard_to_cone(t_object *object, t_vector inter, t_checker *checker);
+t_color		apply_checkerboard_pattern(t_object *object,
+				t_vector intersection);
+t_color		apply_smooth_checkerboard_to_plane(t_vector inter,
+				t_checker *checker);
+t_color		apply_checkerboard_to_vertical_plane(t_vector inter,
+				t_checker *checker);
+t_color		apply_checkerboard_to_sphere(t_object *object,
+				t_vector inter, t_checker *checker);
+t_color		apply_checkerboard_to_cylinder(t_object *object,
+				t_vector inter, t_checker *checker);
+t_color		apply_checkerboard_to_cone(t_object *object,
+				t_vector inter, t_checker *checker);
 
 //Minilibx
 void		init_mlx_image(t_data *data);
@@ -374,7 +386,8 @@ double		get_scalar_product(const t_vector *a, const t_vector *b);
 double		get_delta(t_inter *inter);
 
 //perlin
-void		perturb_normal(t_vector *normal, t_object *object, t_vector intersection);
+void		perturb_normal(t_vector *normal,
+				t_object *object, t_vector intersection);
 double		perlin(double x, double y);
 
 //noise

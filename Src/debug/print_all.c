@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 17:27:08 by jedurand          #+#    #+#             */
-/*   Updated: 2024/09/09 17:27:09 by jedurand         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:05:23 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 //         debug_print_vector(&obj->pos);
 //         printf("Color: ");
 //         debug_print_color(&obj->color);
-//         printf("Diameter: %.2f\n", obj->specific.sphere.diameter);
+//         printf("Diameter: %.2f\n", obj->u_specific.sphere.diameter);
 //     }
 //     else if (obj->type == PLANE)
 //     {
@@ -55,7 +55,7 @@
 //         printf("Color: ");
 //         debug_print_color(&obj->color);
 //         printf("Normal: ");
-//         debug_print_vector(&obj->specific.plane.normal);
+//         debug_print_vector(&obj->u_specific.plane.normal);
 //     }
 //     else if (obj->type == CYLINDER)
 //     {
@@ -65,9 +65,9 @@
 //         printf("Color: ");
 //         debug_print_color(&obj->color);
 //         printf("Axis: ");
-//         debug_print_vector(&obj->specific.cylinder.axis);
-//         printf("Diameter: %.2f\n", obj->specific.cylinder.diameter);
-//         printf("Height: %.2f\n", obj->specific.cylinder.height);
+//         debug_print_vector(&obj->u_specific.cylinder.axis);
+//         printf("Diameter: %.2f\n", obj->u_specific.cylinder.diameter);
+//         printf("Height: %.2f\n", obj->u_specific.cylinder.height);
 //     }
 //     else if (obj->type == CONE)
 //     {
@@ -77,9 +77,9 @@
 //         printf("Color: ");
 //         debug_print_color(&obj->color);
 // 		printf("Axis: ");
-//         debug_print_vector(&obj->specific.cone.axis);
-//         printf("Diameter: %.2f\n", obj->specific.cone.diameter);
-//         printf("Height: %.2f\n", obj->specific.cone.height);
+//         debug_print_vector(&obj->u_specific.cone.axis);
+//         printf("Diameter: %.2f\n", obj->u_specific.cone.diameter);
+//         printf("Height: %.2f\n", obj->u_specific.cone.height);
 //     }
 
 //     // Print checkerboard info

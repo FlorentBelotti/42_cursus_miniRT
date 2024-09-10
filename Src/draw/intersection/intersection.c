@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:00 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/08 17:54:40 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:05:23 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ double	get_intersection_distance(t_object *object, t_ray *ray, int code)
 
 	d = -1;
 	if (object->type == SPHERE)
-		d = sphere_intersection(&object->specific.sphere,
+		d = sphere_intersection(&object->u_specific.sphere,
 				ray, object, code);
 	else if (object->type == CYLINDER)
 	{
-		d = cylinder_intersection(&object->specific.cylinder,
+		d = cylinder_intersection(&object->u_specific.cylinder,
 				ray, object, code);
-		object->specific.cylinder.disk = 0;
+		object->u_specific.cylinder.disk = 0;
 	}
 	else if (object->type == PLANE)
-		d = plane_intersection(&object->specific.plane,
+		d = plane_intersection(&object->u_specific.plane,
 				ray, &object->pos);
 	else if (object->type == CONE)
-		d = cone_intersection(&object->specific.cone, ray,
+		d = cone_intersection(&object->u_specific.cone, ray,
 				object, code);
 	return (d);
 }

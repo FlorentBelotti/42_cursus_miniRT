@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:38:29 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 16:10:55 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:05:23 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_color	apply_checkerboard_to_sphere(t_object *object,
 	checker->relative_pos = sub(inter, object->pos);
 	u = 0.5 + atan2(checker->relative_pos.z,
 			checker->relative_pos.x) / (2 * M_PI);
-	v = 0.5 - asin(checker->relative_pos.y / object->specific.sphere.diameter)
+	v = 0.5 - asin(checker->relative_pos.y / object->u_specific.sphere.diameter)
 		/ M_PI;
 	check_u = (int)(floor(u * 10.0));
 	check_v = (int)(floor(v * 10.0));
@@ -68,7 +68,7 @@ t_color	apply_checkerboard_to_cylinder(t_object *object,
 	int	h;
 
 	checker->relative_pos = sub(inter, object->pos);
-	if (fabs(object->specific.cylinder.axis.y) > 0.9)
+	if (fabs(object->u_specific.cylinder.axis.y) > 0.9)
 	{
 		checker->theta = atan2(checker->relative_pos.z,
 				checker->relative_pos.x);
@@ -95,7 +95,7 @@ t_color	apply_checkerboard_to_cone(t_object *object,
 	int	h;
 
 	checker->relative_pos = sub(inter, object->pos);
-	if (fabs(object->specific.cone.axis.y) > 0.9)
+	if (fabs(object->u_specific.cone.axis.y) > 0.9)
 	{
 		checker->theta = atan2(checker->relative_pos.z,
 				checker->relative_pos.x);

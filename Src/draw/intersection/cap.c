@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 16:52:53 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 15:49:35 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:05:23 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static double	get_disk_intersection(t_object *object, t_inter *inter,
 	distance_to_center = sqrt(get_scalar_product(&diff, &diff));
 	if (distance_to_center <= inter->radius + EPSILON)
 	{
-		object->specific.cylinder.disk += 1;
+		object->u_specific.cylinder.disk += 1;
 		return (t);
 	}
 	return (inter->closest);
@@ -54,7 +54,7 @@ double	plane_disk_intersection(t_object *object, t_inter *inter,
 	t_plane		plane;
 	double		t;
 
-	plane.normal = get_closest_cap_normal(&object->specific.cylinder,
+	plane.normal = get_closest_cap_normal(&object->u_specific.cylinder,
 			object, inter->cap_pos);
 	t = plane_intersection(&plane, ray, &inter->cap_pos);
 	if (code == -1)

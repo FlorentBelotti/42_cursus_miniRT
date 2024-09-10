@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:38:44 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/09 16:22:22 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:05:23 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static double	define_theta(t_object *object, t_vector *normal,
 	else if (object->type == CYLINDER)
 	{
 		oc = sub(intersection, object->pos);
-		height = get_scalar_product(&oc, &object->specific.cylinder.axis);
-		projection = mul(object->specific.cylinder.axis, height);
+		height = get_scalar_product(&oc, &object->u_specific.cylinder.axis);
+		projection = mul(object->u_specific.cylinder.axis, height);
 		radial_vector = sub(oc, projection);
 		return (atan2(radial_vector.y, radial_vector.x));
 	}
@@ -67,15 +67,15 @@ static double	define_height(t_object *object, t_vector *normal,
 		return (normal->y);
 	else if (object->type == CYLINDER)
 	{
-		if (object->specific.cylinder.disk > 0)
+		if (object->u_specific.cylinder.disk > 0)
 			return (intersection.z);
 		oc = sub(intersection, object->pos);
-		return (get_scalar_product(&oc, &object->specific.cylinder.axis));
+		return (get_scalar_product(&oc, &object->u_specific.cylinder.axis));
 	}
 	else if (object->type == CONE)
 	{
 		oc = sub(intersection, object->pos);
-		return (get_scalar_product(&oc, &object->specific.cone.axis));
+		return (get_scalar_product(&oc, &object->u_specific.cone.axis));
 	}
 	else if (object->type == PLANE)
 		return (intersection.z);
