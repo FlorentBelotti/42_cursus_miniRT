@@ -1,48 +1,80 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 16:24:31 by jedurand          #+#    #+#             */
+/*   Updated: 2024/09/09 16:24:32 by jedurand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
-double ft_atof(const char *str)
+double	ft_atof_sign(const char **str)
 {
-    double result = 0.0;
-    double sign = 1.0;
-    double fraction = 0.0;
-    double divisor = 10.0;
-    while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
-        str++;
-    if (*str == '-' || *str == '+')
-    {
-        if (*str == '-')
-            sign = -1.0;
-        str++;
-    }
-    while (*str >= '0' && *str <= '9')
-        result = result * 10.0 + (*str++ - '0');
-    if (*str == '.')
-    {
-        str++;
-        while (*str >= '0' && *str <= '9')
-        {
-            fraction += (*str++ - '0') / divisor;
-            divisor *= 10.0;
-        }
-    }
-    return (sign * (result + fraction));
+	double	sign;
+
+	sign = 1.0;
+	while (**str == ' ' || (**str >= '\t' && **str <= '\r'))
+	{
+		(*str)++;
+	}
+	if (**str == '-' || **str == '+')
+	{
+		if (**str == '-')
+		{
+			sign = -1.0;
+		}
+		(*str)++;
+	}
+	return (sign);
 }
 
-void free_objects(t_object *objects)
+double	ft_atof_integer(const char **str)
 {
-    t_object *tmp;
-    while (objects)
-    {
-        tmp = objects;
-        objects = objects->next;
-        free(tmp);
-    }
+	double	result;
+
+	result = 0.0;
+	while (**str >= '0' && **str <= '9')
+	{
+		result = result * 10.0 + (*(*str) - '0');
+		(*str)++;
+	}
+	return (result);
 }
 
-void free_split(char **split)
+double	ft_atof_fraction(const char **str)
 {
-    int i = 0;
-    while (split[i])
-        free(split[i++]);
-    free(split);
+	double	fraction;
+	double	divisor;
+
+	fraction = 0.0;
+	divisor = 10.0;
+	if (**str == '.')
+	{
+		(*str)++;
+		while (**str >= '0' && **str <= '9')
+		{
+			fraction += (*(*str) - '0') / divisor;
+			divisor *= 10.0;
+			(*str)++;
+		}
+	}
+	return (fraction);
+}
+
+double	ft_atof(const char *str)
+{
+	double	sign;
+	double	integer;
+	double	fraction;
+	double	result;
+
+	sign = ft_atof_sign(&str);
+	integer = ft_atof_integer(&str);
+	fraction = ft_atof_fraction(&str);
+	result = sign * (integer + fraction);
+	return (result);
 }

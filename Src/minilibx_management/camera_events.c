@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_events.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelotti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jedurand <jedurand@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 18:33:02 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/01 18:40:40 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:32:37 by jedurand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	rotate_camera_y(t_vector *orient, double angle)
 {
-	double new_orient_x;
-	double new_orient_z;
+	double	new_orient_x;
+	double	new_orient_z;
 
 	new_orient_x = orient->x * cos(angle) - orient->z * sin(angle);
 	new_orient_z = orient->x * sin(angle) + orient->z * cos(angle);
@@ -25,8 +25,8 @@ static void	rotate_camera_y(t_vector *orient, double angle)
 
 static void	rotate_camera_x(t_vector *orient, double angle)
 {
-	double new_orient_y;
-	double new_orient_z;
+	double	new_orient_y;
+	double	new_orient_z;
 
 	new_orient_y = orient->y * cos(angle) - orient->z * sin(angle);
 	new_orient_z = orient->y * sin(angle) + orient->z * cos(angle);
@@ -52,8 +52,8 @@ static void	apply_translation_to_camera(t_vector *v1, t_vector *v2, int code)
 
 void	apply_movement_to_camera(int key_code, t_data *data)
 {
-	t_vector right_vector;
-	t_vector up_vector;
+	t_vector	right_vector;
+	t_vector	up_vector;
 
 	up_vector.x = 0.0;
 	up_vector.y = 1.0;
