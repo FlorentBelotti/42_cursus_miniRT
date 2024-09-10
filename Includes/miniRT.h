@@ -6,7 +6,7 @@
 /*   By: fbelotti <marvin@42perpignan.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:49:32 by fbelotti          #+#    #+#             */
-/*   Updated: 2024/09/10 15:15:21 by fbelotti         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:40:27 by fbelotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,7 @@ void		free_split(char **split);
 double		ft_atof(const char *str);
 void		free_data(t_data *data);
 int			handle_close(t_data *data);
+int			is_split_valid(char **split1, char **split2, char **split3);
 
 // Event handling functions
 int			handle_keypress(int keycode, t_data *data);
