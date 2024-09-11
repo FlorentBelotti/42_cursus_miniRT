@@ -10,6 +10,7 @@
 
 <ul>
     <li><a href="#Introduction">Introduction</a></li>
+    <li><a href="#Render">Render</a></li>
     <li><a href="#Structure">Structure</a></li>
     <li><a href="#Code overview">Code overview</a></li>
     <li><a href="#Raytracing">Raytracing</a></li>
@@ -25,6 +26,10 @@
 
 <section id="Introduction">
 
+### Render![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+<section id="Render">
+
 ### Structure![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <section id="Structure">
@@ -35,6 +40,8 @@ MiniRT/
 │   ├── Minilibx/
 │   ├── Libft/
 │   ├── miniRT.h
+│
+├── Scene/
 │
 ├── Src/
 │   ├── draw/
@@ -85,6 +92,9 @@ MiniRT/
 │   │   ├── validate_utils.c
 │   │
 │   ├── main.c
+│
+├── Makefile
+├── README.md
 ```
 
 
