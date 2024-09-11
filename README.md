@@ -37,20 +37,54 @@ MiniRT/
 │   ├── miniRT.h
 │
 ├── Src/
-│   ├── Draw/
-│   │   ├── example.c
-│   │   ├── example.c
-│   │   ├── example.c
+│   ├── draw/
+│   │   ├── checkerboard/
+│   │   │   ├── checkerboard_algo.c/
+│   │   │   ├── checkerboard.c/
+│   │   │ 
+│   │   ├── intersection/
+│   │   │   ├── cap.c/
+│   │   │   ├── cone.c/
+│   │   │   ├── cylinder.c/
+│   │   │   ├── intersection.c/
+│   │   │   ├── plane.c/
+│   │   │   ├── sphere.c/
+│   │   │ 
+│   │   ├── lighting/
+│   │   │   ├── lighting.c/
+│   │   │   ├── shadow.c/
+│   │   │ 
+│   │   ├── perlin/
+│   │   │   ├── noise.c/
+│   │   │   ├── perlin.c/
+│   │   │ 
+│   │   ├── utils/
+│   │   │   ├── intersection_utils.c/
+│   │   │   ├── lighting_utils.c/
+│   │   │   ├── math_utils.c/
+│   │   │   ├── noise_utils.c/
+│   │   │   ├── vector_utils.c/
+│   │   │ 
+│   │   ├── raytracing.c
+│   │   ├── render.c
 │   │
-│   ├── Parse/
-│   │   ├── example.c
-│   │   ├── example.c
-│   │   ├── example.c
+│   ├── minilibx_management/
+│   │   ├── camera_events.c
+│   │   ├── events.c
+│   │   ├── image.c
 │   │
-│   ├── Parse/
-│   │   ├── example.c
-│   │   ├── example.c
-│   │   ├── example.c
+│   ├── parsing/
+│   │   ├── free.c
+│   │   ├── parse_camera_ambiant.c
+│   │   ├── parse_cone_cy.c
+│   │   ├── parse_file.c
+│   │   ├── parse_light.c
+│   │   ├── parse_scene.c
+│   │   ├── parse_sp_pl.c
+│   │   ├── parse_utils.c
+│   │   ├── validate_utils.c
+│   │
+│   ├── main.c
 ```
 
 
