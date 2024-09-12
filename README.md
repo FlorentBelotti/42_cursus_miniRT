@@ -42,7 +42,7 @@ Pour organiser efficacement le travail, nous avons réparti les responsabilités
 
 <div align="justify">
 
-Pour commencer, voici quelques exemples du rendu final de mon miniRT au moment du rendu.
+Pour commencer, voici quelques exemples du rendu final de mon miniRT.
 
 <div align="left">
 
