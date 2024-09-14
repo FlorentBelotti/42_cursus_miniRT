@@ -47,7 +47,6 @@ Pour commencer, voici quelques exemples du rendu final de mon miniRT.
 <div align="left">
 
 ### Structure![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-
 <section id="Structure">
     
 ```css
@@ -115,29 +114,163 @@ MiniRT/
 
 
 ### Code overview![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-
 <section id="Code overview">
 
-### Raytracing![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+```css
+int	raytracing(t_data *data)
+{
+	t_ray	ray;
+	int		x;
+	int		y;
 
+	y = 0;
+	get_camera_axis_and_viewing_plane(data);
+	while (y < WINDOW_HEIGHT)
+	{
+		x = 0;
+		while (x < WINDOW_WIDTH)
+		{
+			data->z_buffer[y][x] = DBL_MAX;
+			ray.direction = get_ray_direction(data, x, y);
+			ray.origin = data->camera.pos;
+			render(data, &ray, x, y);
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+```
+
+```css
+void	render(t_data *data, t_ray *ray, int x, int y)
+{
+	t_object	*current_object;
+	t_object	*closest_object;
+	t_vector	intersection;
+	t_color		color;
+	double		d;
+
+	current_object = data->objects;
+	closest_object = NULL;
+	while (current_object)
+	{
+		d = get_intersection_distance(current_object, ray, -1);
+		if (d >= EPSILON && d < data->z_buffer[y][x])
+		{
+			closest_object = current_object;
+			data->z_buffer[y][x] = d;
+		}
+		current_object = current_object->next;
+	}
+	if (closest_object)
+	{
+		d = get_intersection_distance(closest_object, ray, -1);
+		intersection = add(ray->origin, mul(ray->direction, d));
+		color = get_pixel_lighting(data, closest_object, intersection);
+		ft_mlx_pixel_put(data->img, x, y, rgb_to_int(color));
+	}
+}
+```
+
+```css
+double	get_intersection_distance(t_object *object, t_ray *ray, int code)
+{
+	double	d;
+
+	d = -1;
+	if (object->type == SPHERE)
+		d = sphere_intersection(&object->u_specific.sphere,
+				ray, object, code);
+	else if (object->type == CYLINDER)
+	{
+		d = cylinder_intersection(&object->u_specific.cylinder,
+				ray, object, code);
+		object->u_specific.cylinder.disk = 0;
+	}
+	else if (object->type == PLANE)
+		d = plane_intersection(&object->u_specific.plane,
+				ray, &object->pos);
+	else if (object->type == CONE)
+		d = cone_intersection(&object->u_specific.cone, ray,
+				object, code);
+	return (d);
+}
+```
+
+```css
+t_color	get_pixel_lighting(t_data *data, t_object *object,
+		t_vector intersection)
+{
+	t_shadow	parts;
+	t_light		*current_light;
+
+	if (object->checkerboard)
+		object->color = apply_checkerboard_pattern(object, intersection);
+	init_lighting(&parts, data, object, intersection);
+	current_light = data->light;
+	while (current_light)
+	{
+		parts.light_dir = sub(current_light->pos, intersection);
+		normalize_vector(&parts.light_dir);
+		parts.normal = get_object_normal(intersection, object);
+		parts.d_light = get_light_distance(current_light->pos, intersection);
+		parts.shadow_factor = get_shadow_factor(data, intersection,
+				current_light);
+		parts.diffuse = get_diffuse_lighting(current_light, &parts,
+				object->color);
+		parts.specular = get_specular_lighting(current_light, &parts,
+				parts.view_dir, parts.shininess);
+		add_color(&parts);
+		current_light = current_light->next;
+	}
+	return (parts.color);
+}
+```
+
+```css
+int	get_shadow_factor(t_data *data, t_vector intersection, t_light *light)
+{
+	t_ray		shadow_ray;
+	t_object	*current_object;
+	double		d;
+	double		d_light;
+	double		shadow_factor;
+
+	shadow_factor = -1.0;
+	shadow_ray.direction = sub(light->pos, intersection);
+	normalize_vector(&shadow_ray.direction);
+	shadow_ray.origin = add(intersection, mul(shadow_ray.direction, EPSILON));
+	d_light = get_light_distance(light->pos, shadow_ray.origin);
+	current_object = data->objects;
+	while (current_object)
+	{
+		d = get_intersection_distance(current_object, &shadow_ray, 1);
+		if (d > EPSILON && d < d_light - EPSILON)
+		{
+			if (shadow_factor < 0 || d < shadow_factor)
+				shadow_factor = d;
+		}
+		current_object = current_object->next;
+	}
+	return (shadow_factor);
+}
+```
+
+### Raytracing![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <section id="Raytracing">
 
 ### Lighting![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-
 <section id="Lighting">
 
 ### Perlin algorithm![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-
 <section id="Perlin algorithm">
 
 ### Checkerboard algorithm![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-
 <section id="Checkerboard algorithm">
 
 ### Conclusion![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-
 <section id="Conclusion">
 
 ### Thanks![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-
 <section id="Thanks">
