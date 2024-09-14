@@ -116,66 +116,10 @@ MiniRT/
 ### Code overview![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <section id="Code overview">
 
-```css
-static void	render_and_setup_hooks(t_data *data)
-{
-	init_mlx_image(data);
-	raytracing(data);
-	mlx_put_image_to_window(data->mlx, data->window, data->img->img_ptr, 0, 0);
-	mlx_key_hook(data->window, handle_keypress, data);
-	mlx_hook(data->window, 17, 0, handle_close, data);
-}
 
-int	main(int argc, char **argv)
-{
-	t_data	*data;
 
-	if (initialize_and_check(&data, argc, argv) != 0)
-		return (1);
-	if (setup_mlx_environment(data) != 0)
-	{
-		free(data);
-		return (1);
-	}
-	data->objects = NULL;
-	data->object_count = 0;
-	if (parse_and_validate_scene(argv[1], data) != 0)
-	{
-		free_data(data);
-		return (1);
-	}
-	render_and_setup_hooks(data);
-	mlx_loop(data->mlx);
-	free_data(data);
-	return (0);
-}
-```
-
-```css
-int	raytracing(t_data *data)
-{
-	t_ray	ray;
-	int		x;
-	int		y;
-
-	y = 0;
-	get_camera_axis_and_viewing_plane(data);
-	while (y < WINDOW_HEIGHT)
-	{
-		x = 0;
-		while (x < WINDOW_WIDTH)
-		{
-			data->z_buffer[y][x] = DBL_MAX;
-			ray.direction = get_ray_direction(data, x, y);
-			ray.origin = data->camera.pos;
-			render(data, &ray, x, y);
-			x++;
-		}
-		y++;
-	}
-	return (0);
-}
-```
+### Raytracing![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+<section id="Raytracing">
 
 ```css
 void	render(t_data *data, t_ray *ray, int x, int y)
@@ -209,6 +153,32 @@ void	render(t_data *data, t_ray *ray, int x, int y)
 ```
 
 ```css
+int	raytracing(t_data *data)
+{
+	t_ray	ray;
+	int		x;
+	int		y;
+
+	y = 0;
+	get_camera_axis_and_viewing_plane(data);
+	while (y < WINDOW_HEIGHT)
+	{
+		x = 0;
+		while (x < WINDOW_WIDTH)
+		{
+			data->z_buffer[y][x] = DBL_MAX;
+			ray.direction = get_ray_direction(data, x, y);
+			ray.origin = data->camera.pos;
+			render(data, &ray, x, y);
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+```
+
+```css
 double	get_intersection_distance(t_object *object, t_ray *ray, int code)
 {
 	double	d;
@@ -232,6 +202,9 @@ double	get_intersection_distance(t_object *object, t_ray *ray, int code)
 	return (d);
 }
 ```
+
+### Lighting![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+<section id="Lighting">
 
 ```css
 t_color	get_pixel_lighting(t_data *data, t_object *object,
@@ -292,17 +265,80 @@ int	get_shadow_factor(t_data *data, t_vector intersection, t_light *light)
 }
 ```
 
-### Raytracing![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-<section id="Raytracing">
-
-### Lighting![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-<section id="Lighting">
-
 ### Perlin algorithm![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <section id="Perlin algorithm">
 
+```css
+void	perturb_normal(t_vector *normal, t_object *object,
+		t_vector intersection)
+{
+	double	theta;
+	double	height;
+	double	noise_value;
+
+	theta = define_theta(object, normal, intersection);
+	height = define_height(object, normal, intersection);
+	noise_value = get_noise_value(object, theta, height);
+	normal->x += noise_value * object->noise.intensity;
+	normal->y += noise_value * object->noise.intensity;
+	normal->z += noise_value * object->noise.intensity;
+}
+```
+
+```css
+double	perlin(double x, double y)
+{
+	t_perlin	parts;
+
+	if (x >= 0)
+		parts.int_x = (int)x;
+	else
+		parts.int_x = (int)x - 1;
+	if (y >= 0)
+		parts.int_y = (int)y;
+	else
+		parts.int_y = (int)y - 1;
+	parts.frac_x = x - parts.int_x;
+	parts.frac_y = y - parts.int_y;
+	parts.a = generate_smooth_noise(parts.int_x, parts.int_y);
+	parts.b = generate_smooth_noise(parts.int_x + 1, parts.int_y);
+	parts.c = generate_smooth_noise(parts.int_x, parts.int_y + 1);
+	parts.d = generate_smooth_noise(parts.int_x + 1, parts.int_y + 1);
+	parts.interpolate_x1 = linear_interpolation(parts.a, parts.b,
+			parts.frac_x);
+	parts.interpolate_x2 = linear_interpolation(parts.c, parts.d,
+			parts.frac_x);
+	return (linear_interpolation(parts.interpolate_x1, parts.interpolate_x2,
+			parts.frac_y));
+}
+```
+
 ### Checkerboard algorithm![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <section id="Checkerboard algorithm">
+
+```css
+t_color	apply_checkerboard_pattern(t_object *object, t_vector inter)
+{
+	t_checker	checker;
+
+	init_checker(&checker);
+	if (object->type == PLANE)
+	{
+		if (fabs(object->u_specific.plane.normal.y)
+			> fabs(object->u_specific.plane.normal.x))
+			return (apply_smooth_checkerboard_to_plane(inter, &checker));
+		else
+			return (apply_checkerboard_to_vertical_plane(inter, &checker));
+	}
+	else if (object->type == SPHERE)
+		return (apply_checkerboard_to_sphere(object, inter, &checker));
+	else if (object->type == CYLINDER)
+		return (apply_checkerboard_to_cylinder(object, inter, &checker));
+	else if (object->type == CONE)
+		return (apply_checkerboard_to_cone(object, inter, &checker));
+	return (object->color);
+}
+```
 
 ### Conclusion![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <section id="Conclusion">
