@@ -345,3 +345,7 @@ t_color	apply_checkerboard_pattern(t_object *object, t_vector inter)
 
 ### Thanks![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <section id="Thanks">
+
+<p>
+To <a href="https://github.com/Rrodor">Rrodor (Romeo Rodor)</a>: who provided guidance on the project's logic, and its various algorithms.
+</p>
