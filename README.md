@@ -117,6 +117,41 @@ MiniRT/
 <section id="Code overview">
 
 ```css
+static void	render_and_setup_hooks(t_data *data)
+{
+	init_mlx_image(data);
+	raytracing(data);
+	mlx_put_image_to_window(data->mlx, data->window, data->img->img_ptr, 0, 0);
+	mlx_key_hook(data->window, handle_keypress, data);
+	mlx_hook(data->window, 17, 0, handle_close, data);
+}
+
+int	main(int argc, char **argv)
+{
+	t_data	*data;
+
+	if (initialize_and_check(&data, argc, argv) != 0)
+		return (1);
+	if (setup_mlx_environment(data) != 0)
+	{
+		free(data);
+		return (1);
+	}
+	data->objects = NULL;
+	data->object_count = 0;
+	if (parse_and_validate_scene(argv[1], data) != 0)
+	{
+		free_data(data);
+		return (1);
+	}
+	render_and_setup_hooks(data);
+	mlx_loop(data->mlx);
+	free_data(data);
+	return (0);
+}
+```
+
+```css
 int	raytracing(t_data *data)
 {
 	t_ray	ray;
