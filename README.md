@@ -118,7 +118,7 @@ MiniRT/
 
 
 
-### Raytracing![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+#### Raytracing
 <section id="Raytracing">
 
 ```css
@@ -203,7 +203,7 @@ double	get_intersection_distance(t_object *object, t_ray *ray, int code)
 }
 ```
 
-### Lighting![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+#### Lighting
 <section id="Lighting">
 
 ```css
@@ -265,7 +265,7 @@ int	get_shadow_factor(t_data *data, t_vector intersection, t_light *light)
 }
 ```
 
-### Perlin algorithm![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+#### Perlin algorithm
 <section id="Perlin algorithm">
 
 ```css
@@ -313,7 +313,7 @@ double	perlin(double x, double y)
 }
 ```
 
-### Checkerboard algorithm![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+#### Checkerboard algorithm
 <section id="Checkerboard algorithm">
 
 ```css
