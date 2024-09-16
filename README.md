@@ -40,11 +40,6 @@ Pour organiser efficacement le travail, nous avons réparti les responsabilités
 ### Render![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <section id="Render">
 
-<div align="center"
-
-</a>&nbsp;&nbsp;&nbsp;&nbsp;
-
-
 <div align="left">
 	
 #### temple.rt
