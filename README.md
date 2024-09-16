@@ -40,9 +40,31 @@ Pour organiser efficacement le travail, nous avons réparti les responsabilités
 ### Render![---------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <section id="Render">
 
-<div align="justify">
+<div align="center"
 
-Pour commencer, voici quelques exemples du rendu final de mon miniRT.
+</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+<div align="left">
+	
+#### temple.rt
+
+<div align="center">
+
+  <a href="https://github.com/FlorentBelotti/42_cursus_miniRT">
+<img src="https://github.com/FlorentBelotti/42_cursus_miniRT/blob/main/Scene/render/Capture%20d%E2%80%99%C3%A9cran%20du%202024-09-16%2022-32-38.png" alt="Description du GIF" width="80%">
+
+  </a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div align="left">
+
+#### eclipse.rt
+
+<div align="center">
+
+  <a href="https://github.com/FlorentBelotti/42_cursus_miniRT">
+<img src="https://github.com/FlorentBelotti/42_cursus_miniRT/blob/main/Scene/render/Capture%20d%E2%80%99%C3%A9cran%20du%202024-09-16%2022-35-00.png" alt="Description du GIF" width="80%">
+</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
 <div align="left">
 
